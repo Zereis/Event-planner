@@ -70,8 +70,8 @@ function Spin() {
 
   const pass = () => {
     if (selectedActivityId !== null) {
-      passActivityId(selectedActivityId);
-      setSelectedActivityId(null);
+      passActivityId(selectedActivityId);  // remove selected activity from used
+      setSelectedActivityId(null);  // deselect it
     }
   };
 
@@ -103,7 +103,7 @@ function Spin() {
       </div>
 
       <button onClick={handleSpin}>spin!</button>
-      <button onClick={pass}>pass</button>
+      <button onClick={pass} disabled={!selectedActivityId}>pass</button>
 
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
