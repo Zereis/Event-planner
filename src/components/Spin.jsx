@@ -1,6 +1,6 @@
 import { useState } from "react";
 import activities from "../data/data";
-import { format, parseISO, isSameDay } from "date-fns";
+import { parseISO, isSameDay } from "date-fns";
 
 
 function Spin() {
@@ -27,6 +27,7 @@ function Spin() {
   });
 
   // combine the two filtered arrays
+  // add weekly & monthly activities
   const allFiltered = [...todaysActivities, ...optionalActivities].filter(
     (item, index, self) => self.findIndex(a => a.id === item.id) === index
   );
@@ -37,6 +38,10 @@ function Spin() {
   );
 
   // pick a random activity from the available ones
+  // ADD PASS functionality to do the same activity later
+  // randomly choose one bucket and one fun if Daily is chosen
+  // make Daily optional
+
   const handleSpin = () => {
     if (selectedActivityId !== null) {
       setUsedActivityIds((prev) => [...prev, selectedActivityId]);
