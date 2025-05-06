@@ -1,0 +1,15 @@
+.toggle-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 16px;
+
+}
+
+.sun {
+  color: #f39c12;
+}
+
+.moon {
+  color: #f1c40f;
+}
