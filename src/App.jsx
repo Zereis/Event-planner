@@ -1,4 +1,4 @@
-import './App.css'
+
 import Spin from './components/Spin'
 
 function App() {
