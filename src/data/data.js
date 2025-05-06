@@ -21,7 +21,7 @@ const activities = [
     id: Date.now() + 2,
     title: "Do the laundry",
     description: "Wash, dry, and fold clothes",
-    date: "2025-05-05",
+    date: "2025-05-06",
     deadline: "2025-05-06",
     category: "Chore",
     type: "Daily"
@@ -30,7 +30,7 @@ const activities = [
     id: Date.now() + 3,
     title: "Morning run",
     description: "Run 3 miles in the neighborhood",
-    date: "2025-05-05",
+    date: "2025-05-06",
     deadline: null,
     category: "Sport",
     type: "Daily"

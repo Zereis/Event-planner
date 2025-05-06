@@ -1,6 +1,6 @@
 import { useState } from "react";
 import activities from "../data/data";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, isSameDay } from "date-fns";
 
 
 function Spin() {
