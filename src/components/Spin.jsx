@@ -23,7 +23,8 @@ function Spin() {
   });
 
   // filter: optionally include Fun and / or Bucket
-  // add weekly chores
+  // add weekly chores, and make them optional
+  // randomly choose only one bucket and only one fun if chores are chosen
   const optionalActivities = activities.filter((activity) => {
     if (includeFun && activity.type.toLowerCase() === "fun") return true;
     if (includeBucket && activity.type.toLowerCase() === "bucket") return true;
@@ -46,10 +47,6 @@ function Spin() {
   );
 
   // pick a random activity from the available ones
-  // ADD PASS functionality to do the same activity later
-  // randomly choose one bucket and one fun if Daily is chosen
-  // make Daily optional
-
   const handleSpin = () => {
     if (selectedActivityId !== null) {
       setUsedActivityIds((prev) => [...prev, selectedActivityId]);
@@ -63,6 +60,19 @@ function Spin() {
 
     const random = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
     setSelectedActivityId(random.id);
+  };
+
+  // ADD PASS to do the same activity later
+
+  const passActivityId = (id) => {
+    setUsedActivityIds((prev) => prev.filter((usedId) => usedId !== id));
+  }
+
+  const pass = () => {
+    if (selectedActivityId !== null) {
+      passActivityId(selectedActivityId);
+      setSelectedActivityId(null);
+    }
   };
 
   return(
@@ -93,6 +103,7 @@ function Spin() {
       </div>
 
       <button onClick={handleSpin}>spin!</button>
+      <button onClick={pass}>pass</button>
 
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
