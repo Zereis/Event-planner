@@ -25,16 +25,46 @@ function Spin() {
   // filter: optionally include Fun and / or Bucket
   // add weekly chores, and make them optional
   // randomly choose only one bucket and only one fun if chores are chosen
-  const optionalActivities = activities.filter((activity) => {
-    if (includeFun && activity.type.toLowerCase() === "fun") return true;
-    if (includeBucket && activity.type.toLowerCase() === "bucket") return true;
-    if (includeChores && activity.category.toLowerCase() === "chores" &&
-      activity.deadline &&
-      !isSameDay(today, weekEnd) && // if it's sunday, exclude it
-      isAfter(parseISO(activity.deadline), todayStart) &&
-      isBefore(parseISO(activity.deadline), weekEnd)) return true;
-    return false;
-  });
+
+  const funActivities = activities.filter(
+    (act) => act.type.toLowerCase() === "fun"
+  );
+
+  const bucketActivities = activities.filter(
+    (act) => act.type.toLowerCase() === "bucket"
+  );
+
+  const weeklyChores = includeChores
+  ? activities.filter((activity) => 
+    activity.category.toLowerCase() === "chores" &&
+    activity.deadline &&
+    !isSameDay(today, weekEnd) && // if it's sunday, exclude it
+    isAfter(parseISO(activity.deadline), todayStart) &&
+    isBefore(parseISO(activity.deadline), weekEnd)
+  )
+  : [];
+  // choose fun or bucket depending on chore inclusion
+  let optionalActivities = [];
+
+  if (includeChores) {
+    // randomly pick one of fun & bucket, if their checkboxes are checked
+  const randomFun = includeFun && funActivities.length
+    ? funActivities[Math.floor(Math.random() * funActivities.length)]
+    : null;
+  
+  const randomBucket = includeBucket && bucketActivities.length
+    ? bucketActivities[Math.floor(Math.random() * bucketActivities.length)]
+    : null;
+  
+  optionalActivities = [...weeklyChores, 
+    ...(randomFun ? [randomFun] : []), 
+    ...(randomBucket ? [randomBucket] : [])];
+  }
+  else{
+    // include all fun and bucket
+    if (includeFun) optionalActivities.push(...funActivities);
+    if (includeBucket) optionalActivities.push(...bucketActivities);
+  }
 
   // combine the two filtered arrays
   const allFiltered = [...todaysActivities, ...optionalActivities].filter(
