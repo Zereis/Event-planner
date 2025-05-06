@@ -1,33 +1,41 @@
 import { useState } from "react";
 import activities from "../data/data";
-import { parseISO, isSameDay } from "date-fns";
+import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 
 
 function Spin() {
   const [includeFun, setIncludeFun] = useState(false);
   const [includeBucket, setIncludeBucket] = useState(false);
+  const [includeChores, setIncludeChores] = useState(false);
   const [selectedActivityId, setSelectedActivityId] = useState(null);
   const [usedActivityIds, setUsedActivityIds] = useState([]);
 
   const today = new Date();
+      const todayStart = startOfDay(today);
+    const weekEnd = endOfWeek(todayStart, { weekStartsOn: 1 });  // week ends on sunday
 
   // filter: always include today's Daily
   const todaysActivities = activities.filter((activity) => {
-    if (activity.type === "Daily" && activity.date) {
+    if (activity.type.toLowerCase() === "daily" && activity.date && activity.category.toLowerCase() !== "chores") {
       return isSameDay(parseISO(activity.date), today);
     }
     return false;
   });
 
   // filter: optionally include Fun and / or Bucket
+  // add weekly chores
   const optionalActivities = activities.filter((activity) => {
-    if (includeFun && activity.type === "Fun") return true;
-    if (includeBucket && activity.type === "Bucket") return true;
+    if (includeFun && activity.type.toLowerCase() === "fun") return true;
+    if (includeBucket && activity.type.toLowerCase() === "bucket") return true;
+    if (includeChores && activity.category.toLowerCase() === "chores" &&
+      activity.deadline &&
+      !isSameDay(today, weekEnd) && // if it's sunday, exclude it
+      isAfter(parseISO(activity.deadline), todayStart) &&
+      isBefore(parseISO(activity.deadline), weekEnd)) return true;
     return false;
   });
 
   // combine the two filtered arrays
-  // add weekly & monthly activities
   const allFiltered = [...todaysActivities, ...optionalActivities].filter(
     (item, index, self) => self.findIndex(a => a.id === item.id) === index
   );
@@ -74,6 +82,13 @@ function Spin() {
           onChange={() => setIncludeBucket(!includeBucket)}
           />
           include bucket
+        </label>
+        <label>
+          <input type="checkbox" 
+          checked={includeChores}
+          onChange={() => setIncludeChores(!includeChores)}
+          />
+          include chores
         </label>
       </div>
 
