@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 
@@ -9,6 +9,9 @@ function Spin() {
   const [includeChores, setIncludeChores] = useState(false);
   const [selectedActivityId, setSelectedActivityId] = useState(null);
   const [usedActivityIds, setUsedActivityIds] = useState([]);
+  const [randomFunActivity, setRandomFunActivity] = useState(null);  // prevent randomization at render time
+  const [randomBucketActivity, setRandomBucketActivity] = useState(null);  // prevent randomization at render time
+
 
   const today = new Date();
       const todayStart = startOfDay(today);
@@ -46,22 +49,30 @@ function Spin() {
   // choose fun or bucket depending on chore inclusion
   let optionalActivities = [];
 
-  if (includeChores) {
-    // randomly pick one of fun & bucket, if their checkboxes are checked
-  const randomFun = includeFun && funActivities.length
-    ? funActivities[Math.floor(Math.random() * funActivities.length)]
-    : null;
-  
-  const randomBucket = includeBucket && bucketActivities.length
-    ? bucketActivities[Math.floor(Math.random() * bucketActivities.length)]
-    : null;
-  
-  optionalActivities = [...weeklyChores, 
-    ...(randomFun ? [randomFun] : []), 
-    ...(randomBucket ? [randomBucket] : [])];
-  }
-  else{
-    // include all fun and bucket
+  useEffect(() => {
+    if (includeChores) {
+      if (includeFun && !randomFunActivity && funActivities.length) {
+        const picked = funActivities[Math.floor(Math.random() * funActivities.length)];
+        setRandomFunActivity(picked);
+      }
+      if (includeBucket && !randomBucketActivity && bucketActivities.length) {
+        const picked = bucketActivities[Math.floor(Math.random() * bucketActivities.length)];
+        setRandomBucketActivity(picked);
+      }
+    } else {
+      // reset if chores are off
+      setRandomFunActivity(null);
+      setRandomBucketActivity(null);
+    }
+  }, [includeChores, includeFun, includeBucket, funActivities, bucketActivities]);
+
+    if (includeChores) {
+    optionalActivities = [
+      ...weeklyChores,
+      ...(randomFunActivity ? [randomFunActivity] : []),
+      ...(randomBucketActivity ? [randomBucketActivity] : []),
+    ];
+  } else {
     if (includeFun) optionalActivities.push(...funActivities);
     if (includeBucket) optionalActivities.push(...bucketActivities);
   }
