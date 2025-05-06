@@ -6,6 +6,8 @@ import { format, parseISO, isSameDay } from "date-fns";
 function Spin() {
   const [includeFun, setIncludeFun] = useState(false);
   const [includeBucket, setIncludeBucket] = useState(false);
+  const [selectedActivityId, setSelectedActivityId] = useState(null);
+  const [usedActivityIds, setUsedActivityIds] = useState([]);
 
   const today = new Date();
 
@@ -29,6 +31,27 @@ function Spin() {
     (item, index, self) => self.findIndex(a => a.id === item.id) === index
   );
 
+  // exclude previously picked activities
+  const availableForSpin = allFiltered.filter(
+    (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
+  );
+
+  // pick a random activity from the available ones
+  const handleSpin = () => {
+    if (selectedActivityId !== null) {
+      setUsedActivityIds((prev) => [...prev, selectedActivityId]);
+    }
+
+    if (availableForSpin.length === 0) {
+      setSelectedActivityId(null);  // nothing left to select
+      alert("you have done everything for the day!");
+      return;
+    }
+
+    const random = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
+    setSelectedActivityId(random.id);
+  };
+
   return(
     <div>
       <h2>spin planner</h2>
@@ -48,19 +71,32 @@ function Spin() {
           include bucket
         </label>
       </div>
+
+      <button onClick={handleSpin}>spin!</button>
+
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
         <ul>
-          {allFiltered.map((act) => (
-            <li key={act.id}>
-              {act.title} - {act.description} - {act.type} - ({act.category})
-            </li>
-          ))}
+          {allFiltered.map((act) => {
+            const isSelected = act.id === selectedActivityId;
+            const isUsed = usedActivityIds.includes(act.id);
+
+            return (
+              <li
+              key={act.id}
+              style= {{
+                fontWeight: isSelected ? "bold" : "normal",
+                fontStyle: isUsed ? "italic" : "normal",
+              }}
+              >
+                {act.title} - {act.description} - {act.category} - {act.type}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
-  )
-
+  );
 }
 
 export default Spin;
