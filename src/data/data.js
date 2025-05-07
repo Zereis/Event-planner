@@ -156,17 +156,17 @@ const activities = [
         id: Date.now() + 17,
         title: "Trash",
         description: "Take out the trash",
-        date: "2025-05-22T18:00",
+        date: "2025-05-06T18:00",
         deadline: "2025-05-09T18:00",
-        category: "Chores",
+        category: "Adventure",
         type: "Daily"
     },
     {
         id: Date.now() + 18,
         title: "Buy groceries",
         description: "Go grocery shopping for the week",
-        date: "2025-05-23T19:00",
-        deadline: null,
+        date: "2025-05-06T19:00",
+        deadline: "2025-05-08",
         category: "Chores",
         type: "Daily"
     },
@@ -202,7 +202,7 @@ const activities = [
         title: "Wash dishes",
         description: "Clean dishes",
         date: "2025-05-06T13:00",
-        deadline: null,
+        deadline: "2025-05-08",
         category: "Chores",
         type: "Daily"
     },
