@@ -11,8 +11,10 @@ export default function Login() {
       if (sessionStorage.getItem(username)) {
         alert("User already exists!");
       }  else {
-         sessionStorage.setItem(username, JSON.stringify({ password })); // Sparar användaren
-         alert("Registration successful!");
+         sessionStorage.setItem(username, JSON.stringify({ username, password })); 
+         sessionStorage.setItem("user", JSON.stringify({ username }));
+         setIsLoggedIn(true);
+         alert("Registration successful! You are now logged in.");
       } 
     } else {
         alert("Username and password are required!");
