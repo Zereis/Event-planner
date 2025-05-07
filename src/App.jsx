@@ -1,4 +1,5 @@
 
+import Login from './components/login'
 import NavBar from './components/NavBar'
 import Spin from './components/Spin'
 
@@ -9,6 +10,7 @@ function App() {
       <div>
         <NavBar />
         <Spin/>
+        <Login />
       </div>
     </>
   )
