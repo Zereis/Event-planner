@@ -49,7 +49,7 @@ export default function Login() {
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button onClick={handleLogin}>Log in</button>
-        <p>New user? Please register:</p>
+        <p>New user? Please enter a username and password above, then press register:</p>
         <button onClick={handleRegister}>Register</button>
       </div>
     )}
