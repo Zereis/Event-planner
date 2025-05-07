@@ -46,9 +46,11 @@ function Spin() {
     isBefore(parseISO(activity.deadline), weekEnd)
   )
   : [];
+
   // choose fun or bucket depending on chore inclusion
   let optionalActivities = [];
-
+  // useEffect prevents randomization at render time
+  // if chores are included, randomize fun and bucket activities and fix them in optionalActivities for rendering
   useEffect(() => {
     if (includeChores) {
       if (includeFun && !randomFunActivity && funActivities.length) {
@@ -59,6 +61,12 @@ function Spin() {
         const picked = bucketActivities[Math.floor(Math.random() * bucketActivities.length)];
         setRandomBucketActivity(picked);
       }
+      else if (!includeFun && randomFunActivity) {
+        setRandomFunActivity(null);
+      }
+      else if (!includeBucket && randomBucketActivity) {
+        setRandomBucketActivity(null);
+      }
     } else {
       // reset if chores are off
       setRandomFunActivity(null);
@@ -66,12 +74,12 @@ function Spin() {
     }
   }, [includeChores, includeFun, includeBucket, funActivities, bucketActivities]);
 
-    if (includeChores) {
-    optionalActivities = [
-      ...weeklyChores,
-      ...(randomFunActivity ? [randomFunActivity] : []),
-      ...(randomBucketActivity ? [randomBucketActivity] : []),
-    ];
+  if (includeChores) {
+  optionalActivities = [
+    ...weeklyChores,
+    ...(randomFunActivity ? [randomFunActivity] : []),
+    ...(randomBucketActivity ? [randomBucketActivity] : []),
+  ];
   } else {
     if (includeFun) optionalActivities.push(...funActivities);
     if (includeBucket) optionalActivities.push(...bucketActivities);
@@ -103,8 +111,7 @@ function Spin() {
     setSelectedActivityId(random.id);
   };
 
-  // ADD PASS to do the same activity later
-
+  // ADD PASS to do the same activity
   const passActivityId = (id) => {
     setUsedActivityIds((prev) => prev.filter((usedId) => usedId !== id));
   }
