@@ -65,10 +65,7 @@ const Home = () => {
   ];
 
   return (
-    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}>
-        <div className="toggle">
-        <Toggle />
-      </div>  
+    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}> 
       <div className="bubble-wrapper" style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div className="bubble-container">
         {bubbles.map((bubble, index) => (
