@@ -36,10 +36,37 @@
 .full-wedge {
   transform: none !important;
   clip-path: circle(50%);
-  width: 100% !important;
-  height: 100% !important;
-  top: 0;
-  left: 0;
+  width: 95% !important;
+  height: 95% !important;
+  border-radius: 50%;
+  top: 1;
+  left: 1;
   transform-origin: center;
   position: absolute;
+  font-size: 6cqi;
+}
+
+.pointer {
+  position: absolute;
+  top: 50%;
+  left: 97%;
+  transform: translateX(-50%);
+  border-bottom: 12px solid transparent;
+  border-right: 32px solid red;
+  border-top: 12px solid transparent;
+  z-index: 10;
+}
+
+.spin-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  padding: 0.8em 0.3em;
+  border-radius: 50%;
+  background: gold;
+  border: 2px solid darkgoldenrod;
+  font-weight: bold;
+  cursor: pointer;
 }

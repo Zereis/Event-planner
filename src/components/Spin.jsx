@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
 
 
 function Spin() {
+  const wheelRef = useRef(null);  // for wheel rotation
+  const [previousEndDegree, setPreviousEndDegree] = useState(0);  // for wheel rotation
   const [includeFun, setIncludeFun] = useState(false);
   const [includeBucket, setIncludeBucket] = useState(false);
   const [includeChores, setIncludeChores] = useState(false);
@@ -108,8 +110,37 @@ function Spin() {
       return;
     }
 
+    // Pick the activity FIRST so we can align spin to it
     const random = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
-    setSelectedActivityId(random.id);
+    const index = allFiltered.findIndex((act) => act.id === random.id);
+    const itemCount = allFiltered.length;
+    const degreePerItem = 360 / itemCount;
+
+    const targetPosition = 90; // 3h postion
+    // rotate to that wedge -- in the center of the slice
+    const selectedDegree = index * degreePerItem + degreePerItem / 2;
+    const spins = 3; // full spins before stopping
+    const offset = (360 + targetPosition - selectedDegree) % 360; // how much to rotate to bring that slice to top
+    const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
+
+    // animate
+    if (wheelRef.current) {
+      wheelRef.current.animate([
+        { transform: `rotate(${previousEndDegree}deg)` },
+        { transform: `rotate(${newEndDegree}deg)` },
+      ], {
+        duration: 2000,
+        direction: "normal",
+        easing: "cubic-bezier(0.440, -0.205, 0.000, 1.130)",
+        fill: "forwards",
+        iterations: 1,
+      });
+      setPreviousEndDegree(newEndDegree);  // save the end degree for next spin
+    }
+    // set after delay to simulate result after spin
+    setTimeout(() => {
+      setSelectedActivityId(random.id);  // select the activity after spin
+    }, 2000);  // same as animation duration
   };
 
   // ADD PASS to do the same activity
@@ -163,13 +194,15 @@ function Spin() {
         </label>
       </div>
 
-      <button onClick={handleSpin}>spin!</button>
       <button onClick={pass} disabled={!selectedActivityId}>pass</button>
 
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
         <div className="wheel-container">
-          <ul className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
+          <div className="pointer"></div>
+          <ul 
+          ref={wheelRef}
+          className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
           style={{
             "--_items": isSingleItem ? 1 : allFiltered.length,
           }}
@@ -189,11 +222,12 @@ function Spin() {
                   fontWeight: isSelected ? "bold" : "normal",
                 }}
                 >
-                  {act.title}
+                  {act.title.toLowerCase()}
                 </li>
               );
             })}
           </ul>
+          <button className="spin-button" onClick={handleSpin}>spin!</button>
         </div>
       </div>
     </div>
