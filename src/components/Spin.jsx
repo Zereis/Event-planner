@@ -124,6 +124,9 @@ function Spin() {
     }
   };
 
+  const isSingleItem = allFiltered.length === 1;
+
+
   const categoryColors = {
     chores: "#f8d7da",      // soft red
     sport: "#d1ecf1",       // light blue
@@ -165,26 +168,25 @@ function Spin() {
 
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
-
-          <ul className="wheel-of-fortune"
-              style={{
-                "--_items": allFiltered.length === 1? 0 : allFiltered.length,
-              }}
+        <div className="wheel-container">
+          <ul className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
+          style={{
+            "--_items": isSingleItem ? 1 : allFiltered.length,
+          }}
           >
             {allFiltered.map((act, idx) => {
               const isSelected = act.id === selectedActivityId;
               const isUsed = usedActivityIds.includes(act.id);
-              const bgColor = categoryColors[act.category.toLowerCase()] || "#ffffff"; // fallback to white
+              const bgColor = categoryColors[act.category.toLowerCase()];
 
               return (
                 <li
-                className="wedge"
+                className={`wedge ${isSingleItem ? "full-wedge" : ""}`}
                 key={act.id}
                 style= {{
                   "--_idx": idx + 1,
-                  background: bgColor,
+                  background: isUsed ? "gold" : bgColor,
                   fontWeight: isSelected ? "bold" : "normal",
-                  fontStyle: isUsed ? "italic" : "normal",
                 }}
                 >
                   {act.title}
@@ -192,7 +194,7 @@ function Spin() {
               );
             })}
           </ul>
-        
+        </div>
       </div>
     </div>
   );

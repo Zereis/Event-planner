@@ -1,3 +1,9 @@
+.wheel-container {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  position: relative;
+}
 
 .wheel-of-fortune {
   all: unset;
@@ -25,4 +31,15 @@
   rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
   height: calc((3.1416 * 50cqi) / var(--_items));
   clip-path: polygon(0% -2%, 100% 50%, 0% 102%);
+}
+
+.full-wedge {
+  transform: none !important;
+  clip-path: circle(50%);
+  width: 100% !important;
+  height: 100% !important;
+  top: 0;
+  left: 0;
+  transform-origin: center;
+  position: absolute;
 }
