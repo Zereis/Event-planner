@@ -12,8 +12,7 @@ const Random = () => <div>Random Page</div>;
 const Today = () => <div>Today Page</div>;
 const NoPages = () => <div>404 Error</div>
 
-import NavBar from './components/NavBar'
-import Spin from './components/Spin'
+
 
 function App() {
   return (
@@ -31,5 +30,7 @@ function App() {
       </Routes>
     </div>
   );
+}
 
 export default App;
+
