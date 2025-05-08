@@ -11,7 +11,7 @@ export default function NavBar() {
   return (
     <section className='NavBar-section'>
       <Link to="/">
-        <img src="/images/logo2.png" alt="logo2.png" />
+        <img src="/images/logo5.png" alt="logo2.png" />
       </Link>
 
       <button className={`hamburger ${menuOpen ? "open" : ""}`} onClick={toggleMenu}>
