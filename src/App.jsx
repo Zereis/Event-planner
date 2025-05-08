@@ -1,17 +1,35 @@
 
+import { Routes, Route } from 'react-router';
+import Home from './pages/Home';
+import './styles/app.css'
+import NavBar from './components/NavBar'
+import Spin from './components/Spin'
+
+// Placeholder components for routes
+const Calendar = () => <div>Calendar Page</div>;
+const Create = () => <div>Create a Bubble Page</div>;
+const Random = () => <div>Random Page</div>;
+const Today = () => <div>Today Page</div>;
+const NoPages = () => <div>404 Error</div>
+
 import NavBar from './components/NavBar'
 import Spin from './components/Spin'
 
 function App() {
-
   return (
-    <>
-      <div>
-        <NavBar />
-        <Spin/>
-      </div>
-    </>
-  )
-}
 
-export default App
+    <div className="main-grid">
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/random" element={<Random />} />
+        <Route path="/today" element={<Today />} />
+        <Route path="/spin" element={<Spin />} />
+        <Route path="*" element={<NoPages />} />
+      </Routes>
+    </div>
+  );
+
+export default App;
