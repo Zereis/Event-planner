@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactSwitch from "react-switch";
-import '../../styles/toggle.css';
+import '../styles/toggle.css';
 
 export default function Toggle() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -22,13 +22,13 @@ export default function Toggle() {
 
   return (
     <div className="toggle-container">
-    
-    <span style={{ fontSize: '20px' }}>
-        {darkMode ? '🌙' : '☀️'}
-      </span>
       <ReactSwitch
         onChange={toggleTheme}
         checked={darkMode}
+        checkedIcon={<span style={{ paddingLeft: "4px" }}>🌙</span>}
+        uncheckedIcon={<span style={{ paddingLeft: "4px" }}>☀️</span>}
+        offColor="#ccc"
+        onColor="rgb(113, 121, 126)"
       />
     </div>
   );

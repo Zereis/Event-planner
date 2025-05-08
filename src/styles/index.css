@@ -5,7 +5,8 @@
   color-scheme: light dark;
 
   --bg-color: #fafafa;
-  --text-color: #333333;  
+  --text-color: #333333;
+  --box-shadow-color: black;
   --primary: #5e3bee;
   --heading-color: #282938;
   --bg-shade: #f5fcff;
@@ -18,30 +19,46 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    font-size: 13px;
+  }
 }
 
 .dark {
   --bg-color: #333333;
   --text-color: #fafafa;
+  --box-shadow-color: white;
 }
-
-DarkModeToggle {
-  cursor: pointer;
-  size: 50%;
-  height: auto;
-}
-
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
-
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+html, #root {
+  width: 100%;
+  height: 100%;
 }
 
 a {
@@ -57,13 +74,11 @@ a:hover {
   body {
     background-color: var(--text-color);
     color: var(--text-color);
-    .toggle-wrapper {
-      display: none;
-    }
   }
 }
 
 h1 {
+  color: var(--text-color);
   font-size: 3.2em;
   line-height: 1.1;
 }
@@ -92,14 +107,38 @@ button:focus-visible {
     background-color: var(--text-color);
     color: var(--text-color);
   }
+
   a:hover {
     color: lightblue;
   }
+
   button {
     background-color: #f9f9f9;
   }
+
   button:hover {
     border-color: lightblue;
   }
 }
 
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  .nav-bubble {
+    font-size: 0.7em;
+  }
+
+  .bubble-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: visible;
+  }
+}
