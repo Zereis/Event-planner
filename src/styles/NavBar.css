@@ -1,13 +1,16 @@
 
 .NavBar-section {
   /* position: fixed; OBS! kommenterat ut medan vi redigerar */
+  position: fixed;
   top: 0;
+  left: 0;
   background-color: aliceblue;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100vw;
   height: 80px;
+  z-index: 1000;
 }
 .NavBar-section img{
   height: 80px;
