@@ -1,0 +1,28 @@
+
+.wheel-of-fortune {
+  all: unset;
+  aspect-ratio: 1 / 1;
+  background: rgb(241, 162, 178);
+  container-type: inline-size;
+  direction: ltr;
+  display: grid;
+  place-content: center start;
+  clip-path: inset(0 0 0 0 round 50%);
+  border: dotted 1cqi gold;
+  border-radius: 50%;
+}
+
+.wedge {
+  align-content: center;
+  background: deepskyblue;
+  display: grid;
+  font-size: 3cqi;
+  text-align: center;
+  grid-area: 1 / -1;
+  list-style: none;
+  transform-origin: center right;
+  width: 50cqi;
+  rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
+  height: calc((3.1416 * 50cqi) / var(--_items));
+  clip-path: polygon(0% -2%, 100% 50%, 0% 102%);
+}

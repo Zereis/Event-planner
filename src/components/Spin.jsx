@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
+import "../styles/spin.css";
 
 
 function Spin() {
@@ -123,6 +124,15 @@ function Spin() {
     }
   };
 
+  const categoryColors = {
+    chores: "#f8d7da",      // soft red
+    sport: "#d1ecf1",       // light blue
+    music: "#e2e3f3",       // lavender
+    social: "#d4edda",      // mint green
+    visual: "#fff3cd",      // soft yellow
+    adventure: "#fde2e4",   // pinkish
+    };
+
   return(
     <div>
       <h2>spin planner</h2>
@@ -155,24 +165,34 @@ function Spin() {
 
       <div>
         <h4>filtered activities ({allFiltered.length}):</h4>
-        <ul>
-          {allFiltered.map((act) => {
-            const isSelected = act.id === selectedActivityId;
-            const isUsed = usedActivityIds.includes(act.id);
 
-            return (
-              <li
-              key={act.id}
-              style= {{
-                fontWeight: isSelected ? "bold" : "normal",
-                fontStyle: isUsed ? "italic" : "normal",
+          <ul className="wheel-of-fortune"
+              style={{
+                "--_items": allFiltered.length === 1? 0 : allFiltered.length,
               }}
-              >
-                {act.title} - {act.description} - {act.category} - {act.type}
-              </li>
-            );
-          })}
-        </ul>
+          >
+            {allFiltered.map((act, idx) => {
+              const isSelected = act.id === selectedActivityId;
+              const isUsed = usedActivityIds.includes(act.id);
+              const bgColor = categoryColors[act.category.toLowerCase()] || "#ffffff"; // fallback to white
+
+              return (
+                <li
+                className="wedge"
+                key={act.id}
+                style= {{
+                  "--_idx": idx + 1,
+                  background: bgColor,
+                  fontWeight: isSelected ? "bold" : "normal",
+                  fontStyle: isUsed ? "italic" : "normal",
+                }}
+                >
+                  {act.title}
+                </li>
+              );
+            })}
+          </ul>
+        
       </div>
     </div>
   );
