@@ -100,6 +100,7 @@ function Spin() {
 
   // pick a random activity from the available ones
   const handleSpin = () => {
+    
     if (selectedActivityId !== null) {
       setUsedActivityIds((prev) => [...prev, selectedActivityId]);
     }
@@ -109,12 +110,12 @@ function Spin() {
       alert("you have done everything for the day!");
       return;
     }
-    
+
     // Pick the activity FIRST so we can align spin to it
     const itemCount = allFiltered.length;
-    const randomIndex = Math.floor(Math.random() * itemCount);
     const degreePerItem = 360 / itemCount;
-    const selectedActivity = allFiltered[randomIndex];
+    const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
+    const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
 
     const targetPosition = 0; // 12h postion
     // rotate to that wedge -- in the center of the slice
@@ -156,7 +157,6 @@ function Spin() {
   };
 
   const isSingleItem = allFiltered.length === 1;
-
 
   const categoryColors = {
     chores: "#f8d7da",      // soft red
@@ -227,7 +227,12 @@ function Spin() {
               );
             })}
           </ul>
-          <button className="spin-button" onClick={handleSpin}>spin!</button>
+          <button 
+          className="spin-button" 
+          onClick={handleSpin}
+          disabled={isSingleItem}
+          >spin!
+          </button>
         </div>
       </div>
     </div>

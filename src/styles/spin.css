@@ -16,21 +16,25 @@
   clip-path: inset(0 0 0 0 round 50%);
   border: dotted 1cqi gold;
   border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(0deg);
 }
 
 .wedge {
   align-content: center;
-  background: deepskyblue;
-  display: grid;
+  display: flex;
   font-size: 3cqi;
   text-align: center;
   grid-area: 1 / -1;
   list-style: none;
   transform-origin: center right;
-  width: 50cqi;
+  transform: rotate(calc(var(--angle)));
   rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
+  width: 50cqi;
   height: calc((3.1416 * 50cqi) / var(--_items));
-  clip-path: polygon(0% -2%, 100% 50%, 0% 102%);
+  clip-path: polygon(0% 100%, 100% 50%, 0% 0%);
+  align-items: center;
+  justify-content: center;
 }
 
 .full-wedge {
