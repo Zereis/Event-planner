@@ -17,7 +17,7 @@ const NoPages = () => <div>404 Error</div>
 function App() {
   return (
 
-    <div className="main-grid">
+    <div className="app-wrapper">
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
