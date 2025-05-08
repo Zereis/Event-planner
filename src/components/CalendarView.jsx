@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import './styles/calendar.css'; // Import the CSS file for styling
+import '../styles/calendar.css'; // Import the CSS file for styling
 
 export default function CalendarView() {
   // Example events

@@ -4,9 +4,9 @@ import Home from './pages/Home';
 import './styles/app.css'
 import NavBar from './components/NavBar'
 import Spin from './components/Spin'
+import Calendar from './components/CalendarView'
 
 // Placeholder components for routes
-const Calendar = () => <div>Calendar Page</div>;
 const Create = () => <div>Create a Bubble Page</div>;
 const Random = () => <div>Random Page</div>;
 const Today = () => <div>Today Page</div>;
