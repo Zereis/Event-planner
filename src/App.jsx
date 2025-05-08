@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { Routes, Route } from 'react-router';
+import Home from './pages/Home';
+import './styles/app.css'
+import NavBar from './components/NavBar'
+import Spin from './components/Spin'
+
+// Placeholder components for routes
+const Calendar = () => <div>Calendar Page</div>;
+const Create = () => <div>Create a Bubble Page</div>;
+const Random = () => <div>Random Page</div>;
+const Today = () => <div>Today Page</div>;
+const NoPages = () => <div>404 Error</div>
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+    <div className="main-grid">
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/random" element={<Random />} />
+        <Route path="/today" element={<Today />} />
+        <Route path="/spin" element={<Spin />} />
+        <Route path="*" element={<NoPages />} />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
+
