@@ -14,7 +14,7 @@ export default function CalendarView() {
   ];
 
   return (
-    <div className="calendar-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="calendar-container">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

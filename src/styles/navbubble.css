@@ -13,12 +13,12 @@
     align-items: center; /* Centers it vertically */
 
     text-align: center;
-
     cursor: var(--bubble-cursor, pointer);
     pointer-events: var(--bubble-pointer-events, auto);
 
     transform: var(--bubble-transform);
     box-shadow: inset 0 0 25px rgba(20, 20, 20, 0.5);
+    box-shadow: 0 0 0px var(--text-color); /* Shadow or not? */
     will-change: transform, z-index, opacity;
     transform-origin: center center;
   }
@@ -26,11 +26,12 @@
   .nav-bubble h{
     rotate: -25deg;
     color: var(--text-color);
+    font-family: 'Fredoka', sans-serif;
     font-weight: 700;
     text-shadow: 4px 4px 12px var(--bg-color);
     -webkit-text-stroke: 1px var(--bg-color);
     font-size: 2rem;
-    z-index: 200; 
+    z-index: 200;
     user-select: none;
     transition: all 0.3s ease;
   }
@@ -45,7 +46,7 @@
   .nav-bubble h:hover {
     animation: scale 0.3s ease infinite;
   }
-  
+
 
   .nav-bubble:before {
     content: '';
@@ -59,7 +60,7 @@
     z-index: 10;
     filter: blur(2px);
   }
-  
+
   .nav-bubble:after {
     content: '';
     position: absolute;
@@ -72,7 +73,7 @@
     z-index: 10;
     filter: blur(2px);
   }
-  
+
   .nav-bubble span{
     position: absolute;
     border-radius: 50%
@@ -104,8 +105,8 @@
     transform: rotate(330deg)
   }
 
-  .dark .nav-bubble {
+  /* .dark .nav-bubble {
     box-shadow: 0 4px 10px rgba(195, 196, 193, 0.5);
-  }
-  
+  } */
+
 
