@@ -109,16 +109,16 @@ function Spin() {
       alert("you have done everything for the day!");
       return;
     }
-
+    
     // Pick the activity FIRST so we can align spin to it
-    const random = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
-    const index = allFiltered.findIndex((act) => act.id === random.id);
     const itemCount = allFiltered.length;
+    const randomIndex = Math.floor(Math.random() * itemCount);
     const degreePerItem = 360 / itemCount;
+    const selectedActivity = allFiltered[randomIndex];
 
-    const targetPosition = 90; // 3h postion
+    const targetPosition = 0; // 12h postion
     // rotate to that wedge -- in the center of the slice
-    const selectedDegree = index * degreePerItem + degreePerItem / 2;
+    const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
     const spins = 3; // full spins before stopping
     const offset = (360 + targetPosition - selectedDegree) % 360; // how much to rotate to bring that slice to top
     const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
@@ -139,7 +139,7 @@ function Spin() {
     }
     // set after delay to simulate result after spin
     setTimeout(() => {
-      setSelectedActivityId(random.id);  // select the activity after spin
+      setSelectedActivityId(selectedActivity.id);  // select the activity after spin
     }, 2000);  // same as animation duration
   };
 
