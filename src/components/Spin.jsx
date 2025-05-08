@@ -100,7 +100,7 @@ function Spin() {
 
   // pick a random activity from the available ones
   const handleSpin = () => {
-    
+
     if (selectedActivityId !== null) {
       setUsedActivityIds((prev) => [...prev, selectedActivityId]);
     }
@@ -218,7 +218,7 @@ function Spin() {
                 key={act.id}
                 style= {{
                   "--_idx": idx + 1,
-                  background: isUsed ? "gold" : bgColor,
+                  background: isUsed ? "rgb(241, 162, 178)" : bgColor,
                   fontWeight: isSelected ? "bold" : "normal",
                 }}
                 >
@@ -230,7 +230,7 @@ function Spin() {
           <button 
           className="spin-button" 
           onClick={handleSpin}
-          disabled={isSingleItem}
+          hidden={isSingleItem || allFiltered.length === 0}
           >spin!
           </button>
         </div>
