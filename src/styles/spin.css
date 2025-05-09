@@ -30,7 +30,7 @@ label {
   display: grid;
   place-content: center start;
   clip-path: inset(0 0 0 0 round 50%);
-  border: dotted 1cqi gold;
+  border: dotted 1cqi rgb(228, 177, 49);
   border-radius: 50%;
   overflow: hidden;
   transform: rotate(0deg);
@@ -89,7 +89,7 @@ label {
   z-index: 10;
   padding: 0.71em 0.3em;
   border-radius: 50%;
-  background: gold;
+  background: rgb(226, 169, 24);
   font-weight: bold;
   cursor: pointer;
   font-family: 'Fredoka', sans-serif;
@@ -106,4 +106,41 @@ label {
   background: gold;
   color: pink;
   border: solid 2px turquoise;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.toggle {
+  padding: 0.2rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 9999px;
+  width: 110px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  background-color: rgb(128, 80, 88);
+  color: rgb(212, 179, 95);
+  border: dotted 3px rgb(226, 169, 24);
+  font-weight: 700;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: inline-block;
+  position: relative;
+}
+
+.toggle input[type="checkbox"] {
+  display: none;
+}
+
+.toggle.active {
+  background-color: rgb(204, 82, 103);  /* or another highlight color */
+  color: rgb(226, 169, 24);
+}
+
+.toggle:hover{
+  box-shadow: 2px 2px 2px 5px rgba(206, 150, 67, 0.438);  
 }

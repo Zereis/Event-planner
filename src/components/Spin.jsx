@@ -234,29 +234,35 @@ function Spin() {
           </button>
         </div>
       </div>
-      <div>
-        <label>
-          <input type="checkbox"
-          checked={includeFun} 
-          onChange={() => setIncludeFun(!includeFun)}
-          />
-          include fun
-        </label>
-        <label>
-          <input type="checkbox" 
-          checked={includeBucket}
-          onChange={() => setIncludeBucket(!includeBucket)}
-          />
-          include bucket
-        </label>
-        <label>
-          <input type="checkbox" 
-          checked={includeChores}
-          onChange={() => setIncludeChores(!includeChores)}
-          />
-          include chores
-        </label>
-      </div>
+<div className="toggle-buttons">
+  <label className={includeFun ? "toggle active" : "toggle"}>
+    <input
+      type="checkbox"
+      checked={includeFun}
+      onChange={() => setIncludeFun(!includeFun)}
+    />
+    include fun
+  </label>
+
+  <label className={includeBucket ? "toggle active" : "toggle"}>
+    <input
+      type="checkbox"
+      checked={includeBucket}
+      onChange={() => setIncludeBucket(!includeBucket)}
+    />
+    include bucket
+  </label>
+
+  <label className={includeChores ? "toggle active" : "toggle"}>
+    <input
+      type="checkbox"
+      checked={includeChores}
+      onChange={() => setIncludeChores(!includeChores)}
+    />
+    include chores
+  </label>
+</div>
+
     </div>
   );
 }
