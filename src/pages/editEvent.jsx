@@ -1,7 +1,7 @@
 // src/pages/editEvent.jsx
 
 import React, { useContext } from "react";
-import EditTask from "../Components/Edittask";
+import EditTask from "../Components/EditTask";
 import { TaskContext } from "../Components/TaskContext";
 
 const EditEvent = () => {
