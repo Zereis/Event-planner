@@ -77,7 +77,7 @@ function Spin() {
     }
   }, [includeChores, includeFun, includeBucket, funActivities, bucketActivities]);
 
-  if (includeChores) {
+  if (includeChores && weeklyChores.length) {
   optionalActivities = [
     ...weeklyChores,
     ...(randomFunActivity ? [randomFunActivity] : []),

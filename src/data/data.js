@@ -210,8 +210,8 @@ const activities = [
         id: Date.now() + 23,
         title: "Vacuum the house",
         description: "Vacuum carpets and floors in all rooms",
-        date: "2025-05-09T10:00",
-        deadline: "2025-05-09T10:00",
+        date: "2025-05-10T10:00",
+        deadline: "2025-05-10T10:00",
         category: "Chores",
         type: "Daily"
     },
