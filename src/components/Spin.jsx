@@ -97,6 +97,19 @@ function Spin() {
   const availableForSpin = allFiltered.filter(
     (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
   );
+  
+  // popup alert if no chores: no chores, choose fun or bucket
+  // adjust the degree of the wheel to the number of items
+  // if no chores but both chores and fun / bucket are clicked -- remove only one functionality
+  // in css: responsive design for mobile and tablet?
+  // if only one activity: add 'this is your only one thing to do today' message
+  // checkboxes below the wheel
+  // add instructions for the wheel
+  // buttons instead of checkboxes // changing colors (checked, not)
+  // maybe later (pass) button above the wheel
+  // click on activity -- open edit event page
+  // change font to the general one
+  // add sound!!
 
   // pick a random activity from the available ones
   const handleSpin = () => {
@@ -197,7 +210,6 @@ function Spin() {
       <button onClick={pass} disabled={!selectedActivityId}>pass</button>
 
       <div>
-        <h4>filtered activities ({allFiltered.length}):</h4>
         <div className="wheel-container">
           <div className="pointer"></div>
           <ul 
