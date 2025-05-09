@@ -1,5 +1,6 @@
 
-import Login from './components/login'
+// import Login from './components/Logintest'
+import Login from './components/Login'
 import NavBar from './components/NavBar'
 import Spin from './components/Spin'
 
