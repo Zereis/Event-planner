@@ -7,7 +7,12 @@ export default function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("user") !== null);
 
   const handleRegister = () => {
-    if (username && password) {
+    // if (username && password) {
+      if (username.trim() === "" || password.trim() === "") {
+        alert("Username and password are required!");
+        return;
+      }
+      
       if (sessionStorage.getItem(username)) {
         alert("User already exists!");
       }  else {
@@ -16,9 +21,9 @@ export default function Login() {
          setIsLoggedIn(true);
          alert("Registration successful! You are now logged in.");
       } 
-    } else {
-        alert("Username and password are required!");
-      }
+    // } else {
+    //     alert("Username and password are required!");
+    //   }
   };
 
   const handleLogin = () => {
@@ -33,6 +38,8 @@ export default function Login() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
+    setUsername("");
+    setPassword("");
     setIsLoggedIn(false);
   };
 
