@@ -150,7 +150,7 @@ function Spin() {
         { transform: `rotate(${previousEndDegree}deg)` },
         { transform: `rotate(${newEndDegree}deg)` },
       ], {
-        duration: 2000,
+        duration: 2200,
         direction: "normal",
         easing: "cubic-bezier(0.440, -0.205, 0.000, 1.130)",
         fill: "forwards",
