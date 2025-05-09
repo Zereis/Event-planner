@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+h2 {
+    font-family: 'Fredoka', sans-serif;
+}
+
+button {
+    font-family: 'Fredoka', sans-serif;
+    color: black;
+}
+
+label {
+    font-family: 'Fredoka', sans-serif;
+    color: black;
+} 
+
 .wheel-container {
   width: 500px;
   height: 500px;
