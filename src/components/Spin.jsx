@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
+import EditTask from "./edittask";
 
 
 function Spin() {
@@ -98,17 +99,10 @@ function Spin() {
     (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
   );
   
-  // popup alert if no chores: no chores, choose fun or bucket
   // adjust the degree of the wheel to the number of items
-  // if no chores but both chores and fun / bucket are clicked -- remove only one functionality
   // in css: responsive design for mobile and tablet?
-  // if only one activity: add 'this is your only one thing to do today' message
-  // checkboxes below the wheel
   // add instructions for the wheel
-  // buttons instead of checkboxes // changing colors (checked, not)
-  // maybe later (pass) button above the wheel
   // click on activity -- open edit event page
-  // change font to the general one
   // add sound!!
 
   // pick a random activity from the available ones
@@ -183,6 +177,7 @@ function Spin() {
   return(
     <div>
       <h2>spin planner</h2>
+      <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen actifity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
       <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
 
       <div>
