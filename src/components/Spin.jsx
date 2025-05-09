@@ -183,7 +183,7 @@ function Spin() {
   return(
     <div>
       <h2>spin planner</h2>
-      <button onClick={pass} disabled={!selectedActivityId}>maybe later</button>
+      <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
 
       <div>
         <div className="wheel-container">

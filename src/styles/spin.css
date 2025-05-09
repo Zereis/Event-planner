@@ -4,10 +4,20 @@ h2 {
     font-family: 'Fredoka', sans-serif;
 }
 
-button {
+.later-button {
     font-family: 'Fredoka', sans-serif;
-    color: black;
-}
+    padding: 0.2rem 1rem;
+    border-radius: 9999px;
+    width: 110px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    background-color: rgb(241, 89, 115);
+    color: rgb(212, 179, 95);
+    border: dotted 3px rgb(226, 169, 24);
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
 
 label {
     font-family: 'Fredoka', sans-serif;
@@ -30,7 +40,7 @@ label {
   display: grid;
   place-content: center start;
   clip-path: inset(0 0 0 0 round 50%);
-  border: dotted 1cqi rgb(228, 177, 49);
+  border: dotted 1cqi gold;
   border-radius: 50%;
   overflow: hidden;
   transform: rotate(0deg);
