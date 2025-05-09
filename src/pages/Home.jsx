@@ -38,7 +38,6 @@ const Home = () => {
 */
 import { useEffect, useState } from 'react';
 import '../styles/home.css';
-import Toggle from '../components/Toggle';
 import NavBubble from '../components/NavBubble';
 
 const Home = () => {
@@ -61,9 +60,9 @@ const Home = () => {
       appearDuration: 0.8,
     },
     {
-      title: 'Create Bubble',
+      title: 'Add Task',
       color: 'rgba(221, 21, 21, 0.5)',
-      navRoute: '/create',
+      navRoute: '/add',
       position: { x: -150, y: 180 },
       size: 200,
       clickable: true,
@@ -71,9 +70,9 @@ const Home = () => {
       appearDuration: 1.0,
     },
     {
-      title: 'Random',
+      title: 'Edit Task',
       color: 'rgba(82, 124, 216, 0.5)',
-      navRoute: '/random',
+      navRoute: '/edit',
       position: { x: 0, y: 45 },
       size: 180,
       clickable: true,
