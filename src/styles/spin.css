@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff3cd;
+    padding-left: 40px;
+    padding-right: 40px;
+    max-width: max-content;
+}
+
 h2 {
     font-family: 'Fredoka', sans-serif;
 }
@@ -17,6 +29,8 @@ h2 {
     border: dotted 3px rgb(226, 169, 24);
     font-weight: 700;
     transition: all 0.2s ease;
+    margin-bottom: 30px;
+    margin-top: 10px;;
   }
 
 label {
@@ -29,6 +43,7 @@ label {
   height: 500px;
   margin: auto;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .wheel-of-fortune {
@@ -80,14 +95,13 @@ label {
   background: var(--wedge-color, #ccc);
 }
 
-
 .pointer {
   position: absolute;
   top: 1;
   left: 47.5%;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 32px solid red;
+  border-top: 32px solid rgb(228, 3, 3);
   z-index: 10;
 }
 
@@ -112,16 +126,11 @@ label {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.spin-button:active {
-  background: gold;
-  color: pink;
-  border: solid 2px turquoise;
-}
-
 .toggle-buttons {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  margin-bottom: 3rem;;
 }
 
 .toggle {

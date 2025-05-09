@@ -175,7 +175,7 @@ function Spin() {
     };
 
   return(
-    <div>
+    <div className="page-container">
       <h2>spin planner</h2>
       <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen actifity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
       <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
