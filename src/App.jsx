@@ -1,4 +1,6 @@
-
+import { TaskProvider } from "./Components/TaskContext";
+import AddEvent from "./pages/addEvent";
+import EditEvent from "./pages/editEvent";
 import { Routes, Route } from 'react-router';
 import Home from './pages/Home';
 import './styles/app.css'
@@ -33,4 +35,3 @@ function App() {
 }
 
 export default App;
-
