@@ -183,6 +183,57 @@ function Spin() {
   return(
     <div>
       <h2>spin planner</h2>
+      <button onClick={pass} disabled={!selectedActivityId}>maybe later</button>
+
+      <div>
+        <div className="wheel-container">
+          <div className="pointer"></div>
+          <ul 
+          ref={wheelRef}
+          className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
+          style={{
+            "--_items": isSingleItem ? 1 : allFiltered.length,
+          }}
+          >
+            {isSingleItem ? (
+              <li className="full-wedge" key={allFiltered[0].id} style={{
+                background: categoryColors[allFiltered[0].category.toLowerCase()],
+                fontWeight: "bold",
+              }}>
+                all you need to do today is<br />
+                {allFiltered[0].title.toLowerCase()}
+              </li>
+            ) : (
+              allFiltered.map((act, idx) => {
+                const isSelected = act.id === selectedActivityId;
+                const isUsed = usedActivityIds.includes(act.id);
+                const bgColor = categoryColors[act.category.toLowerCase()];
+                return (
+                  <li
+                    className="wedge"
+                    key={act.id}
+                    style={{
+                      "--_idx": idx + 1,
+                      "--_items": allFiltered.length,
+                      background: isUsed ? "rgb(241, 162, 178)" : bgColor,
+                      fontWeight: isSelected ? "bold" : "normal",
+                    }}
+                  >
+                    {act.title.toLowerCase()}
+                  </li>
+                );
+              })
+            )}
+
+          </ul>
+          <button 
+          className="spin-button" 
+          onClick={handleSpin}
+          hidden={isSingleItem || allFiltered.length === 0}
+          >spin!
+          </button>
+        </div>
+      </div>
       <div>
         <label>
           <input type="checkbox"
@@ -205,49 +256,6 @@ function Spin() {
           />
           include chores
         </label>
-      </div>
-
-      <button onClick={pass} disabled={!selectedActivityId}>pass</button>
-
-      <div>
-        <div className="wheel-container">
-          <div className="pointer"></div>
-          <ul 
-          ref={wheelRef}
-          className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
-          style={{
-            "--_items": isSingleItem ? 1 : allFiltered.length,
-          }}
-          >
-            {allFiltered.map((act, idx) => {
-              const isSelected = act.id === selectedActivityId;
-              const isUsed = usedActivityIds.includes(act.id);
-              const bgColor = categoryColors[act.category.toLowerCase()];
-              
-
-              return (
-                <li
-                className={`wedge ${isSingleItem ? "full-wedge" : ""}`}
-                key={act.id}
-                style= {{
-                  "--_idx": idx + 1,
-                  background: isUsed ? "rgb(241, 162, 178)" : bgColor,
-                  fontWeight: isSelected ? "bold" : "normal",
-                  
-                }}
-                >
-                  {act.title.toLowerCase()}
-                </li>
-              );
-            })}
-          </ul>
-          <button 
-          className="spin-button" 
-          onClick={handleSpin}
-          hidden={isSingleItem || allFiltered.length === 0}
-          >spin!
-          </button>
-        </div>
       </div>
     </div>
   );
