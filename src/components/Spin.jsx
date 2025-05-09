@@ -3,6 +3,8 @@ import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
 import EditTask from "./edittask";
+import SoundManager from "./SoundManagerSpin";  // sound manager component 
+// importing sound manager component
 
 
 function Spin() {
@@ -15,6 +17,10 @@ function Spin() {
   const [usedActivityIds, setUsedActivityIds] = useState([]);
   const [randomFunActivity, setRandomFunActivity] = useState(null);  // prevent randomization at render time
   const [randomBucketActivity, setRandomBucketActivity] = useState(null);  // prevent randomization at render time
+
+  // sound effects
+  const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
+  const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
 
 
   const today = new Date();
@@ -118,6 +124,13 @@ function Spin() {
       return;
     }
 
+    // sound effects
+    setPlaySpinButton(true); // play the spin button sound
+    setPlaySpinning(true); // play the spinning sound
+       // reset the sound flags after a short delay to allow them to play
+    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
+    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
+
     // Pick the activity FIRST so we can align spin to it
     const itemCount = allFiltered.length;
     const degreePerItem = 360 / itemCount;
@@ -176,6 +189,7 @@ function Spin() {
 
   return(
     <div className="page-container">
+      <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
       <h2>spin planner</h2>
       <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen actifity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
       <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
