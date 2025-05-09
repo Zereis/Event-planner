@@ -1,0 +1,92 @@
+
+.NavBar-section {
+  /* position: fixed; OBS! kommenterat ut medan vi redigerar */
+  position: absolute;
+  top: 0;
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1024px;
+  width: 100%;
+  height: 6rem;
+  z-index: 1000;
+}
+.NavBar-section img{
+  height: 80px;
+}
+
+.hamburger {
+  display: none;
+}
+
+.NavBar-section ul{
+  list-style: none;
+  margin-right: 10px;
+}
+
+.NavBar-section li{
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 600px) {
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+    background-color: aliceblue;
+  }
+  .hamburger span{
+    display: flex;
+    background-color: black;
+    width: 4px;
+    height: 4px;
+    margin: 2px;
+    border-radius: 50%;
+  }
+  .NavBar-section ul {
+    display: none;
+  }
+
+  .hamburger:focus {
+    outline: none;
+  }
+  .hamburger.open {
+
+    display: block;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1000;
+    margin-top: 5px;
+    background-color: transparent;
+  }
+  .hamburger.open span:nth-child(1) {
+    width: 15px;
+    height: 2px;
+    border-radius: 2px;
+    transform: rotate(45deg) translate(6px, -2.5px);
+  }
+  .hamburger.open span:nth-child(2) {
+    display: none;
+  }
+  .hamburger.open span:nth-child(3) {
+    width: 15px;
+    height: 2px;
+    border-radius: 2px;
+    transform: rotate(-45deg) translate(5px, 3px);
+  }
+
+  .nav-links.show {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 5px;
+    padding-top: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+}
