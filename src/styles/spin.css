@@ -38,6 +38,7 @@
 }
 
 .full-wedge {
+  transform: none !important;
   clip-path: circle(100%);
   width: 100% !important;
   height: 100% !important;

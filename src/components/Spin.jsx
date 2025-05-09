@@ -211,6 +211,7 @@ function Spin() {
               const isSelected = act.id === selectedActivityId;
               const isUsed = usedActivityIds.includes(act.id);
               const bgColor = categoryColors[act.category.toLowerCase()];
+              
 
               return (
                 <li
@@ -220,6 +221,7 @@ function Spin() {
                   "--_idx": idx + 1,
                   background: isUsed ? "rgb(241, 162, 178)" : bgColor,
                   fontWeight: isSelected ? "bold" : "normal",
+                  
                 }}
                 >
                   {act.title.toLowerCase()}
