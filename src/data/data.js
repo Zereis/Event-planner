@@ -202,7 +202,7 @@ const activities = [
         title: "Wash dishes",
         description: "Clean dishes",
         date: "2025-05-09T13:00",
-        deadline: "2025-05-09",
+        deadline: "2025-05-10",
         category: "Chores",
         type: "Daily"
     },
@@ -211,7 +211,7 @@ const activities = [
         title: "Vacuum the house",
         description: "Vacuum carpets and floors in all rooms",
         date: "2025-05-10T10:00",
-        deadline: "2025-05-10T10:00",
+        deadline: "2025-05-15T15:00",
         category: "Chores",
         type: "Daily"
     },
@@ -220,7 +220,7 @@ const activities = [
         title: "Water plants",
         description: "Water indoor and balcony plants",
         date: "2025-05-09T09:00",
-        deadline: "2025-05-14T11:00",
+        deadline: "2025-05-10T11:00",
         category: "Chores",
         type: "Daily"
     },

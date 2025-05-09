@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
@@ -15,13 +15,10 @@ function Spin() {
   const [includeChores, setIncludeChores] = useState(false);
   const [selectedActivityId, setSelectedActivityId] = useState(null);
   const [usedActivityIds, setUsedActivityIds] = useState([]);
-  const [randomFunActivity, setRandomFunActivity] = useState(null);  // prevent randomization at render time
-  const [randomBucketActivity, setRandomBucketActivity] = useState(null);  // prevent randomization at render time
 
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
   const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
-
 
   const today = new Date();
       const todayStart = startOfDay(today);
@@ -58,42 +55,32 @@ function Spin() {
   : [];
 
   // choose fun or bucket depending on chore inclusion
-  let optionalActivities = [];
-  // useEffect prevents randomization at render time
   // if chores are included, randomize fun and bucket activities and fix them in optionalActivities for rendering
-  useEffect(() => {
-    if (includeChores) {
-      if (includeFun && !randomFunActivity && funActivities.length) {
-        const picked = funActivities[Math.floor(Math.random() * funActivities.length)];
-        setRandomFunActivity(picked);
-      }
-      if (includeBucket && !randomBucketActivity && bucketActivities.length) {
-        const picked = bucketActivities[Math.floor(Math.random() * bucketActivities.length)];
-        setRandomBucketActivity(picked);
-      }
-      else if (!includeFun && randomFunActivity) {
-        setRandomFunActivity(null);
-      }
-      else if (!includeBucket && randomBucketActivity) {
-        setRandomBucketActivity(null);
-      }
-    } else {
-      // reset if chores are off
-      setRandomFunActivity(null);
-      setRandomBucketActivity(null);
-    }
-  }, [includeChores, includeFun, includeBucket, funActivities, bucketActivities]);
+  const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  if (includeChores && weeklyChores.length) {
-  optionalActivities = [
-    ...weeklyChores,
-    ...(randomFunActivity ? [randomFunActivity] : []),
-    ...(randomBucketActivity ? [randomBucketActivity] : []),
-  ];
-  } else {
-    if (includeFun) optionalActivities.push(...funActivities);
-    if (includeBucket) optionalActivities.push(...bucketActivities);
-  }
+  const singleFun = useMemo(() => {
+    return includeChores && includeFun ? pickRandom(funActivities) : null;
+  }, [includeChores, includeFun]);
+
+  const singleBucket = useMemo(() => {
+    return includeChores && includeBucket ? pickRandom(bucketActivities) : null;
+  }, [includeChores, includeBucket]);
+
+
+  const optionalActivities = (() => {
+      if (includeChores && weeklyChores.length) {
+        return [
+          ...weeklyChores,
+          ...(singleFun ? [singleFun] : []),
+          ...(singleBucket ? [singleBucket] : []),
+        ];
+      } else {
+        return [
+          ...(includeFun ? funActivities : []),
+          ...(includeBucket ? bucketActivities : []),
+        ];
+      }
+    })();
 
   // combine the two filtered arrays
   const allFiltered = [...todaysActivities, ...optionalActivities].filter(
@@ -104,12 +91,6 @@ function Spin() {
   const availableForSpin = allFiltered.filter(
     (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
   );
-  
-  // adjust the degree of the wheel to the number of items
-  // in css: responsive design for mobile and tablet?
-  // add instructions for the wheel
-  // click on activity -- open edit event page
-  // add sound!!
 
   // pick a random activity from the available ones
   const handleSpin = () => {
@@ -137,11 +118,11 @@ function Spin() {
     const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
     const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
 
-    const targetPosition = 0; // 12h postion
+    
     // rotate to that wedge -- in the center of the slice
     const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
     const spins = 3; // full spins before stopping
-    const offset = (360 + targetPosition - selectedDegree) % 360; // how much to rotate to bring that slice to top
+    const offset = (360 - selectedDegree) % 360; // how much to rotate to bring that slice to top
     const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
 
     // animate
@@ -191,10 +172,11 @@ function Spin() {
     <div className="page-container">
       <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
       <h2>spin planner</h2>
-      <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen actifity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
+      <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen activity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
       <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
 
       <div>
+        
         <div className="wheel-container">
           <div className="pointer"></div>
           <ul 
@@ -250,7 +232,7 @@ function Spin() {
       checked={includeFun}
       onChange={() => setIncludeFun(!includeFun)}
     />
-    include fun
+    fun
   </label>
 
   <label className={includeBucket ? "toggle active" : "toggle"}>
@@ -259,7 +241,7 @@ function Spin() {
       checked={includeBucket}
       onChange={() => setIncludeBucket(!includeBucket)}
     />
-    include bucket
+    bucket
   </label>
 
   <label className={includeChores ? "toggle active" : "toggle"}>
@@ -268,7 +250,7 @@ function Spin() {
       checked={includeChores}
       onChange={() => setIncludeChores(!includeChores)}
     />
-    include chores
+    chores
   </label>
 </div>
 
