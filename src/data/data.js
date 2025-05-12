@@ -251,7 +251,15 @@ const activities = [
         category: "Adventure",
         type: "Bucket"
     },
-
+    {
+    id: Date.now() + 26,
+    title: "listen to music",
+    description: "listen to some records",
+    date: "2025-05-12T11:00",
+    deadline: "2025-05-14T11:00",
+    category: "music",
+    type: "Daily"
+    },
 ];
 
 export default activities;

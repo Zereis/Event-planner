@@ -28,34 +28,13 @@ h4 {
   text-align: center;
 }
 
-.later-button {
-    font-family: 'Fredoka', sans-serif;
-    padding: 0.2rem 1rem;
-    border-radius: 9999px;
-    width: 110px;
-    text-align: center;
-    cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
-    background-color: rgb(241, 89, 115);
-    color: rgb(212, 179, 95);
-    border: dotted 3px rgb(226, 169, 24);
-    font-weight: 700;
-    transition: all 0.2s ease;
-    margin-bottom: 30px;
-    margin-top: 10px;;
-  }
-
-label {
-    font-family: 'Fredoka', sans-serif;
-    color: black;
-} 
-
 .wheel-container {
   width: 500px;
   height: 500px;
   margin: auto;
   position: relative;
   margin-bottom: 10px;
+  margin-top: 1.5rem;;
 }
 
 .wheel-of-fortune {
