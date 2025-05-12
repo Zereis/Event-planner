@@ -1,50 +1,41 @@
 import { useState, useMemo, useContext, useRef } from "react";
-import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
-import EditTask from "./edittask";
+import EditTask from "../components/EditTask";
 import SoundManager from "./SoundManagerSpin";  // sound manager component 
 // importing sound manager component
 import BubbleButton from '../components/BubbleButton'
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
-import { TaskContext } from "../Components/TaskContext"; // Import TaskContext
-import { bulkDelete, downloadTasksAsJSON, importTasksFromJSON } from "../Components/TaskHandlers"; // Import handlers
-import TaskList from "../Components/TaskList"; // Import TaskList for toggling
-import CalendarView from "./CalendarView";
+import { TaskContext } from "../components/TaskContext"; // Import TaskContext
+import { bulkDelete } from "../Components/TaskHandlers"; // Import handlers
 
 
 function Spin() {
   const wheelRef = useRef(null);  // for wheel rotation
   const [previousEndDegree, setPreviousEndDegree] = useState(0);  // for wheel rotation
-  const [includeFun, setIncludeFun] = useState(false);
-  const [includeBucket, setIncludeBucket] = useState(false);
-  const [includeChores, setIncludeChores] = useState(false);
-  const [selectedActivityId, setSelectedActivityId] = useState(null);
-  const [usedActivityIds, setUsedActivityIds] = useState([]);
+  const [includeFun, setIncludeFun] = useState(false);  // for fun act inclusion
+  const [includeBucket, setIncludeBucket] = useState(false);  // for bucket inclusion
+  const [includeChores, setIncludeChores] = useState(false);  // for chore inclusion
+  const [selectedActivityId, setSelectedActivityId] = useState(null);   // keep track of the 'winner'
+  const [usedActivityIds, setUsedActivityIds] = useState([]);   // for visually distinguishing already used activities
 
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
   const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
 
   // task editing setup
-  const { tasks, updateTasks } = useContext(TaskContext); // Access tasks from TaskContext
-  const navigate = useNavigate(); // For navigation
-    // Map tasks to FullCalendar events
-  const events = tasks.map((task) => ({
-    id: task.id,
-    title: task.title,
-    date: task.dateTime || task.deadline, // Use dateTime or deadline for the event date
-  }));
+  const { tasks, updateTasks } = useContext(TaskContext); // access tasks from TaskContext
+  const navigate = useNavigate(); // for navigation
 
-  // handle weekly activities
+  // handle daily activities and weekly chores
   const today = new Date();
-      const todayStart = startOfDay(today);
-    const weekEnd = endOfWeek(todayStart, { weekStartsOn: 1 });  // week ends on sunday
+  const todayStart = startOfDay(today);
+  const weekEnd = endOfWeek(todayStart, { weekStartsOn: 1 });  // week ends on sunday
 
   // filter: always include today's Daily
-  const todaysActivities = activities.filter((activity) => {
-    if (activity.type.toLowerCase() === "daily" && activity.date && activity.category.toLowerCase() !== "chores") {
-      return isSameDay(parseISO(activity.date), today);
+  const todaysActivities = tasks.filter((task) => {
+    if (task.type.toLowerCase() === "daily" && task.date && task.category.toLowerCase() !== "chores") {
+      return isSameDay(parseISO(task.date), today);
     }
     return false;
   });
@@ -53,21 +44,21 @@ function Spin() {
   // add weekly chores, and make them optional
   // randomly choose only one bucket and only one fun if chores are chosen
 
-  const funActivities = activities.filter(
-    (act) => act.type.toLowerCase() === "fun"
+  const funActivities = tasks.filter(
+    (task) => task.type.toLowerCase() === "fun"
   );
 
-  const bucketActivities = activities.filter(
-    (act) => act.type.toLowerCase() === "bucket"
+  const bucketActivities = tasks.filter(
+    (task) => task.type.toLowerCase() === "bucket"
   );
 
   const weeklyChores = includeChores
-  ? activities.filter((activity) => 
-    activity.category.toLowerCase() === "chores" &&
-    activity.deadline &&
+  ? tasks.filter((task) => 
+    task.category.toLowerCase() === "chores" &&
+    task.deadline &&
     !isSameDay(today, weekEnd) && // if it's sunday, exclude it
-    isAfter(parseISO(activity.deadline), todayStart) &&
-    isBefore(parseISO(activity.deadline), weekEnd)
+    isAfter(parseISO(task.deadline), todayStart) &&
+    isBefore(parseISO(task.deadline), weekEnd)
   )
   : [];
 
@@ -88,8 +79,8 @@ function Spin() {
       if (includeChores && weeklyChores.length) {
         return [
           ...weeklyChores,
-          ...(singleFun ? [singleFun] : []),
-          ...(singleBucket ? [singleBucket] : []),
+          ...(includeFun && singleFun ? [singleFun] : []),
+          ...(includeBucket && singleBucket ? [singleBucket] : []),
         ];
       } else {
         return [
@@ -132,12 +123,14 @@ function Spin() {
     // Pick the activity FIRST so we can align spin to it
     const itemCount = allFiltered.length;
     const degreePerItem = 360 / itemCount;
+
     const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
+
     const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
 
-    
     // rotate to that wedge -- in the center of the slice
     const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
+
     const spins = 3; // full spins before stopping
     const offset = (360 - selectedDegree) % 360; // how much to rotate to bring that slice to top
     const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
@@ -176,7 +169,7 @@ function Spin() {
   
   const handleEventClick = ({ id, title }) => {
   const action = prompt(
-    `You clicked on "${title}".\nChoose an action:\n1: Edit Task (default)\n2: Delete Task\n3: Bulk Delete`
+    `you clicked on "${title}".\nchoose an action:\n1: edit task (default)\n2: delete task\n3: bulk delete`
   );
 
   if (action === null) return;
@@ -185,7 +178,7 @@ function Spin() {
     navigate(`/edit?taskId=${id}`);
   } else if (action === "2") {
     const confirmed = window.confirm(
-      `Are you sure you want to delete the task "${title}"?`
+      `are you sure you want to delete the task "${title}"?`
     );
     if (confirmed) {
       const updatedTasks = tasks.filter((task) => task.id !== id);
@@ -196,7 +189,6 @@ function Spin() {
     updateTasks(updatedTasks);
   }
 };
-
 
   const isSingleItem = allFiltered.length === 1;
 
