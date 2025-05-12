@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useContext, useRef } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
@@ -6,6 +6,11 @@ import EditTask from "./edittask";
 import SoundManager from "./SoundManagerSpin";  // sound manager component 
 // importing sound manager component
 import BubbleButton from '../components/BubbleButton'
+import { useNavigate } from "react-router"; // For navigation to Add.jsx
+import { TaskContext } from "../Components/TaskContext"; // Import TaskContext
+import { bulkDelete, downloadTasksAsJSON, importTasksFromJSON } from "../Components/TaskHandlers"; // Import handlers
+import TaskList from "../Components/TaskList"; // Import TaskList for toggling
+import CalendarView from "./CalendarView";
 
 
 function Spin() {
@@ -21,6 +26,17 @@ function Spin() {
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
   const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
 
+  // task editing setup
+  const { tasks, updateTasks } = useContext(TaskContext); // Access tasks from TaskContext
+  const navigate = useNavigate(); // For navigation
+    // Map tasks to FullCalendar events
+  const events = tasks.map((task) => ({
+    id: task.id,
+    title: task.title,
+    date: task.dateTime || task.deadline, // Use dateTime or deadline for the event date
+  }));
+
+  // handle weekly activities
   const today = new Date();
       const todayStart = startOfDay(today);
     const weekEnd = endOfWeek(todayStart, { weekStartsOn: 1 });  // week ends on sunday
@@ -157,6 +173,30 @@ function Spin() {
       setSelectedActivityId(null);  // deselect it
     }
   };
+  
+  const handleEventClick = ({ id, title }) => {
+  const action = prompt(
+    `You clicked on "${title}".\nChoose an action:\n1: Edit Task (default)\n2: Delete Task\n3: Bulk Delete`
+  );
+
+  if (action === null) return;
+
+  if (action === "1" || action === "") {
+    navigate(`/edit?taskId=${id}`);
+  } else if (action === "2") {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete the task "${title}"?`
+    );
+    if (confirmed) {
+      const updatedTasks = tasks.filter((task) => task.id !== id);
+      updateTasks(updatedTasks);
+    }
+  } else if (action === "3") {
+    const updatedTasks = bulkDelete(tasks);
+    updateTasks(updatedTasks);
+  }
+};
+
 
   const isSingleItem = allFiltered.length === 1;
 
@@ -204,6 +244,7 @@ function Spin() {
                   <li
                     className="wedge"
                     key={act.id}
+                    onClick={() => handleEventClick({ id: act.id, title: act.title })}
                     style={{
                       "--_idx": idx + 1,
                       "--_items": allFiltered.length,
