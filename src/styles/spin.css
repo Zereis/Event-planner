@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
+h2 {
+    font-family: 'Fredoka', sans-serif;
+}
+
+.later-button {
+    font-family: 'Fredoka', sans-serif;
+    padding: 0.2rem 1rem;
+    border-radius: 9999px;
+    width: 110px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    background-color: rgb(241, 89, 115);
+    color: rgb(212, 179, 95);
+    border: dotted 3px rgb(226, 169, 24);
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+
+label {
+    font-family: 'Fredoka', sans-serif;
+    color: black;
+} 
+
+.wheel-container {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  position: relative;
+}
+
+.wheel-of-fortune {
+  all: unset;
+  aspect-ratio: 1 / 1;
+  background: rgb(241, 162, 178);
+  container-type: inline-size;
+  direction: ltr;
+  display: grid;
+  place-content: center start;
+  clip-path: inset(0 0 0 0 round 50%);
+  border: dotted 1cqi gold;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(0deg);
+}
+
+.wedge {
+  align-content: center;
+  display: flex;
+  font-size: 3cqi;
+  text-align: center;
+  grid-area: 1 / -1;
+  list-style: none;
+  transform-origin: center right;
+  transform: rotate(calc(var(--angle)));
+  rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
+  width: 50cqi;
+  height: calc((3.1416 * 100cqi) / var(--_items));
+  clip-path: polygon(0% 100%, 100% 50%, 0% 0%);
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.full-wedge {
+  all: unset;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip-path: circle(50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 6cqi;
+  font-family: 'Fredoka', sans-serif;
+  background: var(--wedge-color, #ccc);
+}
+
+
+.pointer {
+  position: absolute;
+  top: 1;
+  left: 47.5%;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 32px solid red;
+  z-index: 10;
+}
+
+.spin-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 0.71em 0.3em;
+  border-radius: 50%;
+  background: rgb(226, 169, 24);
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  border: solid 2px darkgoldenrod;
+}
+
+.spin-button:hover {
+  background: darkgoldenrod;
+  color: pink;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.spin-button:active {
+  background: gold;
+  color: pink;
+  border: solid 2px turquoise;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.toggle {
+  padding: 0.2rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 9999px;
+  width: 110px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  background-color: rgb(128, 80, 88);
+  color: rgb(212, 179, 95);
+  border: dotted 3px rgb(226, 169, 24);
+  font-weight: 700;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: inline-block;
+  position: relative;
+}
+
+.toggle input[type="checkbox"] {
+  display: none;
+}
+
+.toggle.active {
+  background-color: rgb(204, 82, 103);  /* or another highlight color */
+  color: rgb(226, 169, 24);
+}
+
+.toggle:hover{
+  box-shadow: 2px 2px 2px 5px rgba(206, 150, 67, 0.438);  
+}

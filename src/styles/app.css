@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
+.main-grid {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  max-width: 1024px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 8px var(--text-color);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
