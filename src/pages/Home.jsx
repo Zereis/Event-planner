@@ -51,7 +51,7 @@ const Home = () => {
   const bubbles = [
     {
       title: 'Calendar',
-      color: 'rgba(20, 20, 20, 0.5)',
+      color: 'rgba(20, 20, 20, 0.2)',
       navRoute: '/calendar',
       position: { x: -180, y: 0 },
       size: 250,
@@ -61,7 +61,7 @@ const Home = () => {
     },
     {
       title: 'Add Task',
-      color: 'rgba(221, 21, 21, 0.5)',
+      color: 'rgba(221, 21, 21, 0.2)',
       navRoute: '/add',
       position: { x: -150, y: 180 },
       size: 200,
@@ -71,7 +71,7 @@ const Home = () => {
     },
     {
       title: 'Edit Task',
-      color: 'rgba(82, 124, 216, 0.5)',
+      color: 'rgba(82, 124, 216, 0.2)',
       navRoute: '/edit',
       position: { x: 0, y: 45 },
       size: 180,
@@ -81,7 +81,7 @@ const Home = () => {
     },
     {
       title: 'Today',
-      color: 'rgba(46, 226, 10, 0.5)',
+      color: 'rgba(46, 226, 10, 0.2)',
       navRoute: '/today',
       position: { x: 0, y: 180 },
       size: 160,
@@ -91,7 +91,7 @@ const Home = () => {
     },
     {
       title: 'Spin',
-      color: 'rgba(243, 247, 8, 0.5)',
+      color: 'rgba(243, 247, 8, 0.2)',
       navRoute: '/spin',
       position: { x: -20, y: 300 },
       size: 120,

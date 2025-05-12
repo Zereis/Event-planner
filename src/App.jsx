@@ -8,12 +8,13 @@ import Edit from './pages/Edit'
 import Add from './pages/Add'
 import Today from './pages/Today'
 import NoPages from './pages/NoPages'
+import Header from './components/Header'
 
 function App() {
   return (
 
     <div className="app-wrapper">
-      <NavBar />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<Calendar />} />
