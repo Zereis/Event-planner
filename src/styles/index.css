@@ -1,7 +1,8 @@
+/* Define default variables for light mode and shared styles */
 :root {
   --bg-color: #fafafa;
   --text-color: #333333;
-  --box-shadow-color: black;
+  --box-shadow-color: rgba(0, 0, 0, 0.2); /* Softer shadow for light mode */
   --primary: #5e3bee;
   --heading-color: #282938;
   --bg-shade: #f5fcff;
@@ -9,6 +10,10 @@
   --darkblue: #1c1e53;
   --black: #000000;
   --white: #ffffff;
+  --link-color: #646cff;
+  --link-hover-color: #535bf2;
+  --button-bg: #1a1a1a;
+  --button-border-hover: #646cff;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -19,6 +24,30 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark mode variables, applied when .dark class is present or system prefers dark */
+.dark,
+:root:has(.dark) {
+  --bg-color: #333333;
+  --text-color: #fafafa;
+  --box-shadow-color: rgba(255, 255, 255, 0.2); /* Softer shadow for dark mode */
+  --link-color: #646cff;
+  --link-hover-color: #8b9bff; /* Lighter hover for dark mode */
+  --button-bg: #f9f9f9;
+  --button-border-hover: #8b9bff;
+}
+
+/* Respect system dark mode preference by default */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #333333;
+    --text-color: #fafafa;
+    --box-shadow-color: rgba(255, 255, 255, 0.2);
+    --link-hover-color: #8b9bff;
+    --button-bg: #f9f9f9;
+    --button-border-hover: #8b9bff;
+  }
 }
 
 body {
@@ -44,31 +73,13 @@ body {
   padding-top: 7rem;
 }
 
-@media screen and (max-width: 768px) {
-  :root {
-    font-size: 14px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  :root {
-    font-size: 13px;
-  }
-}
-
-.dark {
-  --bg-color: #333333;
-  --text-color: #fafafa;
-  --box-shadow-color: white;
-}
-
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--link-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--link-hover-color);
 }
 
 h1 {
@@ -82,42 +93,24 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-bg);
+  color: var(--text-color);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--button-border-hover);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-  a:hover {
-    color: lightblue;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-  button:hover {
-    border-color: lightblue;
-  }
-}
-
+/* Responsive font sizes */
 @media screen and (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
   body {
     padding: 0;
     margin: 0;
@@ -130,5 +123,11 @@ button:focus-visible {
     height: 100vh;
     width: 100vw;
     overflow: visible;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    font-size: 13px;
   }
 }

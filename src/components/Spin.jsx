@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import activities from "../data/data";
 import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
+import EditTask from "./edittask";
+import SoundManager from "./SoundManagerSpin";  // sound manager component 
+// importing sound manager component
+import BubbleButton from '../components/BubbleButton'
 
 
 function Spin() {
@@ -14,6 +18,10 @@ function Spin() {
   const [usedActivityIds, setUsedActivityIds] = useState([]);
   const [randomFunActivity, setRandomFunActivity] = useState(null);  // prevent randomization at render time
   const [randomBucketActivity, setRandomBucketActivity] = useState(null);  // prevent randomization at render time
+
+  // sound effects
+  const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
+  const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
 
 
   const today = new Date();
@@ -98,17 +106,10 @@ function Spin() {
     (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
   );
   
-  // popup alert if no chores: no chores, choose fun or bucket
   // adjust the degree of the wheel to the number of items
-  // if no chores but both chores and fun / bucket are clicked -- remove only one functionality
   // in css: responsive design for mobile and tablet?
-  // if only one activity: add 'this is your only one thing to do today' message
-  // checkboxes below the wheel
   // add instructions for the wheel
-  // buttons instead of checkboxes // changing colors (checked, not)
-  // maybe later (pass) button above the wheel
   // click on activity -- open edit event page
-  // change font to the general one
   // add sound!!
 
   // pick a random activity from the available ones
@@ -123,6 +124,13 @@ function Spin() {
       alert("you have done everything for the day!");
       return;
     }
+
+    // sound effects
+    setPlaySpinButton(true); // play the spin button sound
+    setPlaySpinning(true); // play the spinning sound
+       // reset the sound flags after a short delay to allow them to play
+    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
+    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
 
     // Pick the activity FIRST so we can align spin to it
     const itemCount = allFiltered.length;
@@ -143,7 +151,7 @@ function Spin() {
         { transform: `rotate(${previousEndDegree}deg)` },
         { transform: `rotate(${newEndDegree}deg)` },
       ], {
-        duration: 2000,
+        duration: 2200,
         direction: "normal",
         easing: "cubic-bezier(0.440, -0.205, 0.000, 1.130)",
         fill: "forwards",
@@ -181,8 +189,10 @@ function Spin() {
     };
 
   return(
-    <div>
+    <div className="page-container">
+      <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
       <h2>spin planner</h2>
+      <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen actifity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
       <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
 
       <div>
@@ -233,8 +243,48 @@ function Spin() {
           >spin!
           </button>
         </div>
+        <BubbleButton
+        label="Later"
+        ariaLabel="Later"
+        toggle={false}
+        zoom="1"
+        defaultColor="transparent"
+        flyAway="true"
+        top="40%"
+        left="80%"
+      />
       </div>
 <div className="toggle-buttons">
+
+       <BubbleButton 
+        label="Fun"
+        ariaLabel="This bubble adds Fun Actitivites to the list"
+        toggle={true}
+        zoom="0.4"
+        toggleColor="rgba(0, 0, 255, 0.1)"
+        defaultColor="transparent"
+        onToggleChange={(state) => console.log("Toggled?", state)}
+      />
+
+      <BubbleButton
+        label="Bucket"
+        ariaLabel="This bubble adds Bucket activities to the list"
+        toggle={true}
+        zoom="1.5"
+        toggleColor="rgba(255, 0, 0, 0.1)"
+        defaultColor="transparent"
+        onToggleChange={(state) => console.log("Toggled?", state)}
+      />
+
+      <BubbleButton
+        label="Chores"
+        ariaLabel="This bubble adds Chores to the list"
+        toggle={true}
+        zoom="1"
+        toggleColor="rgba(255, 20, 147, 0.1)"
+        defaultColor="transparent"
+      />
+
   <label className={includeFun ? "toggle active" : "toggle"}>
     <input
       type="checkbox"
