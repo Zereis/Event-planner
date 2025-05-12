@@ -5,6 +5,7 @@ import Toggle from '../components/Toggle';
 import Logo from '/images/logo5.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Header() {
@@ -87,26 +88,50 @@ export default function Header() {
   return (
     <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
 
-        <NavLink to="/">
-         <img
-          src={Logo}
-          alt="Spin main page"
-          className="Sping"
-          />
-        </NavLink>
- 
-    <Toggle className="header-toggle"/>
+      <NavLink to="/">
+        <img
+        src={Logo}
+        alt="Spin main page"
+        className="Sping"
+        />
+      </NavLink>
+    <div className='header-login'>
+      <NavLink
+        to="/Login"
+        onClick={() => {
+          window.scrollTo(0, 0);
+        }}
+        className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
+      >
+        {loggedInUser ? loggedInUser : "Log In"}
+      </NavLink>
+      {loggedInUser && (
+        <button className="logout-btn" onClick={handleLogout}>
+          Log Out
+        </button>
+      )}
+      </div>
+
+      <Toggle className="header-toggle"/>
 
       <button className="hamburger" onClick={toggleMenu} aria-expanded={isMenuOpen}
         aria-label="Toggle navigation menu">
         <FontAwesomeIcon icon={faEllipsis} />
       </button>
+
     
 
 
       <nav className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
        
         <ul>
+
+          <li className=''>
+                  <button className="hamburger-close" onClick={toggleMenu} aria-expanded={isMenuOpen}
+        aria-label="Toggle navigation menu">
+        <FontAwesomeIcon icon={faX} />
+      </button>
+          </li>
     
           <li><NavLink 
           to="/"   
@@ -231,7 +256,7 @@ export default function Header() {
             </NavLink>
           </li>
 
-                              <li>
+                    <li>
             <NavLink
               to="/Login"
               onClick={() => {
