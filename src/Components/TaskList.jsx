@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function TaskList({ tasks }) {
+export default function TaskList({ tasks, onTaskDoubleClick }) {
   // Filter state: text, category, and type
   const [filterValue, setFilterValue] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -82,11 +82,13 @@ export default function TaskList({ tasks }) {
           {filteredTasks.map((task) => (
             <li
               key={task.id}
+              onDoubleClick={() => onTaskDoubleClick(task)} // Handle double-click
               style={{
                 marginBottom: "1rem",
                 padding: "1rem",
                 border: "1px solid #ccc",
                 borderRadius: "4px",
+                cursor: "pointer",
               }}
             >
               {/* Task Title */}
