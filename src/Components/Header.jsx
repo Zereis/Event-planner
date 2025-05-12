@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router'; 
+import { NavLink, useNavigate } from 'react-router'; 
 import '../styles/header.css';
 import Toggle from '../components/Toggle';
 import Logo from '/images/logo5.png';
@@ -11,6 +11,33 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const navigate = useNavigate(); 
+
+    // Fetch logged in user from sessionStorage
+  useEffect (() => {
+    const updateUser = () => {
+      const user = sessionStorage.getItem("user")
+          ? JSON.parse(sessionStorage.getItem("user")).username
+          : null;
+      setLoggedInUser(user)
+    };
+
+    updateUser();
+
+    const interval = setInterval(updateUser, 500);
+      return () => clearInterval(interval); 
+  }, []);
+
+    const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+    sessionStorage.removeItem("user");
+    setLoggedInUser(null);
+    navigate("/");
+    }
+  };
+
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -203,6 +230,25 @@ export default function Header() {
               spin!
             </NavLink>
           </li>
+
+                              <li>
+            <NavLink
+              to="/Login"
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
+            >
+              {loggedInUser ? loggedInUser : "Log In"}
+            </NavLink>
+          </li>
+          {loggedInUser && (
+          <li>
+            <button className="logout-btn" onClick={handleLogout}>
+              Log Out
+            </button>
+          </li>
+          )}
         </ul>
       </nav>
     </header>
