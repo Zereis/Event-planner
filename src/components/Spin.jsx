@@ -214,8 +214,14 @@ function Spin() {
       <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
       <h2>spin planner</h2>
       <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen activity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
-      <button className="later-button" onClick={pass} disabled={!selectedActivityId}>maybe later</button>
-
+      <BubbleButton
+      className="later-button" onClick={pass} disabled={!selectedActivityId}
+      label="later"
+      ariaLabel="Later"
+      toggle={false}
+      zoom="0.8"
+      defaultColor="transparent"
+      />
       <div>
         
         <div className="wheel-container">
@@ -266,75 +272,43 @@ function Spin() {
           >spin!
           </button>
         </div>
-        <BubbleButton
-        label="Later"
-        ariaLabel="Later"
-        toggle={false}
-        zoom="1"
-        defaultColor="transparent"
-        flyAway="true"
-        top="40%"
-        left="80%"
-      />
+
       </div>
-<div className="toggle-buttons">
-
-       <BubbleButton 
-        label="Fun"
-        ariaLabel="This bubble adds Fun Actitivites to the list"
-        toggle={true}
-        zoom="0.4"
-        toggleColor="rgba(0, 0, 255, 0.1)"
-        defaultColor="transparent"
-        onToggleChange={(state) => console.log("Toggled?", state)}
-      />
-
-      <BubbleButton
-        label="Bucket"
+      <div className="toggle-buttons">
+        <BubbleButton 
+          label="fun"
+          className={includeFun ? "toggle active" : "toggle"}
+          ariaLabel="This bubble adds Fun Activities to the list"
+          toggle={true}
+          zoom="0.8"
+          toggleColor="rgba(0, 0, 255, 0.1)"
+          defaultColor="transparent"
+          onToggleChange={(state) => setIncludeFun(state)} // This is key
+          checked={includeFun}
+        />
+        <BubbleButton
+        label="bucket"
+        className={includeBucket ? "toggle active" : "toggle"}
         ariaLabel="This bubble adds Bucket activities to the list"
         toggle={true}
-        zoom="1.5"
+        zoom="0.8"
         toggleColor="rgba(255, 0, 0, 0.1)"
         defaultColor="transparent"
-        onToggleChange={(state) => console.log("Toggled?", state)}
-      />
-
-      <BubbleButton
-        label="Chores"
+        onToggleChange={(state) => setIncludeBucket(state)}
+        checked={includeBucket}
+        />
+        <BubbleButton
+        label="chores"
+        className={includeChores ? "toggle active" : "toggle"}
         ariaLabel="This bubble adds Chores to the list"
         toggle={true}
-        zoom="1"
+        zoom="0.8"
         toggleColor="rgba(255, 20, 147, 0.1)"
         defaultColor="transparent"
-      />
-
-  <label className={includeFun ? "toggle active" : "toggle"}>
-    <input
-      type="checkbox"
-      checked={includeFun}
-      onChange={() => setIncludeFun(!includeFun)}
-    />
-    fun
-  </label>
-
-  <label className={includeBucket ? "toggle active" : "toggle"}>
-    <input
-      type="checkbox"
-      checked={includeBucket}
-      onChange={() => setIncludeBucket(!includeBucket)}
-    />
-    bucket
-  </label>
-
-  <label className={includeChores ? "toggle active" : "toggle"}>
-    <input
-      type="checkbox"
-      checked={includeChores}
-      onChange={() => setIncludeChores(!includeChores)}
-    />
-    chores
-  </label>
-</div>
+        onToggleChange={(state) => setIncludeChores(state)}
+        checked={includeChores}
+        />
+      </div>
 
     </div>
   );

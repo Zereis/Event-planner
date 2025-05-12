@@ -147,34 +147,6 @@ label {
   margin-bottom: 3rem;;
 }
 
-.toggle {
-  padding: 0.2rem 1rem;
-  border: 2px solid #ccc;
-  border-radius: 9999px;
-  width: 110px;
-  text-align: center;
-  cursor: pointer;
-  font-family: 'Fredoka', sans-serif;
-  background-color: rgb(190, 122, 134);
-  color: rgb(212, 179, 95);
-  border: dotted 3px rgb(226, 169, 24);
-  font-weight: 700;
-  transition: all 0.2s ease;
-  user-select: none;
-  display: inline-block;
-  position: relative;
-}
-
 .toggle input[type="checkbox"] {
   display: none;
-}
-
-.toggle.active {
-  background-color: rgb(204, 82, 103);  /* or another highlight color */
-  color: rgb(226, 169, 24);
-  box-shadow: 2px 2px 2px 5px rgba(218, 165, 32, 0.548);
-}
-
-.toggle:hover{
-  box-shadow: 2px 2px 2px 5px rgba(67, 206, 183, 0.438);  
 }
