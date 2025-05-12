@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddTask from "./AddTask";
+import AddTask from "./addtask";
 import RepeatPrompt from "./RepeatPrompt";
 
 export default function ToggleableAddTask({ onAdd }) {

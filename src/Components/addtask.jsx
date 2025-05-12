@@ -1,40 +1,28 @@
 import { useState } from "react";
 import FormActionsDropdown from "./FormActionsDropdown";
+import { useNavigate } from "react-router"; // For navigation back to the calendar
 
-function AddTask({ onTempSubmit }) {
+function AddTask({ onTempSubmit, initialDateTime }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dateTime, setDateTime] = useState("");
+  const [dateTime, setDateTime] = useState(initialDateTime || ""); // Use initialDateTime if provided
   const [deadline, setDeadline] = useState("");
   const [category, setCategory] = useState("Chore");
   const [type, setType] = useState("Daily");
   const [noDeadline, setNoDeadline] = useState(false);
   const [lastTask, setLastTask] = useState(null);
+  const navigate = useNavigate(); // For navigation
 
   const generateId = () => Date.now().toString();
 
   const clearForm = () => {
     setTitle("");
     setDescription("");
-    setDateTime("");
+    setDateTime(initialDateTime || ""); // Reset to initialDateTime
     setDeadline("");
     setNoDeadline(false);
     setCategory("Chore");
     setType("Daily");
-  };
-
-  const reuseLastTask = () => {
-    if (lastTask) {
-      setTitle(lastTask.title);
-      setDescription(lastTask.description);
-      setDateTime(lastTask.dateTime);
-      setDeadline(lastTask.deadline === "No deadline" ? "" : lastTask.deadline);
-      setNoDeadline(lastTask.deadline === "No deadline");
-      setCategory(lastTask.category);
-      setType(lastTask.type);
-    } else {
-      alert("No previous task to reuse.");
-    }
   };
 
   const handleSubmit = (e) => {
@@ -53,6 +41,11 @@ function AddTask({ onTempSubmit }) {
     // Pass the task data up to the parent component
     onTempSubmit(task);
     setLastTask(task);
+
+    // Show success message
+    alert("Task added successfully!");
+
+    // Clear the form
     clearForm();
   };
 
@@ -121,8 +114,23 @@ function AddTask({ onTempSubmit }) {
       </label>
       <br />
 
-      <button type="submit">➕ Add Task</button>{" "}
-      <FormActionsDropdown onClear={clearForm} onReuse={reuseLastTask} />
+      <button type="submit">➕ Add Task</button>
+      <br />
+      <button
+        type="button"
+        onClick={() => navigate("/")} // Navigate to the home page
+        style={{
+          marginTop: "10px",
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Return to Home
+      </button>
     </form>
   );
 }

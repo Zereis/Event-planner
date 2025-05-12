@@ -130,6 +130,7 @@ const NavBubble = ({
         <span></span>
         <span></span>
         <span></span>
+        <span></span>
       </motion.div>
 
       <audio ref={popSoundRef} src={bubblePopSound} />

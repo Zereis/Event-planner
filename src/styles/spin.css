@@ -6,12 +6,16 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #fff3cd;
     padding-left: 40px;
     padding-right: 40px;
-    padding-top: 40px;
+    padding-top: 6rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
+    width: 90%;
+    background-color: var(--bg-color);
+    box-shadow: 0 0 4px;
+    border-radius: 12px;
+    animation: slideFadeIn 1.2s ease-in-out forwards;
 }
 
 h2{

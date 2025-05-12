@@ -1,4 +1,6 @@
+// filepath: c:\Users\David\Desktop\Event-planner\src\App.jsx
 import { Routes, Route } from 'react-router';
+import { TaskProvider } from './Components/TaskContext'; // Import TaskProvider
 import Home from './pages/Home';
 import './styles/app.css'
 import NavBar from './components/NavBar'
@@ -8,12 +10,13 @@ import Edit from './pages/Edit'
 import Add from './pages/Add'
 import Today from './pages/Today'
 import NoPages from './pages/NoPages'
+import Header from './components/Header'
 
 function App() {
-  return (
-
+  return (   
+    <TaskProvider> {/* Wrap the entire app with TaskProvider */}
     <div className="app-wrapper">
-      <NavBar />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<Calendar />} />
@@ -24,6 +27,7 @@ function App() {
         <Route path="*" element={<NoPages />} />
       </Routes>
     </div>
+    </TaskProvider>
   );
 }
 

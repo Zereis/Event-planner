@@ -5,6 +5,7 @@ import "../styles/spin.css";
 import EditTask from "./edittask";
 import SoundManager from "./SoundManagerSpin";  // sound manager component 
 // importing sound manager component
+import BubbleButton from '../components/BubbleButton'
 
 
 function Spin() {
@@ -224,8 +225,48 @@ function Spin() {
           >spin!
           </button>
         </div>
+        <BubbleButton
+        label="Later"
+        ariaLabel="Later"
+        toggle={false}
+        zoom="1"
+        defaultColor="transparent"
+        flyAway="true"
+        top="40%"
+        left="80%"
+      />
       </div>
 <div className="toggle-buttons">
+
+       <BubbleButton 
+        label="Fun"
+        ariaLabel="This bubble adds Fun Actitivites to the list"
+        toggle={true}
+        zoom="0.4"
+        toggleColor="rgba(0, 0, 255, 0.1)"
+        defaultColor="transparent"
+        onToggleChange={(state) => console.log("Toggled?", state)}
+      />
+
+      <BubbleButton
+        label="Bucket"
+        ariaLabel="This bubble adds Bucket activities to the list"
+        toggle={true}
+        zoom="1.5"
+        toggleColor="rgba(255, 0, 0, 0.1)"
+        defaultColor="transparent"
+        onToggleChange={(state) => console.log("Toggled?", state)}
+      />
+
+      <BubbleButton
+        label="Chores"
+        ariaLabel="This bubble adds Chores to the list"
+        toggle={true}
+        zoom="1"
+        toggleColor="rgba(255, 20, 147, 0.1)"
+        defaultColor="transparent"
+      />
+
   <label className={includeFun ? "toggle active" : "toggle"}>
     <input
       type="checkbox"
