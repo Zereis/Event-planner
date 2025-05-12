@@ -85,7 +85,7 @@ h4 {
   text-align: center;
   font-size: 6cqi;
   font-family: 'Fredoka', sans-serif;
-  background: var(--wedge-color, #ccc);
+  background: var(--wedge-color);
 }
 
 .pointer {

@@ -1,13 +1,12 @@
 import { useState, useMemo, useContext, useRef } from "react";
-import { parseISO, isSameDay, isAfter, isBefore, endOfWeek, startOfDay } from "date-fns";
+import { parseISO, isSameDay, isWithinInterval, endOfWeek, startOfDay } from "date-fns";
 import "../styles/spin.css";
-import EditTask from "../components/EditTask";
 import SoundManager from "./SoundManagerSpin";  // sound manager component 
 // importing sound manager component
-import BubbleButton from '../components/BubbleButton'
+import BubbleButton from './BubbleButton'
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
-import { TaskContext } from "../components/TaskContext"; // Import TaskContext
-import { bulkDelete } from "../Components/TaskHandlers"; // Import handlers
+import { TaskContext } from "./TaskContext"; // Import TaskContext
+import { bulkDelete } from "./TaskHandlers"; // Import handlers
 
 
 function Spin() {
@@ -56,9 +55,7 @@ function Spin() {
   ? tasks.filter((task) => 
     task.category.toLowerCase() === "chores" &&
     task.deadline &&
-    !isSameDay(today, weekEnd) && // if it's sunday, exclude it
-    isAfter(parseISO(task.deadline), todayStart) &&
-    isBefore(parseISO(task.deadline), weekEnd)
+    isWithinInterval(parseISO(task.deadline), { start: todayStart, end: weekEnd })
   )
   : [];
 
@@ -91,17 +88,28 @@ function Spin() {
     })();
 
   // combine the two filtered arrays
-  const allFiltered = [...todaysActivities, ...optionalActivities].filter(
-    (item, index, self) => self.findIndex(a => a.id === item.id) === index
-  );
+  const allFiltered = useMemo(() => {
+    return [...todaysActivities, ...optionalActivities].filter(
+      (item, index, self) => self.findIndex(a => a.id === item.id) === index
+    );
+  }, [todaysActivities, optionalActivities]);
 
   // exclude previously picked activities
-  const availableForSpin = allFiltered.filter(
+const availableForSpin = useMemo(() => {
+  return allFiltered.filter(
     (act) => !usedActivityIds.includes(act.id) && act.id !== selectedActivityId
   );
+}, [allFiltered, usedActivityIds, selectedActivityId]);
 
   // pick a random activity from the available ones
   const handleSpin = () => {
+
+    // sound effects
+    setPlaySpinButton(true); // play the spin button sound
+    setPlaySpinning(true); // play the spinning sound
+    // reset the sound flags after a short delay to allow them to play
+    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
+    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
 
     if (selectedActivityId !== null) {
       setUsedActivityIds((prev) => [...prev, selectedActivityId]);
@@ -112,21 +120,11 @@ function Spin() {
       alert("you have done everything for the day!");
       return;
     }
-
-    // sound effects
-    setPlaySpinButton(true); // play the spin button sound
-    setPlaySpinning(true); // play the spinning sound
-       // reset the sound flags after a short delay to allow them to play
-    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
-    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
-
-    // Pick the activity FIRST so we can align spin to it
-    const itemCount = allFiltered.length;
-    const degreePerItem = 360 / itemCount;
-
+    
     const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
 
     const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
+    const degreePerItem = 360 / allFiltered.length;
 
     // rotate to that wedge -- in the center of the slice
     const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
@@ -193,12 +191,12 @@ function Spin() {
   const isSingleItem = allFiltered.length === 1;
 
   const categoryColors = {
-    chores: "#f8d7da",      // soft red
-    sport: "#d1ecf1",       // light blue
-    music: "#e2e3f3",       // lavender
-    social: "#d4edda",      // mint green
-    visual: "#fff3cd",      // soft yellow
-    adventure: "#fde2e4",   // pinkish
+    chores: "#cbccc6",      // soft grey
+    sport: "#baf2bf",       // light green
+    music: "#c5c8f2",       // lavender
+    social: "#ffd59e",      // orange-ish
+    visual: "#ffedb4",      // soft yellow
+    adventure: "#9efaff",   // turquoise
     };
 
   return(
@@ -235,9 +233,14 @@ function Spin() {
               </li>
             ) : (
               allFiltered.map((act, idx) => {
+                // debug display
+                console.log("Rendering wedge:", act.title);
+                console.log("Filtered:", allFiltered.map(a => a.title));
+                console.log("Available:", availableForSpin.map(a => a.title));
+                console.log("bucket:", includeBucket, "fun:", includeFun, "chores:", includeChores)
                 const isSelected = act.id === selectedActivityId;
                 const isUsed = usedActivityIds.includes(act.id);
-                const bgColor = categoryColors[act.category.toLowerCase()];
+                const bgColor = categoryColors[act.category.toLowerCase()] || "#ccc";
                 return (
                   <li
                     className="wedge"
@@ -246,8 +249,9 @@ function Spin() {
                     style={{
                       "--_idx": idx + 1,
                       "--_items": allFiltered.length,
-                      background: isUsed ? "rgb(241, 162, 178)" : bgColor,
+                      background: isUsed ? "#ccc" : bgColor,
                       fontWeight: isSelected ? "bold" : "normal",
+                      color: "black",
                     }}
                   >
                     {act.title.toLowerCase()}
