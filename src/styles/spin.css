@@ -63,7 +63,6 @@ h4 {
   /* each wedge spans its fraction of 360°, then shift -90° */
   --angle: calc((360deg / var(--_items)) * (var(--_idx) - 1) + (360deg / var(--_items)) / 2 - 90deg);
   transform: rotate(var(--angle));
-  rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
   width: 50cqi;
   height: calc((3.1416 * 100cqi) / var(--_items));
   clip-path: polygon(0% 100%, 100% 50%, 0% 0%);
@@ -71,6 +70,7 @@ h4 {
   justify-content: center;
   font-family: 'Fredoka', sans-serif;
   color: black;
+  z-index: 1;
 }
 
 .full-wedge {
