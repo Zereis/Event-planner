@@ -249,9 +249,8 @@ const availableForSpin = useMemo(() => {
                     style={{
                       "--_idx": idx + 1,
                       "--_items": allFiltered.length,
-                      background: isUsed ? "#ccc" : bgColor,
+                      background: isUsed ? "#72736e6b" : bgColor,
                       fontWeight: isSelected ? "bold" : "normal",
-                      color: "black",
                     }}
                   >
                     {act.title.toLowerCase()}
