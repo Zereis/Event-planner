@@ -53,34 +53,11 @@
     right: 3rem;
   }
 
-  /* Responsive styles for the header */
-
-.hamburger {
-  font-size: 28px;
-  color: #333333;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  padding: 0px 10px;
-  right: 1rem;
-  top: 2rem;
-  z-index: 1000; /* Ensure the hamburger is above other elements */
-}
-
-.hamburger-close {
-  display: block;
-  background: none;
-  justify-self: right;
-}
-
 
 .header.visible {
   transform: translateY(0);
   animation: fadeInHeader 1s ease-in-out forwards;
 }
-
 @keyframes fadeInHeader {
   from {
     transform: translateY(-100%);
@@ -93,7 +70,6 @@
 
   }
 }
-
 .header.hidden {
   transform: translateY(-100%);
   animation: fadeOutHeader 1s ease-in-out forwards;
@@ -117,20 +93,15 @@
     height: 3rem;   
   } 
 }
-
-
-
   .nav-desktop ul {
     display: flex;
     gap: 20px;
     list-style: none;
-  }
-  
+  } 
   nav{
     display: flex;
     justify-content: right;
   }
-  
   .headerbtn {
     text-decoration: none;
     font-size: 1.0em;
@@ -150,24 +121,41 @@
     margin-left: 1rem;
     font-size: 1.5rem;
   }
+  .nav.menubutton:active {
+    text-decoration: underline;
+  }
 
+  /* Responsive styles for the header */
+.hamburger {
+  font-size: 28px;
+  color: var(--bg-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  padding: 0px 10px;
+  right: 1rem;
+  top: 2rem;
+  z-index: 1000; /* Ensure the hamburger is above other elements */
+}
   /* Nav menu for mobile */
 .nav-menu {
   display: none;
 }
 
-
 .nav-menu ul {
+  display: flex;
   list-style: none;
   padding: 10px;
   background: var(--bg-color);
   position: absolute;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   flex-direction: column;
-  gap: 10px;
+  gap: 0rem;
   border: solid 1px var(--text-color);
   z-index: 1000;
-  top: 0rem;
+  top: 3rem;
   right: 3rem;
 }
 
@@ -175,14 +163,49 @@
   display: flex;
 }
 
+/* Hamburger exit button and location */
+.hamburger-close {
+  display: block;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.hamburger-close:hover{
+  color: darkred;
+  animation: pulse 0.5s infinite;
+}
+@media (max-width: 868px) {
+  .hamburger {
+    display: block;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+  .nav-desktop {
+    display: none;
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.right-align{
+  margin-left: auto;
+}
+
+/* Hamburger Menu Buttons/Links */
 .nav-menu ul li a {
   text-decoration: none;
-  font-size: 3rem;
+  font-size: 2rem;
   color: var(--text-color);
-  padding: 10px 20px;
-}
-.nav.menubutton:active {
-  text-decoration: underline;
+  padding: 0rem 1rem;
 }
 
 .burgerbtn.active {
@@ -205,7 +228,6 @@
 
 
 }
-
 
 /* keyframes for smooth fade */
 @keyframes fadeIn {

@@ -130,4 +130,5 @@ h1 {
 .button:hover {
   background-color: lightblue;
   border-color: var(--button-border-hover);
+  box-shadow: 0 4px 8px 0 var(--text-color), 0 8px 8px 0 rgba(0,0,0,0.19);
 }

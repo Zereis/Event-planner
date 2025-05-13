@@ -127,11 +127,11 @@ export default function Header() {
        
         <ul>
 
-          <li className=''>
-                  <button className="hamburger-close" onClick={toggleMenu} aria-expanded={isMenuOpen}
-        aria-label="Toggle navigation menu">
-        <FontAwesomeIcon icon={faX} />
-      </button>
+          <li className="right-align">
+            <button className="hamburger-close" onClick={toggleMenu} aria-expanded={isMenuOpen}
+              aria-label="Toggle navigation menu">
+            <FontAwesomeIcon icon={faX} />
+            </button>
           </li>
     
           <li><NavLink 
