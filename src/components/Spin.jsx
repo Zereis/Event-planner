@@ -340,15 +340,17 @@ return (
         </div>
       </div>
       <div>
+        <div className="spin-button">
           <BubbleButton
           label="spin!"
-          className="spin-button"
           onClick={handleSpinClick}
           toggle={false}
-          zoom="0.46"
+          zoom="0.48"
           defaultColor="transparent"
-          hidden={allFiltered.length === 0}
+          hidden={allFiltered.length <= 1}
+          disabled={allFiltered.length <= 1}
         />
+        </div>
       </div>
       <div className="toggle-buttons">
         <BubbleButton
