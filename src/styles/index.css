@@ -131,3 +131,19 @@ button:focus-visible {
     font-size: 13px;
   }
 }
+
+.button {
+  background-color: aliceblue;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: lightblue;
+}

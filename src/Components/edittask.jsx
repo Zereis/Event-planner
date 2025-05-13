@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
+import '../styles/index.css';
 
 export default function EditTask({ tasks, taskId, onEdit }) {
   const [searchValue, setSearchValue] = useState(""); // Search field value
@@ -75,8 +76,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <button onClick={() => handleSearch()}>Search</button>
-      <button onClick={handleClearSearch}>Clear Search</button>
+      <button className="button" onClick={() => handleSearch()}>Search</button>
+      <button className="button" onClick={handleClearSearch}>Clear Search</button>
 
       {matches.length > 1 && (
         <div>
@@ -166,22 +167,13 @@ export default function EditTask({ tasks, taskId, onEdit }) {
             </select>
           </label>
           <br />
-          <button type="submit">Save</button>
+          <button className="button" type="submit">Save</button>
         </form>
       )}
       <br />
-      <button
+      <button className="button"
         type="button"
         onClick={() => navigate("/")} // Navigate to the home page
-        style={{
-          marginTop: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#007BFF",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
       >
         Return to Home
       </button>

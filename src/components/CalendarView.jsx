@@ -9,6 +9,7 @@ import "../styles/calendar.css"; // Import the CSS file for styling
 import { TaskContext } from "../Components/TaskContext"; // Import TaskContext
 import { bulkDelete, downloadTasksAsJSON, importTasksFromJSON } from "../Components/TaskHandlers"; // Import handlers
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
+import "../styles/index.css"; // Import global styles
 
 export default function CalendarView() {
   const { tasks, updateTasks } = useContext(TaskContext); // Access tasks from TaskContext
@@ -103,17 +104,8 @@ export default function CalendarView() {
 
       {/* Toggle Button */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <button
+        <button className="button"
           onClick={() => setShowTaskList((prev) => !prev)}
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            cursor: "pointer",
-            backgroundColor: "#007BFF",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-          }}
         >
           {showTaskList ? "Show Calendar" : "Show Task List"}
         </button>

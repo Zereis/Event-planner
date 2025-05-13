@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormActionsDropdown from "./FormActionsDropdown";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
+import '../styles/index.css';
 
 function AddTask({ onTempSubmit, initialDateTime }) {
   const [title, setTitle] = useState("");
@@ -114,20 +115,10 @@ function AddTask({ onTempSubmit, initialDateTime }) {
       </label>
       <br />
 
-      <button type="submit">➕ Add Task</button>
+      <button className="button" type="submit">➕ Add Task</button>
       <br />
-      <button
-        type="button"
+      <button className="button"
         onClick={() => navigate("/")} // Navigate to the home page
-        style={{
-          marginTop: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#007BFF",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
       >
         Return to Home
       </button>
