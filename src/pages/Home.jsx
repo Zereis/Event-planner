@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/home.css';
 import NavBubble from '../components/NavBubble';
+import BackgroundBubbles from '../components/BackgroundBubbles';
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -69,8 +70,14 @@ const Home = () => {
   ];
 
   return (
-    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}> 
-      <div className="bubble-wrapper" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+<div
+      className={`home-container ${isLoaded ? 'loaded' : ''}`}
+      style={{ position: 'relative', width: '100%', height: '100vh' }}
+    >
+      <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, pointerEvents: 'none' }}>
+        <BackgroundBubbles />
+      </div>
+      <div className="bubble-wrapper" style={{ position: 'absolute', top: '0rem', width: '100%', height: '100vh', zIndex: 500 }}>
       <div className="bubble-container">
         {bubbles.map((bubble, index) => (
           <NavBubble
