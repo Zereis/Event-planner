@@ -12,7 +12,7 @@
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
     width: 90%;
-    background-color: var(--bg-color);
+    background-color: lightgoldenrodyellow;
     box-shadow: 0 0 4px;
     border-radius: 12px;
     animation: slideFadeIn 1.2s ease-in-out forwards;
@@ -87,7 +87,7 @@ h4 {
 }
 
 .spin-button{
-  margin-top: -17.8rem;
+  margin-top: -18.3rem;
 }
 
 .toggle-buttons {

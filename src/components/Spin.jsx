@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext, useRef, React } from "react";
+import { useState, useMemo, useContext, React } from "react";
 import { parseISO, isSameDay, isWithinInterval, endOfWeek, startOfDay } from "date-fns";
 import { Wheel } from 'react-custom-roulette'
 import "../styles/spin.css";
@@ -11,8 +11,6 @@ import { bulkDelete } from "./TaskHandlers"; // Import handlers
 
 
 function Spin() {
-  const wheelRef = useRef(null);  // for wheel rotation
-  const [previousEndDegree, setPreviousEndDegree] = useState(0);  // for wheel rotation
   const [includeFun, setIncludeFun] = useState(false);  // for fun act inclusion
   const [includeBucket, setIncludeBucket] = useState(false);  // for bucket inclusion
   const [includeChores, setIncludeChores] = useState(false);  // for chore inclusion
@@ -104,58 +102,6 @@ const availableForSpin = useMemo(() => {
   );
 }, [allFiltered, usedActivityIds, selectedActivityId]);
 
-  // pick a random activity from the available ones
-  const handleSpin = () => {
-
-    // sound effects
-    setPlaySpinButton(true); // play the spin button sound
-    setPlaySpinning(true); // play the spinning sound
-    // reset the sound flags after a short delay to allow them to play
-    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
-    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
-
-    if (selectedActivityId !== null) {
-      setUsedActivityIds((prev) => [...prev, selectedActivityId]);
-    }
-
-    if (availableForSpin.length === 0) {
-      setSelectedActivityId(null);  // nothing left to select
-      alert("you have done everything for the day!");
-      return;
-    }
-    
-    const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
-
-    const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
-    const degreePerItem = 360 / allFiltered.length;
-
-    // rotate to that wedge -- in the center of the slice
-    const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
-
-    const spins = 3; // full spins before stopping
-    const offset = (360 - selectedDegree) % 360; // how much to rotate to bring that slice to top
-    const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
-
-    // animate
-    if (wheelRef.current) {
-      wheelRef.current.animate([
-        { transform: `rotate(${previousEndDegree}deg)` },
-        { transform: `rotate(${newEndDegree}deg)` },
-      ], {
-        duration: 2200,
-        direction: "normal",
-        easing: "cubic-bezier(0.440, -0.205, 0.000, 1.130)",
-        fill: "forwards",
-        iterations: 1,
-      });
-      setPreviousEndDegree(newEndDegree);  // save the end degree for next spin
-    }
-    // set after delay to simulate result after spin
-    setTimeout(() => {
-      setSelectedActivityId(selectedActivity.id);  // select the activity after spin
-    }, 2000);  // same as animation duration
-  };
-
   // ADD PASS to do the same activity
   const passActivityId = (id) => {
     setUsedActivityIds((prev) => prev.filter((usedId) => usedId !== id));
@@ -191,8 +137,10 @@ const availableForSpin = useMemo(() => {
   }
 };
 
+// setup for special display for only one thing to do
 const isSingleItem = allFiltered.length === 1;
 
+// category colors for dynamic wheel wedge coloring
 const categoryColors = {
   chores: "#f2d9d7",      // soft grey-pink
   sport: "#baf2bf",       // light green
@@ -202,6 +150,7 @@ const categoryColors = {
   adventure: "#9efaff",   // turquoise
   };
 
+// custom roulette required array
 const data = Array.isArray(allFiltered)
   ? allFiltered.map((act) => {
       if (!act || !act.title || !act.category) {
@@ -221,7 +170,7 @@ const data = Array.isArray(allFiltered)
     })
   : [];
 
-
+  // actual wheel spinning
   const handleSpinClick = () => {
     // sound effects
     setPlaySpinButton(true); // play the spin button sound
@@ -280,7 +229,11 @@ return (
         <div className="wheel-of-fortune">
           {allFiltered.length === 0 && (
             <div className="wheel-of-fortune empty">
-              <div className="placeholder-text">add activities to spin</div>
+              <div className="placeholder-text"
+              style={{
+                fontWeight: "bold",
+              }}
+              >add activities to spin</div>
             </div>
           )}
         {isSingleItem ? (
@@ -308,8 +261,8 @@ return (
                 data={data}
                 outerBorderColor="pink"
                 outerBorderWidth={3}
-                radiusLineColor="lightyellow"
-                radiusLineWidth={1}
+                radiusLineColor="lightgrey"
+                radiusLineWidth={0.5}
                 textDistance={57}
                 fontFamily="Fredoka"
                 fontSize={15}
@@ -340,17 +293,17 @@ return (
         </div>
       </div>
       <div>
+      {allFiltered.length > 1 && (
         <div className="spin-button">
           <BubbleButton
-          label="spin!"
-          onClick={handleSpinClick}
-          toggle={false}
-          zoom="0.48"
-          defaultColor="transparent"
-          hidden={allFiltered.length <= 1}
-          disabled={allFiltered.length <= 1}
-        />
+            label="spin!"
+            onClick={handleSpinClick}
+            toggle={false}
+            zoom="0.6"
+            defaultColor="pink"
+          />
         </div>
+      )}
       </div>
       <div className="toggle-buttons">
         <BubbleButton
