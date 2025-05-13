@@ -132,3 +132,15 @@ h1 {
   border-color: var(--button-border-hover);
   box-shadow: 0 4px 8px 0 var(--text-color), 0 8px 8px 0 rgba(0,0,0,0.19);
 }
+
+/* Animations that are generic and can be used in multiple places */
+@keyframes slideFadeIn {
+  from {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
