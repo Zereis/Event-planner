@@ -1,44 +1,7 @@
-/*
-// src/pages/Home.jsx
-import React, { useContext } from "react";
-import TaskList from "../Components/TaskList";
-import GlobalActionsDropdown from "../Components/GlobalActionsDropdown";
-import TimeAndWeather from "../Components/TimeAndWeather";
-import Navigation from "../Components/Navigation";
-import { TaskContext } from "../Components/TaskContext";
-import {
-  clearAllTasks,
-  bulkDelete,
-  downloadTasksAsJSON,
-  importTasksFromJSON,
-} from "../Components/TaskHandlers";
-
-const Home = () => {
-  const { tasks, updateTasks } = useContext(TaskContext);
-
-  return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>🗓️ Event Planner</h1>
-      
-      <TimeAndWeather />
-
-      <Navigation />
-
-      <GlobalActionsDropdown
-        onClearAll={() => updateTasks(clearAllTasks())}
-        onBulkDelete={() => {
-          const updated = bulkDelete(tasks);
-          updateTasks(updated);
-        }}
-        onExport={() => downloadTasksAsJSON(tasks)}
-        onImport={(e) => importTasksFromJSON(e, updateTasks)}
-      />
-
-      <TaskList tasks={tasks} />
-*/
 import { useEffect, useState } from 'react';
 import '../styles/home.css';
 import NavBubble from '../components/NavBubble';
+import BackgroundBubbles from '../components/BackgroundBubbles';
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -54,7 +17,8 @@ const Home = () => {
       color: 'rgba(20, 20, 20, 0.2)',
       navRoute: '/calendar',
       position: { x: -180, y: 0 },
-      size: 250,
+      scale: 1.8,
+      textScale: 3,
       clickable: true,
       origin: { x: 0, y: -200 },
       appearDuration: 0.8,
@@ -64,7 +28,8 @@ const Home = () => {
       color: 'rgba(221, 21, 21, 0.2)',
       navRoute: '/add',
       position: { x: -150, y: 180 },
-      size: 200,
+      scale: 1.2,
+      textScale: 3,
       clickable: true,
       origin: { x: 0, y: -200 },
       appearDuration: 1.0,
@@ -74,7 +39,8 @@ const Home = () => {
       color: 'rgba(82, 124, 216, 0.2)',
       navRoute: '/edit',
       position: { x: 0, y: 45 },
-      size: 180,
+      scale: 1,
+      textScale: 3,
       clickable: true,
       origin: { x: 0, y: -200 },
       appearDuration: 0.7,
@@ -84,7 +50,8 @@ const Home = () => {
       color: 'rgba(46, 226, 10, 0.2)',
       navRoute: '/today',
       position: { x: 0, y: 180 },
-      size: 160,
+      scale: 0.8,
+      textScale: 5,
       clickable: true,
       origin: { x: 0, y: -200 },
       appearDuration: 1.1,
@@ -94,7 +61,8 @@ const Home = () => {
       color: 'rgba(243, 247, 8, 0.2)',
       navRoute: '/spin',
       position: { x: -20, y: 300 },
-      size: 120,
+      scale: 0.5,
+      textScale: 5,
       clickable: true,
       origin: { x: -0, y: -210 },
       appearDuration: 0.9,
@@ -102,8 +70,14 @@ const Home = () => {
   ];
 
   return (
-    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}> 
-      <div className="bubble-wrapper" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+<div
+      className={`home-container ${isLoaded ? 'loaded' : ''}`}
+      style={{ position: 'relative', width: '100%', height: '100vh' }}
+    >
+      <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1, pointerEvents: 'none' }}>
+        <BackgroundBubbles />
+      </div>
+      <div className="bubble-wrapper" style={{ position: 'absolute', top: '0rem', width: '100%', height: '100vh', zIndex: 500 }}>
       <div className="bubble-container">
         {bubbles.map((bubble, index) => (
           <NavBubble
@@ -114,6 +88,8 @@ const Home = () => {
             navRoute={bubble.navRoute}
             position={bubble.position}
             size={bubble.size}
+            scale={bubble.scale}
+            textScale={bubble.textScale} 
             zIndex={index + 1}
             clickable={bubble.clickable}
             origin={bubble.origin}

@@ -86,25 +86,6 @@ h1 {
   color: var(--text-color);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--button-bg);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: border-color 0.25s, background-color 0.25s;
-}
-button:hover {
-  border-color: var(--button-border-hover);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 /* Responsive font sizes */
 @media screen and (max-width: 768px) {
@@ -130,4 +111,24 @@ button:focus-visible {
   :root {
     font-size: 13px;
   }
+}
+
+.button {
+  background-color: aliceblue;
+  border: 1px solid var(--text-color);
+  color: #333333;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+.button:hover {
+  background-color: lightblue;
+  border-color: var(--button-border-hover);
+  box-shadow: 0 4px 8px 0 var(--text-color), 0 8px 8px 0 rgba(0,0,0,0.19);
 }
