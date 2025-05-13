@@ -5,10 +5,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
     margin-bottom: 2rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
+    padding: 0.5rem;
+    text-align: center;
     width: 90%;
     box-shadow: 0 0 4px;
     border-radius: 12px;
@@ -17,6 +18,7 @@
 
 h4 {
   text-align: center;
+  padding: 0.5rem;
 }
 
 .wheel-container {
@@ -88,7 +90,9 @@ h4 {
 }
 
 .spin-button{
-  margin-top: -18.3rem;
+  position: absolute;
+  margin-top: -18rem;
+  margin-left: -1.5rem;
 }
 
 .toggle-buttons {

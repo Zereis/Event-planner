@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
 import '../styles/index.css';
+import '../styles/addedit-task.css'; // Import your CSS file
 
 export default function EditTask({ tasks, taskId, onEdit }) {
   const [searchValue, setSearchValue] = useState(""); // Search field value
@@ -101,7 +102,7 @@ export default function EditTask({ tasks, taskId, onEdit }) {
           </label>
           <br />
           <label>
-            Title:
+            <h5>Title:</h5>
             <input
               name="title"
               value={editFields.title || ""}
@@ -111,8 +112,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
           </label>
           <br />
           <label>
-            Description:
-            <textarea
+            <h5>Description:</h5>
+            <textarea className="textarea"
               name="description"
               value={editFields.description || ""}
               onChange={handleChange}

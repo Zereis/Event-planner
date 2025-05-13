@@ -92,7 +92,7 @@ const Home = () => {
 >
         <BackgroundBubbles />
       </div>
-      <div className="bubble-wrapper" style={{ position: 'absolute', top: '0rem', width: '100%', height: '100vh', zIndex: 500 }}>
+      <div className="bubble-wrapper">
       <div className="bubble-container">
         {bubbles.map((bubble, index) => (
           <NavBubble

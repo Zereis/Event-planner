@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router';
 import '../styles/header.css';
 import Toggle from '../components/Toggle';
 import Logo from '/images/logo5.png';
+import TitleName from '/images/logoname1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
@@ -90,10 +91,15 @@ export default function Header() {
     <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
 
       <NavLink to="/">
-        <img
+        <img 
         src={Logo}
         alt="Spin main page"
-        className="Sping"
+        className="SpinLogo"
+        />
+        <img 
+        src={TitleName}
+        alt="Spin main page"
+        className="TitleName"
         />
       </NavLink>
     <div className='header-login'>

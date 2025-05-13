@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormActionsDropdown from "./FormActionsDropdown";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
 import '../styles/index.css';
+import '../styles/addedit-task.css'; // Import your CSS file
 
 function AddTask({ onTempSubmit, initialDateTime }) {
   const [title, setTitle] = useState("");
@@ -53,7 +54,7 @@ function AddTask({ onTempSubmit, initialDateTime }) {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Add Task</h2>
-      <input
+      <input className="input"
         type="text"
         placeholder="Title"
         value={title}
@@ -61,7 +62,7 @@ function AddTask({ onTempSubmit, initialDateTime }) {
         required
       />
       <br />
-      <textarea
+      <textarea className="textarea"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}

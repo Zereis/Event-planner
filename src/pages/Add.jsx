@@ -30,8 +30,7 @@ export default function Add() {
   };
 
   return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>Add Event</h1>
+    <div className="page-container">
       {!showRepeatPrompt ? (
         <AddTask onTempSubmit={handleTempSubmit} initialDateTime={dateTime} /> 
       ) : (

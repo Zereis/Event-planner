@@ -23,7 +23,6 @@
     transform-origin: center center;
   }
 
-
   .nav-bubble h3{
     rotate: -25deg;
     color: var(--text-color);
@@ -112,8 +111,16 @@
     box-shadow: 0 4px 10px rgba(195, 196, 193, 0.5);
   } */
 
-  @media (max-width: 868px) {
+@media  (max-width: 768px) {
   .nav-bubble {
-    zoom: 0.6;
+    font-size: 0.8em;
+    zoom: 0.8;
+  }
+  
+}
+
+  @media (max-width: 450px) {
+  .nav-bubble {
+    zoom: 0.55;
   }
 }
