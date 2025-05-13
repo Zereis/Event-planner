@@ -4,8 +4,9 @@ import '../styles/header.css';
 import Toggle from '../components/Toggle';
 import Logo from '/images/logo5.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+
 
 
 export default function Header() {
@@ -107,7 +108,7 @@ export default function Header() {
       </NavLink>
       {loggedInUser && (
         <button className="logout-btn" onClick={handleLogout}>
-          Log Out
+          <FontAwesomeIcon icon={faArrowRightFromBracket} />
         </button>
       )}
       </div>
