@@ -301,6 +301,7 @@ return (
           data.length > 0 &&
           prizeNumber >= 0 && (
             <>
+            <div className="wheel-wrapper">
               <Wheel
                 mustStartSpinning={mustSpin}
                 prizeNumber={prizeNumber}
@@ -332,6 +333,7 @@ return (
                   }
                 }}
               />
+              </div>
             </>
           )
         )}
