@@ -114,28 +114,35 @@ const availableForSpin = useMemo(() => {
     }
   };
   
-  const handleEventClick = ({ id, title }) => {
-  const action = prompt(
-    `you clicked on "${title}".\nchoose an action:\n1: edit task (default)\n2: delete task\n3: bulk delete`
-  );
-
-  if (action === null) return;
-
-  if (action === "1" || action === "") {
-    navigate(`/edit?taskId=${id}`);
-  } else if (action === "2") {
-    const confirmed = window.confirm(
-      `are you sure you want to delete the task "${title}"?`
+  // Handle clicking on an existing event
+  const handleEventClick = (info) => {
+    const taskId = info.event.id;
+    const action = prompt(
+      `You clicked on "${info.event.title}".\nChoose an action:\n1: Edit Task (default)\n2: Delete Task\n3: Bulk Delete`
     );
-    if (confirmed) {
-      const updatedTasks = tasks.filter((task) => task.id !== id);
-      updateTasks(updatedTasks);
+
+    if (action === null) {
+      // User clicked "Cancel", do nothing
+      return;
     }
-  } else if (action === "3") {
-    const updatedTasks = bulkDelete(tasks);
-    updateTasks(updatedTasks);
-  }
-};
+
+    if (action === "1" || action === "") {
+      // Default or Edit Task
+      navigate(`/edit?taskId=${taskId}`); // Navigate to Edit.jsx with taskId
+    } else if (action === "2") {
+      const confirmed = window.confirm(
+        `Are you sure you want to delete the task "${info.event.title}"?`
+      );
+      if (confirmed) {
+        const updatedTasks = tasks.filter((task) => task.id !== taskId);
+        updateTasks(updatedTasks); // Update TaskContext and save to local storage
+      }
+    } else if (action === "3") {
+      const updatedTasks = bulkDelete(tasks); // Use bulkDelete from TaskHandlers
+      updateTasks(updatedTasks); // Update TaskContext and save to local storage
+    }
+  };
+  
 
 // setup for special display for only one thing to do
 const isSingleItem = allFiltered.length === 1;
@@ -170,6 +177,12 @@ const data = Array.isArray(allFiltered)
     })
   : [];
 
+  // shifted data for clickable spin overlay
+  const shiftedData =
+  prizeNumber > 0
+    ? [...data.slice(prizeNumber), ...data.slice(0, prizeNumber)]
+    : data;
+
   // actual wheel spinning
   const handleSpinClick = () => {
     // sound effects
@@ -188,7 +201,6 @@ const data = Array.isArray(allFiltered)
         console.warn("Invalid prize index", selectedId, allFiltered);
         return;
       }
-
       setPrizeNumber(prizeIdx);
       setMustSpin(true);
     }
@@ -286,6 +298,31 @@ return (
                   }
                 }}
               />
+              <div className="wedge-overlay-container">
+                {shiftedData.map((entry, index) => {
+                  const angle = 360 / shiftedData.length;
+                  const rotation = angle * index;
+
+                  return (
+                    <div
+                      key={entry.option}
+                      className="wedge-overlay"
+                      title={entry.option}
+                      style={{
+                        transform: `rotate(${rotation}deg)`,
+                      }}
+                      onClick={() =>
+                        handleEventClick({
+                          event: {
+                            id: allFiltered.find((a) => a.title === entry.option)?.id ?? "",
+                            title: entry.option,
+                          },
+                        })
+                      }
+                    />
+                  );
+                })}
+              </div>
               </div>
             </>
           )
