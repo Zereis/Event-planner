@@ -24,6 +24,13 @@
   width: 100%;
 }
 
+.header-login {
+  position: absolute;
+  right: 5rem;
+  top: 0.3rem;
+
+}
+
 .toggle-container {
     position: absolute;
     top: 0;
@@ -40,6 +47,7 @@
 /* Desktop nav */
 
 .nav-desktop {
+  display: none;
     position: absolute;
     bottom: 0rem;
     right: 3rem;
@@ -49,13 +57,22 @@
 
 .hamburger {
   font-size: 28px;
+  color: var(--text-color);
   background: none;
   border: none;
   cursor: pointer;
-  display: none;
+  display: block;
   position: absolute;
+  padding: 0px 10px;
   right: 0rem;
+  top: 2rem;
   z-index: 1000; /* Ensure the hamburger is above other elements */
+}
+
+.hamburger-close {
+  display: block;
+  background: none;
+  justify-self: right;
 }
 
 
@@ -175,12 +192,13 @@
 
 
 @media (max-width: 868px) {
+
   .hamburger {
     display: block;
     animation: fadeIn 1s ease-in-out forwards;
   }
 
-  .toggle-container,
+ 
   .nav-desktop {
     display: none;
   }
