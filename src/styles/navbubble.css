@@ -23,14 +23,13 @@
     transform-origin: center center;
   }
 
-  .nav-bubble h{
+  .nav-bubble h3{
     rotate: -25deg;
     color: var(--text-color);
     font-family: 'Fredoka', sans-serif;
     font-weight: 700;
     text-shadow: 4px 4px 12px var(--bg-color);
     -webkit-text-stroke: 1px var(--bg-color);
-    font-size: 2rem;
     z-index: 200;
     user-select: none;
     transition: all 0.3s ease;

@@ -6,12 +6,16 @@ import bubbleHoverSound from '../assets/sound/bubble.mp3';
 import bubbleAppearSound from '../assets/sound/bubble-appears.mp3';
 import '../styles/navbubble.css';
 
+const BASE_SIZE = 250;
+
 const NavBubble = ({
   title,
   color,
   navRoute,
   position,
   size,
+  scale,
+  textScale = 1, // <- default value
   zIndex,
   clickable,
   index,
@@ -27,6 +31,10 @@ const NavBubble = ({
   const hoverSoundRef = useRef(null);
   const appearSoundRef = useRef(null);
 
+  // 🟡 Use scale or derive it from size
+  const effectiveScale = scale ?? (size ? size / BASE_SIZE : 1);
+  const bubbleSizePx = `${BASE_SIZE}px`;
+
   useEffect(() => {
     if (appearSoundRef.current) {
       appearSoundRef.current.currentTime = 0;
@@ -37,7 +45,7 @@ const NavBubble = ({
       opacity: 1,
       x: position.x,
       y: position.y,
-      scale: 1,
+      scale: effectiveScale,
       rotate: 0,
       transition: {
         delay: index * 0.1,
@@ -47,7 +55,7 @@ const NavBubble = ({
         damping: 20,
       },
     });
-  }, [controls, position, index, appearDuration]);
+  }, [controls, position, index, appearDuration, effectiveScale]);
 
   const handleHoverStart = () => {
     if (clickable && !isExpanding) {
@@ -57,7 +65,7 @@ const NavBubble = ({
         hoverSoundRef.current.play();
       }
       controls.start({
-        scale: 1.2,
+        scale: effectiveScale * 1.2,
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -67,7 +75,7 @@ const NavBubble = ({
     if (!isExpanding) {
       setIsHovered(false);
       controls.start({
-        scale: 1,
+        scale: effectiveScale,
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -88,8 +96,7 @@ const NavBubble = ({
       rotate: 90,
       x: -100,
       y: -500,
-      opacity: 1, // Animate opacity to 1
-      color: 'var(--bg-color)', // Use CSS variable directly
+      opacity: 1,
       backgroundColor: 'var(--bg-color)',
       transition: {
         duration: 1.2,
@@ -109,28 +116,28 @@ const NavBubble = ({
           x: origin.x,
           y: origin.y,
           scale: 0.3,
-          rotate: -360,
+          rotate: -300,
         }}
         animate={controls}
         onHoverStart={handleHoverStart}
         onHoverEnd={handleHoverEnd}
         onClick={handleClick}
         style={{
-          '--bubble-color': color,
-          '--bubble-size': `${size}px`,
-          '--bubble-z-index': isExpanding ? 999 : isHovered ? 998 : zIndex,
-          '--bubble-cursor': clickable ? 'pointer' : 'default',
-          '--bubble-pointer-events': isExpanding ? 'none' : 'auto',
-          '--bubble-transform': `translate(${position.x}px, ${position.y}px)`,
+          width: `${BASE_SIZE}px`,
+          height: `${BASE_SIZE}px`,
+          transformOrigin: 'center',
+          zIndex: isExpanding ? 999 : isHovered ? 998 : zIndex,
+          backgroundColor: color,
+          position: 'absolute',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: clickable ? 'pointer' : 'default',
         }}
       >
-        <h>{title}</h>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      <h3 style={{ fontSize: `${textScale}rem` }}>{title}</h3>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
       </motion.div>
 
       <audio ref={popSoundRef} src={bubblePopSound} />
@@ -139,5 +146,6 @@ const NavBubble = ({
     </>
   );
 };
+
 
 export default NavBubble;
