@@ -5,23 +5,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 6rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
     width: 90%;
-    background-color: lightgoldenrodyellow;
     box-shadow: 0 0 4px;
     border-radius: 12px;
     animation: slideFadeIn 1.2s ease-in-out forwards;
-}
-
-h2{
-  padding-top: none;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
 }
 
 h4 {
@@ -35,6 +26,16 @@ h4 {
   position: relative;
   margin-bottom: 10px;
   margin-top: 1.5rem;;
+}
+@media screen and (max-width: 600px) {
+  .wheel-container{
+    zoom: 0.6;
+  }
+  .bhdLno {
+    position: absolute;
+    top: 15%;
+    left: 15%
+  }
 }
 
 .wheel-of-fortune {

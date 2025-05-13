@@ -23,6 +23,7 @@
     transform-origin: center center;
   }
 
+
   .nav-bubble h3{
     rotate: -25deg;
     color: var(--text-color);
