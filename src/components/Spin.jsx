@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext, React } from "react";
+import { useState, useMemo, useContext, React, useEffect } from "react";
 import { parseISO, isSameDay, isWithinInterval, endOfWeek, startOfDay } from "date-fns";
 import { Wheel } from 'react-custom-roulette'
 import "../styles/spin.css";
@@ -27,18 +27,34 @@ function Spin() {
   const { tasks, updateTasks } = useContext(TaskContext); // access tasks from TaskContext
   const navigate = useNavigate(); // for navigation
 
+  // debug
+  useEffect(() => {
+    console.log("spin received tasks:", tasks);
+  }, [tasks]);
+
+
   // handle daily activities and weekly chores
   const today = new Date();
   const todayStart = startOfDay(today);
   const weekEnd = endOfWeek(todayStart, { weekStartsOn: 1 });  // week ends on sunday
 
-  // filter: always include today's Daily
-  const todaysActivities = tasks.filter((task) => {
-    if (task.type.toLowerCase() === "daily" && task.date && task.category.toLowerCase() !== "chores") {
-      return isSameDay(parseISO(task.date), today);
-    }
-    return false;
-  });
+  const todaysActivities = useMemo(() => {
+    return tasks.filter((task) => {
+      if (task.type.toLowerCase() !== "daily") return false;
+
+      const taskDateRaw = task.date || task.dateTime;  // Support both
+      if (!taskDateRaw) return false;
+
+      const taskDate = typeof taskDateRaw === 'string' ? parseISO(taskDateRaw) : taskDateRaw;
+
+      return isSameDay(startOfDay(taskDate), todayStart);
+    });
+  }, [tasks, todayStart]);
+
+  // debug
+  useEffect(() => {
+    console.log("spin received today's:", todaysActivities);
+  }, [todaysActivities]);
 
   // filter: optionally include Fun and / or Bucket
   // add weekly chores, and make them optional
@@ -52,13 +68,23 @@ function Spin() {
     (task) => task.type.toLowerCase() === "bucket"
   );
 
-  const weeklyChores = includeChores
-  ? tasks.filter((task) => 
-    task.category.toLowerCase() === "chores" &&
-    task.deadline &&
-    isWithinInterval(parseISO(task.deadline), { start: todayStart, end: weekEnd })
-  )
-  : [];
+  const weeklyChores = useMemo(() => {
+    if (!includeChores) return [];
+
+    return tasks.filter((task) => {
+      if (task.category?.toLowerCase() !== "chores") return false;
+
+      const deadlineRaw = task.deadline;
+      if (!deadlineRaw) return false;
+
+      const deadlineDate = typeof deadlineRaw === 'string' ? parseISO(deadlineRaw) : deadlineRaw;
+
+      return isWithinInterval(deadlineDate, {
+        start: todayStart,
+        end: weekEnd,
+      });
+    });
+  }, [includeChores, tasks, todayStart, weekEnd]);
 
   // choose fun or bucket depending on chore inclusion
   // if chores are included, randomize fun and bucket activities and fix them in optionalActivities for rendering
@@ -90,6 +116,7 @@ function Spin() {
 
   // combine the two filtered arrays
   const allFiltered = useMemo(() => {
+
     return [...todaysActivities, ...optionalActivities].filter(
       (item, index, self) => self.findIndex(a => a.id === item.id) === index
     );
@@ -115,34 +142,29 @@ const availableForSpin = useMemo(() => {
   };
   
   // Handle clicking on an existing event
-  const handleEventClick = (info) => {
-    const taskId = info.event.id;
+  const handleEventClick = ({ id, title }) => {
+
     const action = prompt(
-      `You clicked on "${info.event.title}".\nChoose an action:\n1: Edit Task (default)\n2: Delete Task\n3: Bulk Delete`
+      `you clicked on "${title}".\nchoose an action:\n1: edit task (default)\n2: delete task\n3: bulk delete`
     );
 
-    if (action === null) {
-      // User clicked "Cancel", do nothing
-      return;
-    }
+    if (action === null) return;
 
     if (action === "1" || action === "") {
-      // Default or Edit Task
-      navigate(`/edit?taskId=${taskId}`); // Navigate to Edit.jsx with taskId
+      navigate(`/edit?taskId=${id}`);
     } else if (action === "2") {
       const confirmed = window.confirm(
-        `Are you sure you want to delete the task "${info.event.title}"?`
+        `are you sure you want to delete the task "${title}"?`
       );
       if (confirmed) {
-        const updatedTasks = tasks.filter((task) => task.id !== taskId);
-        updateTasks(updatedTasks); // Update TaskContext and save to local storage
+        const updatedTasks = tasks.filter((task) => task.id !== id);
+        updateTasks(updatedTasks);
       }
     } else if (action === "3") {
-      const updatedTasks = bulkDelete(tasks); // Use bulkDelete from TaskHandlers
-      updateTasks(updatedTasks); // Update TaskContext and save to local storage
+      const updatedTasks = bulkDelete(tasks);
+      updateTasks(updatedTasks);
     }
   };
-  
 
 // setup for special display for only one thing to do
 const isSingleItem = allFiltered.length === 1;
@@ -176,12 +198,6 @@ const data = Array.isArray(allFiltered)
       };
     })
   : [];
-
-  // shifted data for clickable spin overlay
-  const shiftedData =
-  prizeNumber > 0
-    ? [...data.slice(prizeNumber), ...data.slice(0, prizeNumber)]
-    : data;
 
   // actual wheel spinning
   const handleSpinClick = () => {
@@ -298,31 +314,6 @@ return (
                   }
                 }}
               />
-              <div className="wedge-overlay-container">
-                {shiftedData.map((entry, index) => {
-                  const angle = 360 / shiftedData.length;
-                  const rotation = angle * index;
-
-                  return (
-                    <div
-                      key={entry.option}
-                      className="wedge-overlay"
-                      title={entry.option}
-                      style={{
-                        transform: `rotate(${rotation}deg)`,
-                      }}
-                      onClick={() =>
-                        handleEventClick({
-                          event: {
-                            id: allFiltered.find((a) => a.title === entry.option)?.id ?? "",
-                            title: entry.option,
-                          },
-                        })
-                      }
-                    />
-                  );
-                })}
-              </div>
               </div>
             </>
           )
