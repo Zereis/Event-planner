@@ -107,9 +107,6 @@ export default function Header() {
         title='Home'
         />
       </NavLink>
-      <div className='header-logo-name'>
-        <img src="/images/logoname 1.png" alt="logoname.png" />
-      </div>
     <div className='header-login'>
       <NavLink
         to="/Login"
