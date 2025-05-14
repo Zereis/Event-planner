@@ -1,16 +1,22 @@
 import { useState } from "react";
-import FormActionsDropdown from "./FormActionsDropdown";
-import { useNavigate } from "react-router"; // For navigation back to the calendar
+import { useNavigate, useLocation } from "react-router"; // For navigation and location
+import FormActionsDropdown from "./FormActionsDropdown"; // Import FormActionsDropdown
 
-function AddTask({ onTempSubmit, initialDateTime }) {
+function AddTask({ onTempSubmit }) {
+  const location = useLocation(); // Get the location object
+  const initialDateTime = location.state?.dateTime || ""; // Access the dateTime from state
+
+  console.log("Received state in AddTask:", location.state); // Log the state received from navigate
+  console.log("Initial dateTime in AddTask:", initialDateTime); // Log the initialDateTime
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dateTime, setDateTime] = useState(initialDateTime || ""); // Use initialDateTime if provided
+  const [dateTime, setDateTime] = useState(initialDateTime); // Use initialDateTime if provided
   const [deadline, setDeadline] = useState("");
   const [category, setCategory] = useState("Chore");
   const [type, setType] = useState("Daily");
   const [noDeadline, setNoDeadline] = useState(false);
-  const [lastTask, setLastTask] = useState(null);
+  const [lastTask, setLastTask] = useState(null); // Store the last task for reuse
   const navigate = useNavigate(); // For navigation
 
   const generateId = () => Date.now().toString();
@@ -18,11 +24,25 @@ function AddTask({ onTempSubmit, initialDateTime }) {
   const clearForm = () => {
     setTitle("");
     setDescription("");
-    setDateTime(initialDateTime || ""); // Reset to initialDateTime
+    setDateTime(initialDateTime); // Reset to initialDateTime
     setDeadline("");
     setNoDeadline(false);
     setCategory("Chore");
     setType("Daily");
+  };
+
+  const reuseLastTask = () => {
+    if (lastTask) {
+      setTitle(lastTask.title);
+      setDescription(lastTask.description);
+      setDateTime(lastTask.dateTime);
+      setDeadline(lastTask.deadline);
+      setCategory(lastTask.category);
+      setType(lastTask.type);
+      setNoDeadline(lastTask.deadline === "No deadline");
+    } else {
+      alert("No last task to reuse!");
+    }
   };
 
   const handleSubmit = (e) => {
@@ -40,7 +60,7 @@ function AddTask({ onTempSubmit, initialDateTime }) {
 
     // Pass the task data up to the parent component
     onTempSubmit(task);
-    setLastTask(task);
+    setLastTask(task); // Save the task as the last task for reuse
 
     // Show success message
     alert("Task added successfully!");
@@ -50,7 +70,17 @@ function AddTask({ onTempSubmit, initialDateTime }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        border: "2px solid #007BFF",
+        borderRadius: "10px",
+        padding: "20px",
+        maxWidth: "500px",
+        margin: "20px auto",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <h2>Add Task</h2>
       <input
         type="text"
@@ -99,7 +129,8 @@ function AddTask({ onTempSubmit, initialDateTime }) {
           <option>Sport</option>
           <option>Music</option>
           <option>Social</option>
-          <option>Visual Art</option>
+          <option>Visual</option>
+          <option>Adventure</option>
         </select>
       </label>
       <br />
@@ -118,7 +149,7 @@ function AddTask({ onTempSubmit, initialDateTime }) {
       <br />
       <button
         type="button"
-        onClick={() => navigate("/")} // Navigate to the home page
+        onClick={() => navigate("/")}
         style={{
           marginTop: "10px",
           padding: "10px 20px",
@@ -131,6 +162,9 @@ function AddTask({ onTempSubmit, initialDateTime }) {
       >
         Return to Home
       </button>
+      <br />
+      {/* Add FormActionsDropdown */}
+      <FormActionsDropdown onClear={clearForm} onReuse={reuseLastTask} />
     </form>
   );
 }
