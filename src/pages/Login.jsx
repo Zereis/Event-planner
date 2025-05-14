@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router';
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("user") !== null);
+  const navigate = useNavigate();
 
    // Ensure the default user exists when the component loads
   useEffect(() => {
@@ -40,11 +42,16 @@ export default function Login() {
   };
 
   const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
     sessionStorage.removeItem("user");
     setUsername("");
     setPassword("");
     setIsLoggedIn(false);
+    navigate("/");
+    }
   };
+
 
   return (
     <div>

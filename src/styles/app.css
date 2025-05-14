@@ -2,3 +2,8 @@
 
 
 
+.app-wrapper {
+  border: 2px;
+  box-shadow: 2px;
+}
+
