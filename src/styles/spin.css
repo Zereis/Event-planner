@@ -5,50 +5,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 6rem;
+    margin-bottom: 2rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
+    padding: 0.5rem;
+    text-align: center;
     width: 90%;
-    background-color: var(--bg-color);
     box-shadow: 0 0 4px;
     border-radius: 12px;
     animation: slideFadeIn 1.2s ease-in-out forwards;
 }
 
-h2{
-  padding-top: none;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-}
-
 h4 {
   text-align: center;
+  padding: 0.5rem;
 }
-
-.later-button {
-    font-family: 'Fredoka', sans-serif;
-    padding: 0.2rem 1rem;
-    border-radius: 9999px;
-    width: 110px;
-    text-align: center;
-    cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
-    background-color: rgb(241, 89, 115);
-    color: rgb(212, 179, 95);
-    border: dotted 3px rgb(226, 169, 24);
-    font-weight: 700;
-    transition: all 0.2s ease;
-    margin-bottom: 30px;
-    margin-top: 10px;;
-  }
-
-label {
-    font-family: 'Fredoka', sans-serif;
-    color: black;
-} 
 
 .wheel-container {
   width: 500px;
@@ -56,6 +27,17 @@ label {
   margin: auto;
   position: relative;
   margin-bottom: 10px;
+  margin-top: 1.5rem;;
+}
+@media screen and (max-width: 600px) {
+  .wheel-container{
+    zoom: 0.6;
+  }
+  .bhdLno {
+    position: absolute;
+    top: 15%;
+    left: 15%
+  }
 }
 
 .wheel-of-fortune {
@@ -63,32 +45,31 @@ label {
   aspect-ratio: 1 / 1;
   background: rgb(241, 162, 178);
   container-type: inline-size;
-  direction: ltr;
   display: grid;
-  place-content: center start;
-  clip-path: inset(0 0 0 0 round 50%);
   border: dotted 1cqi gold;
   border-radius: 50%;
   overflow: hidden;
   transform: rotate(0deg);
 }
 
-.wedge {
-  align-content: center;
+.wheel-of-fortune.empty {
   display: flex;
-  font-size: 3cqi;
-  text-align: center;
-  grid-area: 1 / -1;
-  list-style: none;
-  transform-origin: center right;
-  transform: rotate(calc(var(--angle)));
-  rotate: calc(360deg / var(--_items) * (var(--_idx) - 1));
-  width: 50cqi;
-  height: calc((3.1416 * 100cqi) / var(--_items));
-  clip-path: polygon(0% 100%, 100% 50%, 0% 0%);
   align-items: center;
   justify-content: center;
+  background: repeating-conic-gradient(rgb(241, 162, 178) 0deg 10deg, rgb(241, 162, 178)10deg 20deg);
+  color: black;
   font-family: 'Fredoka', sans-serif;
+  font-size: 6cqi;
+}
+
+.wheel-wrapper {
+  width: 95%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  transform: scale(1.13); /* Try 0.8 to 1.5 as needed */
+  transform-origin: center;
+  padding-top: 1.13rem;
+  padding-left: 1rem;
 }
 
 .full-wedge {
@@ -104,38 +85,14 @@ label {
   text-align: center;
   font-size: 6cqi;
   font-family: 'Fredoka', sans-serif;
-  background: var(--wedge-color, #ccc);
-}
-
-.pointer {
-  position: absolute;
-  top: 1;
-  left: 47.5%;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-top: 32px solid rgb(228, 3, 3);
+  background: var(--wedge-color);
   z-index: 10;
 }
 
-.spin-button {
+.spin-button{
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  padding: 0.71em 0.3em;
-  border-radius: 50%;
-  background: rgb(226, 169, 24);
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Fredoka', sans-serif;
-  border: solid 2px darkgoldenrod;
-}
-
-.spin-button:hover {
-  background: darkgoldenrod;
-  color: pink;
-  box-shadow: 0 0 10px rgb(38, 155, 143);
+  margin-top: -18rem;
+  margin-left: -1.5rem;
 }
 
 .toggle-buttons {
@@ -145,34 +102,6 @@ label {
   margin-bottom: 3rem;;
 }
 
-.toggle {
-  padding: 0.2rem 1rem;
-  border: 2px solid #ccc;
-  border-radius: 9999px;
-  width: 110px;
-  text-align: center;
-  cursor: pointer;
-  font-family: 'Fredoka', sans-serif;
-  background-color: rgb(190, 122, 134);
-  color: rgb(212, 179, 95);
-  border: dotted 3px rgb(226, 169, 24);
-  font-weight: 700;
-  transition: all 0.2s ease;
-  user-select: none;
-  display: inline-block;
-  position: relative;
-}
-
 .toggle input[type="checkbox"] {
   display: none;
-}
-
-.toggle.active {
-  background-color: rgb(204, 82, 103);  /* or another highlight color */
-  color: rgb(226, 169, 24);
-  box-shadow: 2px 2px 2px 5px rgba(218, 165, 32, 0.548);
-}
-
-.toggle:hover{
-  box-shadow: 2px 2px 2px 5px rgba(67, 206, 183, 0.438);  
 }

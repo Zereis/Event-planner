@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router"; // For navigation and location
 import FormActionsDropdown from "./FormActionsDropdown"; // Import FormActionsDropdown
+import '../styles/index.css';
+import '../styles/addedit-task.css'; // Import your CSS file
 
 function AddTask({ onTempSubmit }) {
   const location = useLocation(); // Get the location object
   const initialDateTime = location.state?.dateTime || ""; // Access the dateTime from state
-
-  console.log("Received state in AddTask:", location.state); // Log the state received from navigate
-  console.log("Initial dateTime in AddTask:", initialDateTime); // Log the initialDateTime
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -82,7 +81,7 @@ function AddTask({ onTempSubmit }) {
       }}
     >
       <h2>Add Task</h2>
-      <input
+      <input className="input"
         type="text"
         placeholder="Title"
         value={title}
@@ -90,7 +89,7 @@ function AddTask({ onTempSubmit }) {
         required
       />
       <br />
-      <textarea
+      <textarea className="textarea"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -145,20 +144,11 @@ function AddTask({ onTempSubmit }) {
       </label>
       <br />
 
-      <button type="submit">➕ Add Task</button>
+      <button className="button" type="submit">➕ Add Task</button>
       <br />
-      <button
-        type="button"
-        onClick={() => navigate("/")}
-        style={{
-          marginTop: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#007BFF",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
+
+      <button className="button"
+        onClick={() => navigate("/")} // Navigate to the home page
       >
         Return to Home
       </button>

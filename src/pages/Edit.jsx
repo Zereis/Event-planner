@@ -9,8 +9,7 @@ export default function Edit() {
   const taskId = searchParams.get("taskId"); // Get the taskId parameter
 
   return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>Edit Event</h1>
+    <div className="page-container">
       <EditTask tasks={tasks} taskId={taskId} onEdit={updateTasks} />
     </div>
   );

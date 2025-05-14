@@ -11,6 +11,7 @@ import Add from './pages/Add'
 import Today from './pages/Today'
 import NoPages from './pages/NoPages'
 import Header from './components/Header'
+import Login from './pages/Login'
 
 function App() {
   return (   
@@ -24,6 +25,7 @@ function App() {
         <Route path="/edit" element={<Edit />} />
         <Route path="/today" element={<Today />} />
         <Route path="/spin" element={<Spin />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NoPages />} />
       </Routes>
     </div>
