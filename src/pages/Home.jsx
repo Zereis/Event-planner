@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/home.css';
 import NavBubble from '../components/NavBubble';
+import BackgroundBubbles from '../components/BackgroundBubbles';
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -14,6 +15,7 @@ const Home = () => {
     {
       title: 'Calendar',
       color: 'rgba(20, 20, 20, 0.2)',
+      hoverColor: 'rgba(20, 20, 20, 0.5)',
       navRoute: '/calendar',
       position: { x: -180, y: 0 },
       scale: 1.8,
@@ -25,6 +27,7 @@ const Home = () => {
     {
       title: 'Add Task',
       color: 'rgba(221, 21, 21, 0.2)',
+      hoverColor: 'rgba(221, 21, 21, 0.5)',
       navRoute: '/add',
       position: { x: -150, y: 180 },
       scale: 1.2,
@@ -36,10 +39,11 @@ const Home = () => {
     {
       title: 'Edit Task',
       color: 'rgba(82, 124, 216, 0.2)',
+      hoverColor: 'rgba(82, 124, 216, 0.5)',
       navRoute: '/edit',
       position: { x: 0, y: 45 },
       scale: 1,
-      textScale: 3,
+      textScale: 3.5,
       clickable: true,
       origin: { x: 0, y: -200 },
       appearDuration: 0.7,
@@ -47,6 +51,7 @@ const Home = () => {
     {
       title: 'Today',
       color: 'rgba(46, 226, 10, 0.2)',
+      hoverColor: 'rgba(46, 226, 10, 0.5)',
       navRoute: '/today',
       position: { x: 0, y: 180 },
       scale: 0.8,
@@ -58,6 +63,7 @@ const Home = () => {
     {
       title: 'Spin',
       color: 'rgba(243, 247, 8, 0.2)',
+      hoverColor: 'rgba(243, 247, 8, 0.5)',
       navRoute: '/spin',
       position: { x: -20, y: 300 },
       scale: 0.5,
@@ -69,8 +75,24 @@ const Home = () => {
   ];
 
   return (
-    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}> 
-      <div className="bubble-wrapper" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+<div
+      className={`home-container ${isLoaded ? 'loaded' : ''}`}
+      style={{ position: 'relative', width: '100%', height: '100vh' }}
+    >
+      <div
+  style={{
+    position: 'absolute',
+    width: '70%',
+    height: '100%',
+    left: '50%', // Center horizontally
+    transform: 'translateX(-50%)', // Offset to truly center
+    zIndex: -1,
+    pointerEvents: 'none',
+  }}
+>
+        <BackgroundBubbles />
+      </div>
+      <div className="bubble-wrapper">
       <div className="bubble-container">
         {bubbles.map((bubble, index) => (
           <NavBubble
@@ -78,6 +100,7 @@ const Home = () => {
             index={index}
             title={bubble.title}
             color={bubble.color}
+            hoverColor={bubble.hoverColor}
             navRoute={bubble.navRoute}
             position={bubble.position}
             size={bubble.size}

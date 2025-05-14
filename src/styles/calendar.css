@@ -1,23 +1,19 @@
 .calendar-container {
   width: 90%;
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   box-shadow: 0 0 4px;
   padding: 1rem;
   border-radius: 12px;
   animation: slideFadeIn 1.2s ease-in-out forwards;
+  transition: transform 0.5s ease-in-out; /* Smooth rotation transition */
+  transform-origin: center center; /* Rotate around the center */
 }
 
-@keyframes slideFadeIn {
-  from {
-    transform: translateY(-60px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-    rotate: 360deg;
-  }
+/* Ensure content inside the container is not rotated - If we implement Rotate on Toggle*/
+.calendar-container > * {
+  transform: rotate(360deg); /* Counter-rotate children to keep them upright */
+  transition: transform 0.5s ease-in-out; /* Match the container's transition */
 }
 
 .calendar-container .h1 {

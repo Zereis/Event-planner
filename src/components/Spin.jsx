@@ -1,5 +1,6 @@
-import { useState, useMemo, useContext, useRef } from "react";
+import { useState, useMemo, useContext, React } from "react";
 import { parseISO, isSameDay, isWithinInterval, endOfWeek, startOfDay } from "date-fns";
+import { Wheel } from 'react-custom-roulette'
 import "../styles/spin.css";
 import SoundManager from "./SoundManagerSpin";  // sound manager component 
 // importing sound manager component
@@ -10,13 +11,13 @@ import { bulkDelete } from "./TaskHandlers"; // Import handlers
 
 
 function Spin() {
-  const wheelRef = useRef(null);  // for wheel rotation
-  const [previousEndDegree, setPreviousEndDegree] = useState(0);  // for wheel rotation
   const [includeFun, setIncludeFun] = useState(false);  // for fun act inclusion
   const [includeBucket, setIncludeBucket] = useState(false);  // for bucket inclusion
   const [includeChores, setIncludeChores] = useState(false);  // for chore inclusion
   const [selectedActivityId, setSelectedActivityId] = useState(null);   // keep track of the 'winner'
   const [usedActivityIds, setUsedActivityIds] = useState([]);   // for visually distinguishing already used activities
+  const [mustSpin, setMustSpin] = useState(false);  // react custom roulette
+  const [prizeNumber, setPrizeNumber] = useState(0);  
 
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
@@ -101,58 +102,6 @@ const availableForSpin = useMemo(() => {
   );
 }, [allFiltered, usedActivityIds, selectedActivityId]);
 
-  // pick a random activity from the available ones
-  const handleSpin = () => {
-
-    // sound effects
-    setPlaySpinButton(true); // play the spin button sound
-    setPlaySpinning(true); // play the spinning sound
-    // reset the sound flags after a short delay to allow them to play
-    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
-    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
-
-    if (selectedActivityId !== null) {
-      setUsedActivityIds((prev) => [...prev, selectedActivityId]);
-    }
-
-    if (availableForSpin.length === 0) {
-      setSelectedActivityId(null);  // nothing left to select
-      alert("you have done everything for the day!");
-      return;
-    }
-    
-    const selectedActivity = availableForSpin[Math.floor(Math.random() * availableForSpin.length)];
-
-    const randomIndex = allFiltered.findIndex(act => act.id === selectedActivity.id); // get correct index in full list
-    const degreePerItem = 360 / allFiltered.length;
-
-    // rotate to that wedge -- in the center of the slice
-    const selectedDegree = randomIndex * degreePerItem + degreePerItem / 2;
-
-    const spins = 3; // full spins before stopping
-    const offset = (360 - selectedDegree) % 360; // how much to rotate to bring that slice to top
-    const newEndDegree = previousEndDegree + spins * 360 + offset; // total rotation
-
-    // animate
-    if (wheelRef.current) {
-      wheelRef.current.animate([
-        { transform: `rotate(${previousEndDegree}deg)` },
-        { transform: `rotate(${newEndDegree}deg)` },
-      ], {
-        duration: 2200,
-        direction: "normal",
-        easing: "cubic-bezier(0.440, -0.205, 0.000, 1.130)",
-        fill: "forwards",
-        iterations: 1,
-      });
-      setPreviousEndDegree(newEndDegree);  // save the end degree for next spin
-    }
-    // set after delay to simulate result after spin
-    setTimeout(() => {
-      setSelectedActivityId(selectedActivity.id);  // select the activity after spin
-    }, 2000);  // same as animation duration
-  };
-
   // ADD PASS to do the same activity
   const passActivityId = (id) => {
     setUsedActivityIds((prev) => prev.filter((usedId) => usedId !== id));
@@ -188,122 +137,209 @@ const availableForSpin = useMemo(() => {
   }
 };
 
-  const isSingleItem = allFiltered.length === 1;
+// setup for special display for only one thing to do
+const isSingleItem = allFiltered.length === 1;
 
-  const categoryColors = {
-    chores: "#cbccc6",      // soft grey
-    sport: "#baf2bf",       // light green
-    music: "#c5c8f2",       // lavender
-    social: "#ffd59e",      // orange-ish
-    visual: "#ffedb4",      // soft yellow
-    adventure: "#9efaff",   // turquoise
-    };
+// category colors for dynamic wheel wedge coloring
+const categoryColors = {
+  chores: "#f2d9d7",      // soft grey-pink
+  sport: "#baf2bf",       // light green
+  music: "#c5c8f2",       // lavender
+  social: "#ffd59e",      // orange-ish
+  visual: "#ffedb4",      // soft yellow
+  adventure: "#9efaff",   // turquoise
+  };
 
-  return(
+// custom roulette required array
+const data = Array.isArray(allFiltered)
+  ? allFiltered.map((act) => {
+      if (!act || !act.title || !act.category) {
+        console.warn("invalid activity found:", act);
+        return { option: "unknown", style: { backgroundColor: "#ccc", textColor: "black" } };
+      }
+      const isUsed = usedActivityIds.includes(act.id);
+      const bgColor = categoryColors[act.category.toLowerCase()] || "#ccc";
+
+      return {
+        option: act.title.toLowerCase(),
+        style: {
+          backgroundColor: isUsed ? "#ccc" : bgColor,
+          textColor: "black", fontWeight: "normal",
+        },
+      };
+    })
+  : [];
+
+  // actual wheel spinning
+  const handleSpinClick = () => {
+    // sound effects
+    setPlaySpinButton(true); // play the spin button sound
+    setPlaySpinning(true); // play the spinning sound
+        // reset the sound flags after a short delay to allow them to play
+    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
+    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
+
+    if (!mustSpin && availableForSpin.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableForSpin.length);
+      const selectedId = availableForSpin[randomIndex].id;
+
+      const prizeIdx = allFiltered.findIndex((act) => act.id === selectedId);
+      if (prizeIdx === -1) {
+        console.warn("Invalid prize index", selectedId, allFiltered);
+        return;
+      }
+
+      setPrizeNumber(prizeIdx);
+      setMustSpin(true);
+    }
+    else if (availableForSpin.length === 0) {
+      setSelectedActivityId(null);  // nothing left to select
+      alert("you have done everything for the day!");
+      return;
+    }
+  };
+
+return (
     <div className="page-container">
       <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
       <h2>spin planner</h2>
-      <h4>let fate help you structure your day!<br/>using the buttons below, you can choose to include your weekly chores, things from your fun and / or your bucket list. when your activities appear in your daily wheel of fortune, spin it to see what to do now.<br/>if the chosen activity doesn't fit your schedule or clashes with your mood, you can decide to maybe take care of it later by clicking on the 'maybe later' butoon. then spin again!<br/>have fun!</h4>
+      <h4>
+        let fate help you structure your day!<br />
+        using the buttons below, you can choose to include your weekly chores,
+        things from your fun and / or your bucket list. when your activities
+        appear in your daily wheel of fortune, spin it to see what to do now.<br />
+        if the chosen activity doesn't fit your schedule or clashes with your mood,
+        you can decide to maybe take care of it later by clicking on the 'maybe later'
+        button. then spin again!<br />
+        have fun!
+      </h4>
 
       <BubbleButton
-      className="later-button" onClick={pass} disabled={!selectedActivityId}
-      label="later"
-      ariaLabel="Later"
-      toggle={false}
-      zoom="0.8"
-      defaultColor="transparent"
+        className="later-button"
+        onClick={pass}
+        disabled={!selectedActivityId}
+        label="later"
+        ariaLabel="Later"
+        toggle={false}
+        zoom="0.6"
+        defaultColor="transparent"
       />
-      <div>
-        <div className="wheel-container">
-          <div className="pointer"></div>
-          <ul 
-          ref={wheelRef}
-          className={`wheel-of-fortune ${isSingleItem ? "single" : ""}`}
-          style={{
-            "--_items": isSingleItem ? 1 : allFiltered.length,
-          }}
-          >
-            {isSingleItem ? (
-              <li className="full-wedge" key={allFiltered[0].id} style={{
+
+      <div className="wheel-container">
+        <div className="wheel-of-fortune">
+          {allFiltered.length === 0 && (
+            <div className="wheel-of-fortune empty">
+              <div className="placeholder-text"
+              style={{
+                fontWeight: "bold",
+              }}
+              >add activities to spin</div>
+            </div>
+          )}
+        {isSingleItem ? (
+          <ul className="wheel-of-fortune single" style={{ "--_items": 1 }}>
+            <li
+              className="full-wedge"
+              key={allFiltered[0].id}
+              style={{
                 background: categoryColors[allFiltered[0].category.toLowerCase()],
                 fontWeight: "bold",
-              }}>
-                all you need to do today is<br />
-                {allFiltered[0].title.toLowerCase()}
-              </li>
-            ) : (
-              allFiltered.map((act, idx) => {
-                // debug display
-                console.log("Rendering wedge:", act.title);
-                console.log("Filtered:", allFiltered.map(a => a.title));
-                console.log("Available:", availableForSpin.map(a => a.title));
-                console.log("bucket:", includeBucket, "fun:", includeFun, "chores:", includeChores)
-                const isSelected = act.id === selectedActivityId;
-                const isUsed = usedActivityIds.includes(act.id);
-                const bgColor = categoryColors[act.category.toLowerCase()] || "#ccc";
-                return (
-                  <li
-                    className="wedge"
-                    key={act.id}
-                    onClick={() => handleEventClick({ id: act.id, title: act.title })}
-                    style={{
-                      "--_idx": idx + 1,
-                      "--_items": allFiltered.length,
-                      background: isUsed ? "#72736e6b" : bgColor,
-                      fontWeight: isSelected ? "bold" : "normal",
-                    }}
-                  >
-                    {act.title.toLowerCase()}
-                  </li>
-                );
-              })
-            )}
-
+              }}
+            >
+              all you need to do today is<br />
+              {allFiltered[0].title.toLowerCase()}
+            </li>
           </ul>
-          <button 
-          className="spin-button" 
-          onClick={handleSpin}
-          hidden={isSingleItem || allFiltered.length === 0}
-          >spin!
-          </button>
+        ) : (
+          data.length > 0 &&
+          prizeNumber >= 0 && (
+            <>
+            <div className="wheel-wrapper">
+              <Wheel
+                mustStartSpinning={mustSpin}
+                prizeNumber={prizeNumber}
+                data={data}
+                outerBorderColor="pink"
+                outerBorderWidth={3}
+                radiusLineColor="lightgrey"
+                radiusLineWidth={0.5}
+                textDistance={57}
+                fontFamily="Fredoka"
+                fontSize={15}
+                spinDuration={0.17}
+                width={800}
+                height={800}
+                pointerProps={{
+                  style: {
+                    width: '3rem',
+                    height: '3rem',
+                    top: '2.8rem',
+                    left: 'calc(50% + 9rem)',
+                  },
+                }}
+                onStopSpinning={() => {
+                  setMustSpin(false);
+                  const chosen = allFiltered[prizeNumber];
+                  if (chosen) {
+                    setUsedActivityIds((prev) => [...prev, chosen.id]);
+                    setSelectedActivityId(chosen.id);
+                  }
+                }}
+              />
+              </div>
+            </>
+          )
+        )}
         </div>
       </div>
+      <div>
+      {allFiltered.length > 1 && (
+        <div className="spin-button">
+          <BubbleButton
+            label="spin!"
+            onClick={handleSpinClick}
+            toggle={false}
+            zoom="0.6"
+            defaultColor="pink"
+          />
+        </div>
+      )}
+      </div>
       <div className="toggle-buttons">
-        <BubbleButton 
+        <BubbleButton
           label="fun"
           className={includeFun ? "toggle active" : "toggle"}
-          ariaLabel="This bubble adds Fun Activities to the list"
+          ariaLabel="this bubble adds fun activities to the list"
           toggle={true}
-          zoom="0.8"
+          zoom="0.6"
           toggleColor="rgba(0, 0, 255, 0.1)"
           defaultColor="transparent"
-          onToggleChange={(state) => setIncludeFun(state)} // This is key
+          onToggleChange={(state) => setIncludeFun(state)}
           checked={includeFun}
         />
         <BubbleButton
-        label="bucket"
-        className={includeBucket ? "toggle active" : "toggle"}
-        ariaLabel="This bubble adds Bucket activities to the list"
-        toggle={true}
-        zoom="0.8"
-        toggleColor="rgba(255, 0, 0, 0.1)"
-        defaultColor="transparent"
-        onToggleChange={(state) => setIncludeBucket(state)}
-        checked={includeBucket}
+          label="bucket"
+          className={includeBucket ? "toggle active" : "toggle"}
+          ariaLabel="this bubble adds bucket activities to the list"
+          toggle={true}
+          zoom="0.6"
+          toggleColor="rgba(255, 0, 0, 0.1)"
+          defaultColor="transparent"
+          onToggleChange={(state) => setIncludeBucket(state)}
+          checked={includeBucket}
         />
         <BubbleButton
-        label="chores"
-        className={includeChores ? "toggle active" : "toggle"}
-        ariaLabel="This bubble adds Chores to the list"
-        toggle={true}
-        zoom="0.8"
-        toggleColor="rgba(255, 20, 147, 0.1)"
-        defaultColor="transparent"
-        onToggleChange={(state) => setIncludeChores(state)}
-        checked={includeChores}
+          label="chores"
+          className={includeChores ? "toggle active" : "toggle"}
+          ariaLabel="this bubble adds chores to the list"
+          toggle={true}
+          zoom="0.6"
+          toggleColor="rgba(255, 20, 147, 0.1)"
+          defaultColor="transparent"
+          onToggleChange={(state) => setIncludeChores(state)}
+          checked={includeChores}
         />
       </div>
-
     </div>
   );
 }

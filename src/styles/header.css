@@ -5,19 +5,31 @@
   width: 100%;
   max-width: 1024px;
   min-width: 400px;
-  background: aliceblue;
-  padding: 15px;
+  background: #aab43a;
+  background: linear-gradient(90deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 50%);
+    box-shadow: 2px 2px 2px #333333;
+  padding: 1rem;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
-.header-logo {
+.SpinLogo{
+  height: 80px;
   position: absolute;
-  left: 1.5rem;
-  top: 0.5rem;
-  height: 60px;
+  top: 0rem;
+  left: 2rem;
+}
+.TitleName {
+  height: 11rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Shifts the image by half its width and height */
 }
 .nav-bar {
   display: flex;
@@ -41,6 +53,7 @@
   top: 0.5rem;
 }
 
+
 .login-btn {
   color: var(--text-color);
   padding: 0;
@@ -62,7 +75,7 @@
 .toggle-container {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 0rem;
     zoom: 0.8;
 }
 @media (max-width: 600px) {
@@ -81,34 +94,11 @@
     right: 3rem;
   }
 
-  /* Responsive styles for the header */
-
-.hamburger {
-  font-size: 28px;
-  color: var(--text-color);
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  padding: 0px 10px;
-  right: 0rem;
-  top: 2rem;
-  z-index: 1000; /* Ensure the hamburger is above other elements */
-}
-
-.hamburger-close {
-  display: block;
-  background: none;
-  justify-self: right;
-}
-
 
 .header.visible {
   transform: translateY(0);
   animation: fadeInHeader 1s ease-in-out forwards;
 }
-
 @keyframes fadeInHeader {
   from {
     transform: translateY(-100%);
@@ -121,7 +111,6 @@
 
   }
 }
-
 .header.hidden {
   transform: translateY(-100%);
   animation: fadeOutHeader 1s ease-in-out forwards;
@@ -145,20 +134,15 @@
     height: 3rem;   
   } 
 }
-
-
-
   .nav-desktop ul {
     display: flex;
     gap: 20px;
     list-style: none;
-  }
-  
+  } 
   nav{
     display: flex;
     justify-content: right;
   }
-  
   .headerbtn {
     text-decoration: none;
     font-size: 1.0em;
@@ -178,24 +162,47 @@
     margin-left: 1rem;
     font-size: 1.5rem;
   }
+  .nav.menubutton:active {
+    text-decoration: underline;
+  }
 
+  /* Responsive styles for the header */
+.hamburger {
+  font-size: 28px;
+  color: var(--bg-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  padding: 0px 10px;
+  right: 0.5rem;
+  top: 2rem;
+  z-index: 1000; /* Ensure the hamburger is above other elements */
+}
   /* Nav menu for mobile */
 .nav-menu {
   display: none;
 }
 
-
 .nav-menu ul {
+  display: flex;
   list-style: none;
-  padding: 10px;
-  background: var(--bg-color);
+  padding: 1rem;
+  background: #aab43a;
+  background: linear-gradient(45deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 60%);
+  border-left: #aab43a 1px solid;
+  border-bottom: #aab43a 1px solid;
+  border-right: #333333 1px solid;
+  border-top: #333333 1px solid;
+
   position: absolute;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   flex-direction: column;
-  gap: 10px;
-  border: solid 1px var(--text-color);
+  gap: 0rem;
+
   z-index: 1000;
-  top: 0rem;
+  top: 2rem;
   right: 3rem;
 }
 
@@ -203,14 +210,43 @@
   display: flex;
 }
 
+/* Hamburger exit button and location */
+.hamburger-close {
+  display: block;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.hamburger-close:hover{
+  color: darkred;
+  animation: pulse 0.5s infinite;
+}
+@media (max-width: 868px) {
+  .hamburger {
+    display: block;
+    right: 2rem;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+  .nav-desktop {
+    display: none;
+  }
+  .toggle-container {
+    right: 2rem;
+  }
+  
+}
+.right-align{
+  margin-left: auto;
+}
+
+/* Hamburger Menu Buttons/Links */
 .nav-menu ul li a {
   text-decoration: none;
-  font-size: 3rem;
+  font-size: 1.5rem;
   color: var(--text-color);
-  padding: 10px 20px;
-}
-.nav.menubutton:active {
-  text-decoration: underline;
+  padding: 0rem 1rem;
 }
 
 .burgerbtn.active {
@@ -233,7 +269,6 @@
 
 
 }
-
 
 /* keyframes for smooth fade */
 @keyframes fadeIn {

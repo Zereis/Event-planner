@@ -12,6 +12,8 @@ export default function Add() {
   const location = useLocation(); // Get the navigation state
   const dateTime = location.state?.dateTime || ""; // Retrieve the dateTime from state
 
+  console.log("DateTime passed to AddTask:", dateTime); // Log the dateTime being passed
+
   const handleTempSubmit = (task) => {
     setCurrentTask(task); // Save the task to state
     setShowRepeatPrompt(true); // Show the RepeatPrompt
@@ -30,8 +32,7 @@ export default function Add() {
   };
 
   return (
-    <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>Add Event</h1>
+    <div className="page-container">
       {!showRepeatPrompt ? (
         <AddTask onTempSubmit={handleTempSubmit} initialDateTime={dateTime} /> 
       ) : (
