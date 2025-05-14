@@ -28,12 +28,11 @@ h4 {
 }
 
 .wheel-container {
-  width: 500px;
-  height: 500px;
-  margin: auto;
   position: relative;
-  margin-bottom: 10px;
-  margin-top: 1.5rem;;
+  width: 90vw;
+  max-width: 500px;
+  aspect-ratio: 1 / 1;
+
 }
 
 .wheel-of-fortune {
@@ -42,7 +41,7 @@ h4 {
   background: rgb(241, 162, 178);
   container-type: inline-size;
   display: grid;
-  border: dotted 1cqi gold;
+  border: dotted 1cqi gold; 
   border-radius: 50%;
   overflow: hidden;
   transform: rotate(0deg);
@@ -59,13 +58,15 @@ h4 {
 }
 
 .wheel-wrapper {
-  width: 95%;
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
-  transform: scale(1.13); /* Try 0.8 to 1.5 as needed */
-  transform-origin: center;
-  padding-top: 1.13rem;
-  padding-left: 1rem;
+  position: absolute;
+  width: 100%;
+  inset: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.16);
 }
 
 .full-wedge {
@@ -85,15 +86,29 @@ h4 {
   z-index: 10;
 }
 
-.spin-button{
-  margin-top: -18.3rem;
+.spin-button {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20; /* Ensure it’s above the wheel */
 }
 
 .toggle-buttons {
   display: flex;
   gap: 1rem;
+  margin-bottom: 6rem;
   margin-top: 1rem;
-  margin-bottom: 3rem;;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 13rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  padding-left: 17rem;
 }
 
 .toggle input[type="checkbox"] {
@@ -103,7 +118,7 @@ h4 {
 .edit-dropdown {
   position: relative;
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 4rem;
 }
 
 .dropdown-toggle {
@@ -119,7 +134,7 @@ h4 {
 .dropdown-list {
   position: absolute;
   background-color: rgb(245, 228, 209);
-  border: 1px solid pink;
+  border: none;
   border-radius: 1rem;
   list-style: none;
   padding-left: 0.5rem;
@@ -135,10 +150,11 @@ h4 {
   padding: 10px;
   cursor: pointer;
   border-radius: 50%;
-  background-color: rgb(156, 229, 241);
+  background-color: rgb(156, 183, 241);
   font-size: 0.7rem;
   min-height: 4rem;
   margin-top: 0.5rem;
+  border: dotted 0.3rem white;
 }
 
 .dropdown-list :last-child{
@@ -148,10 +164,9 @@ h4 {
 .dropdown-list li:hover {
   background-color: rgb(250, 145, 161);
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.77rem;
 }
 
 .dropdown-list::-webkit-scrollbar {
   width: 0;  /* Hide scrollbar */
-  background: transparent; /* Optional: transparent background */
 }

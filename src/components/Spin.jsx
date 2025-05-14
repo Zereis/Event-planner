@@ -290,6 +290,7 @@ return (
         button. then spin again!<br />
         have fun!
       </h4>
+      <div className="action-buttons">
         <BubbleButton
           className="later-button"
           onClick={pass}
@@ -300,30 +301,30 @@ return (
           zoom="0.6"
           defaultColor="transparent"
         />
-      <div className="edit-dropdown">
-        <BubbleButton
-          label="edit"
-          className={showDropdown ? "toggle active" : "toggle"}
-          ariaLabel="edit tasks"
-          toggle={true}
-          zoom="0.5"
-          toggleColor="rgba(0, 0, 255, 0.1)"
-          onToggleChange={(state) => setShowDropdown(state)}
-          checked={showDropdown}
-          defaultColor="pink"
-        />
-        {showDropdown && (
-          <ul className="dropdown-list">
-            {filteredTasks.map((task) => (
-              <li key={task.id} onClick={() => handleEventClick(task)}>
-                {task.title.toLowerCase()}
-              </li>
-            ))}
-            {filteredTasks.length === 0 && <li style={{ opacity: 0.6 }}>no tasks to edit</li>}
-          </ul>
-        )}
+        <div className="edit-dropdown">
+          <BubbleButton
+            label="edit"
+            className={showDropdown ? "toggle active" : "toggle"}
+            ariaLabel="edit tasks"
+            toggle={true}
+            zoom="0.5"
+            toggleColor="rgba(0, 0, 255, 0.1)"
+            onToggleChange={(state) => setShowDropdown(state)}
+            checked={showDropdown}
+            defaultColor="pink"
+          />
+          {showDropdown && (
+            <ul className="dropdown-list">
+              {filteredTasks.map((task) => (
+                <li key={task.id} onClick={() => handleEventClick(task)}>
+                  {task.title.toLowerCase()}
+                </li>
+              ))}
+              {filteredTasks.length === 0 && <li style={{ opacity: 0.6 }}>no tasks to edit</li>}
+            </ul>
+          )}
+        </div>
       </div>
-
       <div className="wheel-container">
         <div className="wheel-of-fortune">
           {allFiltered.length === 0 && (
@@ -372,8 +373,8 @@ return (
                   style: {
                     width: '3rem',
                     height: '3rem',
-                    top: '2.8rem',
-                    left: 'calc(50% + 9rem)',
+                    top: '3rem',
+                    left: 'calc(50% + 8rem)',
                   },
                 }}
                 onStopSpinning={() => {
