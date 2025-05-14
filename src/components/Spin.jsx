@@ -177,7 +177,12 @@ const availableForSpin = useMemo(() => {
 
     // Remove duplicates by task ID
     const uniqueTasks = [...new Map(result.map(task => [task.id, task])).values()];
-    return uniqueTasks;
+    
+    // Sort alphabetically by title
+    const sortedTasks = uniqueTasks.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    return sortedTasks;
   }, [
     todaysActivities,
     singleFun,
