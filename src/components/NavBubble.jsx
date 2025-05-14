@@ -11,11 +11,12 @@ const BASE_SIZE = 250;
 const NavBubble = ({
   title,
   color,
+  hoverColor, // <- New prop for hover background color
   navRoute,
   position,
   size,
   scale,
-  textScale = 1, // <- default value
+  textScale = 1,
   zIndex,
   clickable,
   index,
@@ -31,7 +32,7 @@ const NavBubble = ({
   const hoverSoundRef = useRef(null);
   const appearSoundRef = useRef(null);
 
-  // 🟡 Use scale or derive it from size
+  // 🟡 Use scale orighbour from size
   const effectiveScale = scale ?? (size ? size / BASE_SIZE : 1);
   const bubbleSizePx = `${BASE_SIZE}px`;
 
@@ -66,6 +67,7 @@ const NavBubble = ({
       }
       controls.start({
         scale: effectiveScale * 1.2,
+        backgroundColor: hoverColor || color, // <- Use hoverColor if provided, else fallback to color
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -76,6 +78,7 @@ const NavBubble = ({
       setIsHovered(false);
       controls.start({
         scale: effectiveScale,
+        backgroundColor: color, // <- Revert to original color
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -136,7 +139,7 @@ const NavBubble = ({
           cursor: clickable ? 'pointer' : 'default',
         }}
       >
-      <h3 style={{ fontSize: `${textScale}rem` }}>{title}</h3>
+        <h3 style={{ fontSize: `${textScale}rem` }}>{title}</h3>
         <span></span><span></span><span></span><span></span><span></span><span></span>
       </motion.div>
 
@@ -146,6 +149,5 @@ const NavBubble = ({
     </>
   );
 };
-
 
 export default NavBubble;

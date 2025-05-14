@@ -1,0 +1,14 @@
+.textarea {
+    width: 20rem;
+    height: 10rem;
+    max-width: 22rem;
+    max-height: 30rem;
+}
+.input {
+    max-width: 22rem;
+}
+
+.page-container h5 {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}

@@ -3,8 +3,9 @@ import { NavLink, useNavigate } from 'react-router';
 import '../styles/header.css';
 import Toggle from '../components/Toggle';
 import Logo from '/images/logo5.png';
+import TitleName from '/images/logoname1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket, faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faArrowRightToBracket, faUser, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -15,6 +16,8 @@ export default function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate(); 
+  const [isLoginHovered, setIsLoginHovered] = useState(false);
+  const [isLogoutHovered, setIsLogoutHovered] = useState(false);
 
     // Fetch logged in user from sessionStorage
   useEffect (() => {
@@ -89,34 +92,52 @@ export default function Header() {
   return (
     <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
 
+
       <NavLink to="/">
-        <img
+        <img 
         src={Logo}
         alt="Spin main page"
-        className="Sping"
+        className="SpinLogo"
+        title='Home'
+        />
+        <img 
+        src={TitleName}
+        alt="Spin main page"
+        className="TitleName"
+        title='Home'
         />
       </NavLink>
     <div className='header-login'>
       <NavLink
         to="/Login"
+        title={!loggedInUser ? 'Log in' : ""}
         onClick={() => {
           window.scrollTo(0, 0);
         }}
-        className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
+        className={({ isActive }) => (isActive ? 'login-btn-active' : 'login-btn')}
+        onMouseEnter={() => setIsLoginHovered(true)}
+        onMouseLeave={() => setIsLoginHovered(false)}
       >
-        {loggedInUser ? loggedInUser : "Log In"}
+        {loggedInUser ? loggedInUser : <FontAwesomeIcon icon={isLoginHovered ? faArrowRightToBracket : faUser} />}
       </NavLink>
       {loggedInUser && (
-        <button className="logout-btn" onClick={handleLogout}>
-          <FontAwesomeIcon icon={faArrowRightFromBracket} />
+        <button className="logout-btn"
+        title='Log out' 
+        onClick={handleLogout}
+        onMouseEnter={() => setIsLogoutHovered(true)}
+        onMouseLeave={() => setIsLogoutHovered(false)}>
+          <FontAwesomeIcon icon={isLogoutHovered ? faArrowRightFromBracket : faUser} />
         </button>
       )}
       </div>
 
       <Toggle className="header-toggle"/>
 
-      <button className="hamburger" onClick={toggleMenu} aria-expanded={isMenuOpen}
-        aria-label="Toggle navigation menu">
+      <button className="hamburger" title='Navigation Links' 
+      onClick={toggleMenu} 
+      aria-expanded={isMenuOpen}
+      aria-label="Toggle navigation menu"
+      >
         <FontAwesomeIcon icon={faEllipsis} />
       </button>
 

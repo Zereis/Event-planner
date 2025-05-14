@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
 import '../styles/index.css';
+import '../styles/addedit-task.css'; // Import your CSS file
 
 export default function EditTask({ tasks, taskId, onEdit }) {
   const [searchValue, setSearchValue] = useState(""); // Search field value
@@ -69,7 +70,16 @@ export default function EditTask({ tasks, taskId, onEdit }) {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        border: "2px solid #007BFF", // Add a blue border
+        borderRadius: "10px", // Rounded corners
+        padding: "20px", // Add padding inside the container
+        maxWidth: "600px", // Limit the container width
+        margin: "20px auto", // Center the container horizontally
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Add a subtle shadow
+      }}
+    >
       <h3>Edit Task by ID or Title</h3>
       <input
         placeholder="Enter ID or Title"
@@ -101,7 +111,7 @@ export default function EditTask({ tasks, taskId, onEdit }) {
           </label>
           <br />
           <label>
-            Title:
+            <h5>Title:</h5>
             <input
               name="title"
               value={editFields.title || ""}
@@ -111,8 +121,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
           </label>
           <br />
           <label>
-            Description:
-            <textarea
+            <h5>Description:</h5>
+            <textarea className="textarea"
               name="description"
               value={editFields.description || ""}
               onChange={handleChange}
@@ -134,7 +144,9 @@ export default function EditTask({ tasks, taskId, onEdit }) {
             <input
               name="deadline"
               type="datetime-local"
-              value={editFields.deadline === "No deadline" ? "" : editFields.deadline || ""}
+              value={
+                editFields.deadline === "No deadline" ? "" : editFields.deadline || ""
+              }
               onChange={handleChange}
             />
           </label>
@@ -150,7 +162,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
               <option>Sport</option>
               <option>Music</option>
               <option>Social</option>
-              <option>Visual Art</option>
+              <option>Visual</option>
+              <option>Adventure</option>
             </select>
           </label>
           <br />
