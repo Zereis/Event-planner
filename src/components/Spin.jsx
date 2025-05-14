@@ -148,25 +148,47 @@ const availableForSpin = useMemo(() => {
   
   // Filtered task list for dropdown
   const filteredTasks = useMemo(() => {
-    return tasks.filter((task) => {
-      const isToday = todaysActivities.includes(task);
-      const isChore =
-        includeChores && task.category?.toLowerCase() === "chores" &&
-        task.deadline &&
-        isWithinInterval(
-          typeof task.deadline === 'string' ? parseISO(task.deadline) : task.deadline,
-          { start: todayStart, end: weekEnd }
-        );
-      const isFun =
-        includeFun && task.type?.toLowerCase() === "daily" &&
-        !todaysActivities.includes(task); // exclude those already in today's
+    const result = [...todaysActivities]; // Always include today's tasks
 
-      const isBucket =
-        includeBucket && task.type?.toLowerCase() === "bucket";
+    // Add singleFun if both chores and fun are checked
+    if (singleFun) {
+      result.push(singleFun);
+    }
 
-      return isToday || isChore || isFun || isBucket;
-    });
-  }, [tasks, includeChores, includeFun, includeBucket, todaysActivities]);
+    // Add singleBucket if both chores and bucket are checked
+    if (singleBucket) {
+      result.push(singleBucket);
+    }
+
+    // Add weekly chores if chores are enabled
+    if (includeChores) {
+      result.push(...weeklyChores);
+    }
+
+    // add all bucket
+    if (includeBucket && !singleBucket) {
+      result.push(...bucketActivities);
+    }
+
+    // add all fun
+    if (includeFun && !singleFun) {
+      result.push(...funActivities);
+    }
+
+    // Remove duplicates by task ID
+    const uniqueTasks = [...new Map(result.map(task => [task.id, task])).values()];
+    return uniqueTasks;
+  }, [
+    todaysActivities,
+    singleFun,
+    singleBucket,
+    includeChores,
+    includeBucket,
+    includeFun,
+    funActivities,
+    bucketActivities,
+    weeklyChores
+  ]);
 
   // Handle clicking on an existing event
   const handleEventClick = ({ id, title }) => {
@@ -269,9 +291,17 @@ return (
         have fun!
       </h4>
       <div className="edit-dropdown">
-        <button className="dropdown-toggle" onClick={() => setShowDropdown(!showDropdown)}>
-          Edit Tasks ▼
-        </button>
+        <BubbleButton
+          label="edit"
+          className={showDropdown ? "toggle active" : "toggle"}
+          ariaLabel="edit tasks"
+          toggle={true}
+          zoom="0.5"
+          toggleColor="rgba(0, 0, 255, 0.1)"
+          onToggleChange={(state) => setShowDropdown(state)}
+          checked={showDropdown}
+          defaultColor="pink"
+        />
         {showDropdown && (
           <ul className="dropdown-list">
             {filteredTasks.map((task) => (
@@ -283,6 +313,7 @@ return (
           </ul>
         )}
       </div>
+
 
       <BubbleButton
         className="later-button"

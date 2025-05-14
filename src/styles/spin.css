@@ -117,10 +117,6 @@ h4 {
   font-size: 1rem;
 }
 
-.dropdown-toggle:hover {
-  background-color: lightpink;
-}
-
 .dropdown-list {
   position: absolute;
   background-color: white;
@@ -142,5 +138,5 @@ h4 {
 }
 
 .dropdown-list li:hover {
-  background-color: #f0f0f0;
+  background-color: lightpink;
 }
