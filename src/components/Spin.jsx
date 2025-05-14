@@ -290,6 +290,16 @@ return (
         button. then spin again!<br />
         have fun!
       </h4>
+        <BubbleButton
+          className="later-button"
+          onClick={pass}
+          disabled={!selectedActivityId}
+          label="later"
+          ariaLabel="Later"
+          toggle={false}
+          zoom="0.6"
+          defaultColor="transparent"
+        />
       <div className="edit-dropdown">
         <BubbleButton
           label="edit"
@@ -306,25 +316,13 @@ return (
           <ul className="dropdown-list">
             {filteredTasks.map((task) => (
               <li key={task.id} onClick={() => handleEventClick(task)}>
-                {task.title}
+                {task.title.toLowerCase()}
               </li>
             ))}
-            {filteredTasks.length === 0 && <li style={{ opacity: 0.6 }}>No tasks to edit</li>}
+            {filteredTasks.length === 0 && <li style={{ opacity: 0.6 }}>no tasks to edit</li>}
           </ul>
         )}
       </div>
-
-
-      <BubbleButton
-        className="later-button"
-        onClick={pass}
-        disabled={!selectedActivityId}
-        label="later"
-        ariaLabel="Later"
-        toggle={false}
-        zoom="0.6"
-        defaultColor="transparent"
-      />
 
       <div className="wheel-container">
         <div className="wheel-of-fortune">
