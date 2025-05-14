@@ -1,6 +1,6 @@
-# 🗓️ Event Planner
+# 🗓️ Bubblespin
 
-**Event Planner** is a feature-rich React application designed to help users efficiently manage tasks, events, and schedules. It features a sleek interface, an interactive calendar, and powerful task management tools—perfect for organizing your daily, weekly, or long-term activities.
+**Bubblespin** is a feature-rich React application designed to help users efficiently manage tasks, events, and schedules. It features a sleek interface, an interactive calendar, and powerful task management tools—perfect for organizing your daily, weekly, or long-term activities.
 
 ---
 
