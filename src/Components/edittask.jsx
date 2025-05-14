@@ -70,7 +70,16 @@ export default function EditTask({ tasks, taskId, onEdit }) {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        border: "2px solid #007BFF", // Add a blue border
+        borderRadius: "10px", // Rounded corners
+        padding: "20px", // Add padding inside the container
+        maxWidth: "600px", // Limit the container width
+        margin: "20px auto", // Center the container horizontally
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Add a subtle shadow
+      }}
+    >
       <h3>Edit Task by ID or Title</h3>
       <input
         placeholder="Enter ID or Title"
@@ -135,7 +144,9 @@ export default function EditTask({ tasks, taskId, onEdit }) {
             <input
               name="deadline"
               type="datetime-local"
-              value={editFields.deadline === "No deadline" ? "" : editFields.deadline || ""}
+              value={
+                editFields.deadline === "No deadline" ? "" : editFields.deadline || ""
+              }
               onChange={handleChange}
             />
           </label>
@@ -151,7 +162,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
               <option>Sport</option>
               <option>Music</option>
               <option>Social</option>
-              <option>Visual Art</option>
+              <option>Visual</option>
+              <option>Adventure</option>
             </select>
           </label>
           <br />
