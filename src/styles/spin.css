@@ -100,23 +100,47 @@ h4 {
   display: none;
 }
 
-.wedge-overlay-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.edit-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.wedge-overlay {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 50%;
-  height: 50%;
-  transform-origin: left center;
-  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+.dropdown-toggle {
+  background-color: pink;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  pointer-events: auto;
+  font-size: 1rem;
+}
+
+.dropdown-toggle:hover {
+  background-color: lightpink;
+}
+
+.dropdown-list {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+  width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.dropdown-list li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-list li:hover {
+  background-color: #f0f0f0;
 }

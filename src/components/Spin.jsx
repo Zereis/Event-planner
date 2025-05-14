@@ -18,6 +18,7 @@ function Spin() {
   const [usedActivityIds, setUsedActivityIds] = useState([]);   // for visually distinguishing already used activities
   const [mustSpin, setMustSpin] = useState(false);  // react custom roulette
   const [prizeNumber, setPrizeNumber] = useState(0);  
+  const [showDropdown, setShowDropdown] = useState(false);  // for task list to edit
 
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
@@ -98,7 +99,6 @@ function Spin() {
     return includeChores && includeBucket ? pickRandom(bucketActivities) : null;
   }, [includeChores, includeBucket]);
 
-
   const optionalActivities = (() => {
       if (includeChores && weeklyChores.length) {
         return [
@@ -122,6 +122,11 @@ function Spin() {
     );
   }, [todaysActivities, optionalActivities]);
 
+  // debug
+  useEffect(() => {
+    console.log("spin received all filtered:", allFiltered);
+  }, [allFiltered]);
+
   // exclude previously picked activities
 const availableForSpin = useMemo(() => {
   return allFiltered.filter(
@@ -141,6 +146,28 @@ const availableForSpin = useMemo(() => {
     }
   };
   
+  // Filtered task list for dropdown
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      const isToday = todaysActivities.includes(task);
+      const isChore =
+        includeChores && task.category?.toLowerCase() === "chores" &&
+        task.deadline &&
+        isWithinInterval(
+          typeof task.deadline === 'string' ? parseISO(task.deadline) : task.deadline,
+          { start: todayStart, end: weekEnd }
+        );
+      const isFun =
+        includeFun && task.type?.toLowerCase() === "daily" &&
+        !todaysActivities.includes(task); // exclude those already in today's
+
+      const isBucket =
+        includeBucket && task.type?.toLowerCase() === "bucket";
+
+      return isToday || isChore || isFun || isBucket;
+    });
+  }, [tasks, includeChores, includeFun, includeBucket, todaysActivities]);
+
   // Handle clicking on an existing event
   const handleEventClick = ({ id, title }) => {
 
@@ -241,6 +268,21 @@ return (
         button. then spin again!<br />
         have fun!
       </h4>
+      <div className="edit-dropdown">
+        <button className="dropdown-toggle" onClick={() => setShowDropdown(!showDropdown)}>
+          Edit Tasks ▼
+        </button>
+        {showDropdown && (
+          <ul className="dropdown-list">
+            {filteredTasks.map((task) => (
+              <li key={task.id} onClick={() => handleEventClick(task)}>
+                {task.title}
+              </li>
+            ))}
+            {filteredTasks.length === 0 && <li style={{ opacity: 0.6 }}>No tasks to edit</li>}
+          </ul>
+        )}
+      </div>
 
       <BubbleButton
         className="later-button"
