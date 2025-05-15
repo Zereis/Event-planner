@@ -94,28 +94,38 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
 
   return (
     <div>
-      <h3>Edit Task by ID or Title</h3>
-      <input
-        placeholder="Enter ID or Title"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
-      <button className="button" onClick={() => handleSearch()}>Search</button>
-      <button className="button" onClick={handleClearSearch}>Clear Search</button>
+      <div>
+        <h3>Edit Task by ID or Title</h3>
+        <input
+          placeholder="Enter ID or Title"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+        <button className="button" onClick={() => handleSearch()}>Search</button>
 
-      {matches.length > 1 && (
-        <div>
-          <p>Multiple tasks found. Please choose one:</p>
-          <ul>
-            {matches.map((task) => (
-              <li key={task.id}>
-                <strong>{task.title}</strong> – {task.dateTime}{" "}
-                <button onClick={() => handlePickTask(task)}>Edit This</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {/* Conditionally render the Clear Search button */}
+        <button
+          className="button"
+          onClick={handleClearSearch}
+          style={{ display: editFields && editFields.id ? "inline-block" : "none" }}
+        >
+          Clear Search
+        </button>
+
+        {matches.length > 1 && (
+          <div>
+            <p>Multiple tasks found. Please choose one:</p>
+            <ul>
+              {matches.map((task) => (
+                <li key={task.id}>
+                  <strong>{task.title}</strong> – {task.dateTime}{" "}
+                  <button onClick={() => handlePickTask(task)}>Edit This</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
       {editFields && editFields.id && (
         <form onSubmit={handleSubmit}>

@@ -12,7 +12,7 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
   const [deadline, setDeadline] = useState("");
   const [category, setCategory] = useState("Chore");
   const [type, setType] = useState("Daily");
-  const [noDeadline, setNoDeadline] = useState(false);
+  const [noDeadline, setNoDeadline] = useState(true); // Default to true (No Deadline is checked)
 
   useEffect(() => {
     if (initialDateTime) {
@@ -27,7 +27,7 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
     setDescription("");
     setDateTime(initialDateTime);
     setDeadline("");
-    setNoDeadline(false);
+    setNoDeadline(true); // Reset to default (No Deadline is checked)
     setCategory("Chore");
     setType("Daily");
   };
@@ -61,9 +61,6 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
 
     alert("Task added successfully!");
     onTempSubmit(task); // Pass the task data up to the parent component
-    setLastTask(task); // Save the task as the last task for reuse
-
-
     clearForm(); // Clear the form but keep the popup open
   };
 
@@ -108,6 +105,7 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
           type="datetime-local"
           value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
+          required
         />
       )}
       <br />
