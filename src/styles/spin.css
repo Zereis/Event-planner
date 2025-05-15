@@ -103,8 +103,8 @@ h4 {
 
 .div-later-button {
   position: absolute;
-  top: 58%;
-  left: calc(50% + 4rem); /* Position to the right of spin-button */
+  left: calc(60% + 4rem); /* Position to the right of spin-button */
+  top: 38%;
   transform: translate(-50%, -50%);
   z-index: 21; /* Above spin-button and wheel */
   display: none; /* Hidden by default */
@@ -192,8 +192,9 @@ h4 {
     top: 59%;
   }
   .div-later-button {
-    top: 59%;
-    left: calc(50% + 3.5rem);
+    left: calc(64% + 4rem); /* Position to the right of spin-button */
+    top: 39%;
+    zoom: 0.9;
   }
 }
 
@@ -226,9 +227,10 @@ h4 {
     top: 58%;
   }
 
-    .div-later-button {
-    top: 58%;
-    left: calc(50% + 3rem);
+  .div-later-button {
+    left: calc(62% + 4rem); /* Position to the right of spin-button */
+    top: 40%;
+    zoom: 0.8;
   }
 
   .action-buttons {
@@ -253,8 +255,9 @@ h4 {
     top: 59%;
   }
   .div-later-button {
-    top: 59%;
-    left: calc(50% + 3rem);
+    left: calc(62% + 4rem); /* Position to the right of spin-button */
+    top: 40%;
+    zoom: 0.7;
   }
 }
 
@@ -263,8 +266,9 @@ h4 {
     top: 60%;
   }
   .div-later-button {
-    top: 60%;
-    left: calc(50% + 3rem);
+    left: calc(64% + 4rem); /* Position to the right of spin-button */
+    top: 42%;
+    zoom: 0.6;
   }
 }
 
@@ -311,8 +315,8 @@ h4 {
     zoom: 0.6;
   }
   .div-later-button {
-    top: 65%;
-    left: calc(50% + 2.5rem);
+    left: calc(70% + 4rem); /* Position to the right of spin-button */
+    top: 48%;
     zoom: 0.6;
   }
 
@@ -395,9 +399,9 @@ h4 {
     zoom: 0.5;
   }
   .div-later-button {
-    top: 66%;
-    left: calc(50% + 2rem);
-    zoom: 0.5;
+    left: calc(72% + 4rem); /* Position to the right of spin-button */
+    top: 50%;
+    zoom: 0.6;
   }
 }
 
@@ -420,9 +424,9 @@ h4 {
     zoom: 0.5;
   }
   div-later-button {
-    top: 64.5%;
-    left: calc(50% + 2rem);
-    zoom: 0.5;
+    left: calc(62% + 4rem); /* Position to the right of spin-button */
+    top: 40%;
+    zoom: 0.6;
   }
 
   .edit-dropdown{
