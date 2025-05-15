@@ -94,23 +94,14 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
 
   return (
     <div>
-      <div>
-        <h3>Edit Task by ID or Title</h3>
-        <input
-          placeholder="Enter ID or Title"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
-        <button className="button" onClick={() => handleSearch()}>Search</button>
-
-        {/* Conditionally render the Clear Search button */}
-        <button
-          className="button"
-          onClick={handleClearSearch}
-          style={{ display: editFields && editFields.id ? "inline-block" : "none" }}
-        >
-          Clear Search
-        </button>
+      <h2>Edit Task by ID or Title</h2>
+      <input
+        placeholder="Enter ID or Title"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+      />
+      <button className="button" onClick={() => handleSearch()}>Search</button>
+      <button className="button" onClick={handleClearSearch}>Clear Search</button>
 
         {matches.length > 1 && (
           <div>
@@ -129,44 +120,44 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
 
       {editFields && editFields.id && (
         <form onSubmit={handleSubmit}>
-          <label>
-            Task ID:
+
+ 
             <input type="text" value={editFields.id} readOnly />
-          </label>
+   
+
           <br />
-          <label>
-            <h5>Title:</h5>
+
+
             <input
               name="title"
               value={editFields.title || ""}
               onChange={handleChange}
               required
             />
-          </label>
+
           <br />
-          <label>
-            <h5>Description:</h5>
-            <textarea
-              className="textarea"
-              name="description"
-              value={editFields.description || ""}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Date and Time:
+
             <input
               name="dateTime"
               type="datetime-local"
               value={editFields.dateTime || ""}
               onChange={handleChange}
             />
-          </label>
+
+
           <br />
-          <label>
-            Deadline:
+
+            <textarea
+              className="textarea"
+              name="description"
+              value={editFields.description || ""}
+              onChange={handleChange}
+            />
+
+          <br />
+
             <input
+              title="No Deadline"
               name="deadline"
               type="datetime-local"
               value={
@@ -174,10 +165,11 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
               }
               onChange={handleChange}
             />
-          </label>
-          <br />
+
+
+          <div className="select-container">
           <label>
-            Category:
+          <div className="custom-select">
             <select
               name="category"
               value={editFields.category || "Chore"}
@@ -190,10 +182,11 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
               <option>Visual</option>
               <option>Adventure</option>
             </select>
+          </div>
           </label>
-          <br />
+
           <label>
-            Type:
+          <div className="custom-select">
             <select
               name="type"
               value={editFields.type || "Daily"}
@@ -203,23 +196,20 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
               <option>Fun</option>
               <option>Bucket</option>
             </select>
+          </div>
           </label>
+          </div>
+
+
           <br />
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <button className="button" type="submit">Save</button>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            
+            <div className="left-bottom">
               {/* Bulk Delete */}
               <button
                 className="icon-button"
                 type="button"
                 onClick={() => bulkDelete(tasks)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Bulk Delete"
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -229,14 +219,8 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
               <button
                 className="icon-button"
                 type="button"
+                aria-label="Delete Task"
                 onClick={() => onDeleteTask(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Delete Task"
               >
                 <FontAwesomeIcon icon={faDeleteLeft} />
@@ -247,13 +231,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onToggleFavorite(editFields.id, true)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Add to Favorites"
               >
                 <FontAwesomeIcon icon={faStar} />
@@ -264,13 +241,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onToggleFavorite(editFields.id, false)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Remove from Favorites"
               >
                 <FontAwesomeIcon icon={faXmark} />
@@ -281,13 +251,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onRemoveImage(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Remove Image"
               >
                 <FontAwesomeIcon icon={faEyeSlash} />
@@ -298,28 +261,19 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onAddImage(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Add Image"
               >
                 <FontAwesomeIcon icon={faImage} />
               </button>
             </div>
+            <div className="right-bottom">
+
+            <button className="button" type="submit">Save</button>
+
+            </div>
           </div>
         </form>
       )}
-      <button
-        className="button"
-        type="button"
-        onClick={() => navigate("/")} // Navigate to the home page
-      >
-        Return to Home
-      </button>
     </div>
   );
 }
