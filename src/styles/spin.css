@@ -6,6 +6,8 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
     padding: 0.5rem;

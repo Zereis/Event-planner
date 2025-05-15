@@ -145,7 +145,7 @@ h1 {
   font-size: 1.2rem;
   cursor: pointer;
   font-weight: bold;
-  background: transparent;
+  background: var(--bg-color);
   position: relative;
   transition: all 1s;
   overflow: hidden;
