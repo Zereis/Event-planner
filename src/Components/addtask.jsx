@@ -71,14 +71,6 @@ function AddTask({ onTempSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
-      style={{
-        border: "2px solid #007BFF",
-        borderRadius: "10px",
-        padding: "20px",
-        maxWidth: "500px",
-        margin: "20px auto",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      }}
     >
       <h2>Add Task</h2>
       <input className="input"
