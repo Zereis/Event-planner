@@ -78,6 +78,13 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
         onChange={(e) => setTitle(e.target.value)}
         required
       />
+      <br />   
+      <input
+        type="datetime-local"
+        value={dateTime}
+        onChange={(e) => setDateTime(e.target.value)}
+        required
+      />
       <br />
       <textarea
         className="textarea"
@@ -86,23 +93,15 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
         onChange={(e) => setDescription(e.target.value)}
       />
       <br />
-      <input
-        type="datetime-local"
-        value={dateTime}
-        onChange={(e) => setDateTime(e.target.value)}
-        required
-      />
-      <br />
-
       <label>
         <input
           type="checkbox"
           checked={noDeadline}
           onChange={(e) => setNoDeadline(e.target.checked)}
         />
-        No Deadline
+      <>No Deadline  </>
       </label>
-      <br />
+
       {!noDeadline && (
         <input
           type="datetime-local"
@@ -112,33 +111,36 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
       )}
       <br />
 
-      <label>
-        Category:
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option>Chore</option>
-          <option>Sport</option>
-          <option>Music</option>
-          <option>Social</option>
-          <option>Visual</option>
-          <option>Adventure</option>
-        </select>
-      </label>
-      <br />
+      <div className="select-container">
+        <label>
+          <div className="custom-select">
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option>Chore</option>
+            <option>Sport</option>
+            <option>Music</option>
+            <option>Social</option>
+            <option>Visual</option>
+            <option>Adventure</option>
+          </select>
+          </div>
+        </label>
 
-      <label>
-        Type:
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option>Daily</option>
-          <option>Fun</option>
-          <option>Bucket</option>
-        </select>
-      </label>
+        <label>
+          <div className="custom-select">
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option>Daily</option>
+            <option>Fun</option>
+            <option>Bucket</option>
+          </select>
+          </div>
+        </label>
+      </div>
 
 
       <FormActionsDropdown onClear={clearForm} onReuse={reuseLastTask} />
       <div className="right-bottom">
         <button className="button" type="submit">
-          ➕ Add Task
+         Add Task
         </button>
       </div>
     </form>
