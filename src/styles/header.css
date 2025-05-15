@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   height: 6rem;
-  width: 90vw;
+  width: 98vw;
   max-width: 1024px;
   min-width: 300px;
   background: #aab43a;
@@ -46,6 +46,16 @@
   bottom: 0.5rem;             /* Aligns to the bottom */
   color: var(--bg-color);     /* Text color for both user info and buttons */
   gap: 0.5rem;                /* Space between user info and buttons */
+  text-shadow: var(--text-color) 1px 1px 1px; /* Text shadow for better visibility */
+}
+
+.icon {
+  transition: color 0.3s ease; /* Smooth color transition */
+  text-shadow: var(--text-color) 1px 1px 1px; /* Text shadow for better visibility */
+}
+
+.icon:hover {
+  color: #33c1ff; /* Color on hover */
 }
 
 

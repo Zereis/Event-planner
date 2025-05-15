@@ -20,8 +20,8 @@ const PopUpWindow = ({
   useEffect(() => {
     if (isOpen && contentRef.current) {
       const content = contentRef.current;
-      const newWidth = `${content.scrollWidth + 40}px`; // Padding
-      const newHeight = `${content.scrollHeight + 60}px`; // Padding for header
+      const newWidth = `${content.scrollWidth + 20}px`; // Padding
+      const newHeight = `${content.scrollHeight + 10}px`; // Padding for header
       setDimensions({
         width: newWidth,
         height: newHeight,
@@ -50,7 +50,6 @@ const PopUpWindow = ({
               backdropFilter: `blur(${blurIntensity})`,
               WebkitBackdropFilter: `blur(${blurIntensity})`,
             }}
-            onClick={onClose}
           />
           <motion.div
             className="popup-window"
