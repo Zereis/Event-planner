@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
-import '../styles/index.css';
-import '../styles/addedit-task.css'; // Import your CSS file
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faDeleteLeft, faStar, faXmark, faImage, faEyeSlash } from "@fortawesome/free-solid-svg-icons"; // Import the reset icon
+import "../styles/index.css";
+import "../styles/addedit-task.css"; // Import your CSS file
 
-export default function EditTask({ tasks, taskId, onEdit }) {
+export default function EditTask({ tasks = [], taskId = null, task = null, onEdit, updateTasks, bulkDelete, onDeleteTask, onToggleFavorite, onRemoveImage, onAddImage }) {
   const [searchValue, setSearchValue] = useState(""); // Search field value
   const [matches, setMatches] = useState([]); // Matching tasks
-  const [editFields, setEditFields] = useState(null); // Fields to edit
+  const [editFields, setEditFields] = useState(task || {}); // Fields to edit
   const navigate = useNavigate(); // For navigation
 
-  // Pre-fill the search field with the taskId when the component loads
   useEffect(() => {
-    if (taskId) {
+    if (taskId && task) {
       setSearchValue(taskId); // Set the search field to the taskId
-      handleSearch(taskId); // Automatically search for the task
+      setEditFields({ ...task }); // Pre-fill the edit fields with the task details
     }
-  }, [taskId]);
+  }, [taskId, task]);
+
+  useEffect(() => {
+    console.log("bulkDelete:", bulkDelete);
+    console.log("onDeleteTask:", onDeleteTask);
+    console.log("onToggleFavorite:", onToggleFavorite);
+    console.log("onRemoveImage:", onRemoveImage);
+    console.log("onAddImage:", onAddImage);
+  }, [bulkDelete, onDeleteTask, onToggleFavorite, onRemoveImage, onAddImage]);
 
   const handleSearch = (value = searchValue) => {
     setMatches([]);
@@ -29,25 +38,33 @@ export default function EditTask({ tasks, taskId, onEdit }) {
     if (results.length === 0) {
       alert("No task found.");
       setMatches([]);
-      setEditFields(null);
+      setEditFields({});
     } else if (results.length === 1) {
       setEditFields({ ...results[0] });
       setMatches([]);
     } else {
       setMatches(results);
-      setEditFields(null);
+      setEditFields({});
     }
   };
 
   const handleClearSearch = () => {
     setSearchValue("");
     setMatches([]);
-    setEditFields(null);
+    setEditFields({});
   };
 
   const handlePickTask = (task) => {
     setEditFields({ ...task });
     setMatches([]);
+  };
+
+  const handleResetFields = () => {
+    if (task) {
+      setEditFields({ ...task }); // Reset the fields to the original task values
+    } else {
+      alert("No task to reset!");
+    }
   };
 
   const handleChange = (e) => {
@@ -60,19 +77,23 @@ export default function EditTask({ tasks, taskId, onEdit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!editFields.id) {
+      alert("No task selected to edit.");
+      return;
+    }
+
     const updatedTasks = tasks.map((t) =>
       t.id === editFields.id ? editFields : t
     );
+
     onEdit(updatedTasks);
     alert("Changes were successfully saved!");
     handleClearSearch();
-    navigate("/"); // Redirect back to the calendar
   };
 
   return (
-    <div
-
-    >
+    <div>
       <h3>Edit Task by ID or Title</h3>
       <input
         placeholder="Enter ID or Title"
@@ -96,7 +117,7 @@ export default function EditTask({ tasks, taskId, onEdit }) {
         </div>
       )}
 
-      {editFields && (
+      {editFields && editFields.id && (
         <form onSubmit={handleSubmit}>
           <label>
             Task ID:
@@ -115,7 +136,8 @@ export default function EditTask({ tasks, taskId, onEdit }) {
           <br />
           <label>
             <h5>Description:</h5>
-            <textarea className="textarea"
+            <textarea
+              className="textarea"
               name="description"
               value={editFields.description || ""}
               onChange={handleChange}
@@ -173,11 +195,116 @@ export default function EditTask({ tasks, taskId, onEdit }) {
             </select>
           </label>
           <br />
-          <button className="button" type="submit">Save</button>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <button className="button" type="submit">Save</button>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {/* Bulk Delete */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => bulkDelete(tasks)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Bulk Delete"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+
+              {/* Delete Task */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => onDeleteTask(editFields.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Delete Task"
+              >
+                <FontAwesomeIcon icon={faDeleteLeft} />
+              </button>
+
+              {/* Add to Favorites */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => onToggleFavorite(editFields.id, true)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Add to Favorites"
+              >
+                <FontAwesomeIcon icon={faStar} />
+              </button>
+
+              {/* Remove from Favorites */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => onToggleFavorite(editFields.id, false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Remove from Favorites"
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+
+              {/* Remove Image */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => onRemoveImage(editFields.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Remove Image"
+              >
+                <FontAwesomeIcon icon={faEyeSlash} />
+              </button>
+
+              {/* Add Image */}
+              <button
+                className="icon-button"
+                type="button"
+                onClick={() => onAddImage(editFields.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#007bff",
+                }}
+                title="Add Image"
+              >
+                <FontAwesomeIcon icon={faImage} />
+              </button>
+            </div>
+          </div>
         </form>
       )}
-      <br />
-      <button className="button"
+      <button
+        className="button"
         type="button"
         onClick={() => navigate("/")} // Navigate to the home page
       >
@@ -186,3 +313,11 @@ export default function EditTask({ tasks, taskId, onEdit }) {
     </div>
   );
 }
+
+EditTask.defaultProps = {
+  bulkDelete: () => alert("bulkDelete function not provided"),
+  onDeleteTask: () => alert("onDeleteTask function not provided"),
+  onToggleFavorite: () => alert("onToggleFavorite function not provided"),
+  onRemoveImage: () => alert("onRemoveImage function not provided"),
+  onAddImage: () => alert("onAddImage function not provided"),
+};

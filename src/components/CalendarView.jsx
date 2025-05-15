@@ -11,10 +11,13 @@ import { bulkDelete, downloadTasksAsJSON, importTasksFromJSON } from "../Compone
 import { useNavigate, useLocation } from "react-router"; // For navigation and query parameters
 import "../styles/index.css"; // Import global styles
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
-import { faUpload, faDownload } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import { faUpload, faDownload, faTrash, faDeleteLeft, faStar, faXmark, faEyeSlash, faImage } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import { AddTaskPopup, EditTaskPopup } from './PopupConfigs'; // Import AddTaskPopup and EditTaskPopup
+import EditTask from "./EditTask"; // Import EditTask
 
 export default function CalendarView() {
   const { tasks, updateTasks } = useContext(TaskContext); // Access tasks from TaskContext
+  const [selectedTaskId, setSelectedTaskId] = useState(null); // Add state for selected task ID
   const location = useLocation(); // Get the current location
   const queryParams = new URLSearchParams(location.search); // Parse query parameters
   const dateParam = queryParams.get("date"); // Get the 'date' parameter from the URL
@@ -29,6 +32,9 @@ export default function CalendarView() {
   const navigate = useNavigate(); // For navigation
 
   const calendarRef = useRef(null); // Ref for FullCalendar
+
+  const { Component: AddTaskPopupComponent, trigger: triggerAddTask } = AddTaskPopup(); // Destructure AddTaskPopup
+  const { Component: EditTaskPopupComponent, trigger: triggerEditTask } = EditTaskPopup(); // Destructure EditTaskPopup
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -71,98 +77,96 @@ export default function CalendarView() {
     console.log("Clicked date and time:", info.date); // Log the clicked date and time
     console.log("Current view type:", info.view.type); // Log the current view type
 
-    const confirmAddTask = window.confirm(
-      `You clicked on ${info.dateStr}.\nDo you want to add a task?`
-    );
+    let dateTime;
 
-    if (confirmAddTask) {
-      let dateTime;
-
-      if (info.view.type === "dayGridMonth") {
-        // Month view: Use the current time and clicked date
-        const now = new Date(); // Get the current date and time
-        const localTime = now.toTimeString().split(" ")[0].slice(0, 5); // Get local time in HH:mm format
-        dateTime = `${info.dateStr}T${localTime}`; // Combine selected date with local time
-      } else if (info.view.type === "timeGridWeek" || info.view.type === "timeGridDay") {
-        // Week or Day view: Use the clicked time and date in local time
-        const localDateTime = new Date(info.date).toLocaleString("sv-SE", {
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          hour12: false,
-        });
-        dateTime = localDateTime.replace(" ", "T"); // Convert to ISO-like format
-      }
-
-      console.log("Passing dateTime to AddTask:", dateTime); // Log the dateTime being passed
-      navigate("/add", { state: { dateTime } }); // Pass the date and time as state
+    if (info.view.type === "dayGridMonth") {
+      // Month view: Use the current time and clicked date
+      const now = new Date(); // Get the current date and time
+      const localTime = now.toTimeString().split(" ")[0].slice(0, 5); // Get local time in HH:mm format
+      dateTime = `${info.dateStr}T${localTime}`; // Combine selected date with local time
+    } else if (info.view.type === "timeGridWeek" || info.view.type === "timeGridDay") {
+      // Week or Day view: Use the clicked time and date in local time
+      const localDateTime = new Date(info.date).toLocaleString("sv-SE", {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hour12: false,
+      });
+      dateTime = localDateTime.replace(" ", "T"); // Convert to ISO-like format
     }
+
+    console.log("Passing dateTime to AddTask:", dateTime); // Log the dateTime being passed
+
+    // Trigger the AddTask popup and pass the dateTime
+    triggerAddTask({ onTempSubmit: handleAddTask, dateTime });
+  };
+
+  const handleAddTask = (task) => {
+    updateTasks([...tasks, task]); // Add the new task to the task list
   };
 
   // Handle clicking on an existing event
   const handleEventClick = (info) => {
     const taskId = info.event.id;
-    const action = prompt(
-      `You clicked on "${info.event.title}".\nChoose an action:\n1: Edit Task (default)\n2: Delete Task\n3: Bulk Delete\n4: Add as Favorite\n5: Remove Favorite\n6: Add Image to Tooltip\n7: Remove Image from Tooltip`
+    const task = tasks.find((t) => t.id === taskId);
+
+    if (task) {
+      triggerEditTask({
+        tasks,
+        taskId,
+        task,
+        onEdit: handleEditTask,
+        bulkDelete,
+        onDeleteTask: handleDeleteTask,
+        onToggleFavorite: handleToggleFavorite,
+        onRemoveImage: handleRemoveImage,
+        onAddImage: handleAddImage,
+      });
+    }
+  };
+
+  const handleEditTask = (updatedTasks) => {
+    updateTasks(updatedTasks); // Update the task list with the edited tasks
+  };
+
+  const handleDeleteTask = (taskId) => {
+    const confirmed = window.confirm(`Are you sure you want to delete this task?`);
+    if (confirmed) {
+      const updatedTasks = tasks.filter((task) => task.id !== taskId);
+      updateTasks(updatedTasks); // Update TaskContext and save to local storage
+    }
+  };
+
+  const handleToggleFavorite = (taskId, isFavorite) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, favorite: isFavorite } : task
     );
+    updateTasks(updatedTasks); // Update TaskContext and save to local storage
+  };
 
-    if (action === null) {
-      // User clicked "Cancel", do nothing
-      return;
-    }
+  const handleRemoveImage = (taskId) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, image: null } : task
+    );
+    updateTasks(updatedTasks); // Update TaskContext and save to local storage
+  };
 
-    if (action === "1" || action === "") {
-      // Default or Edit Task
-      navigate(`/edit?taskId=${taskId}`); // Navigate to Edit.jsx with taskId
-    } else if (action === "2") {
-      const confirmed = window.confirm(
-        `Are you sure you want to delete the task "${info.event.title}"?`
-      );
-      if (confirmed) {
-        const updatedTasks = tasks.filter((task) => task.id !== taskId);
-        updateTasks(updatedTasks); // Update TaskContext and save to local storage
+  const handleAddImage = (taskId) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const updatedTasks = tasks.map((task) =>
+            task.id === taskId ? { ...task, image: reader.result } : task
+          );
+          updateTasks(updatedTasks); // Update TaskContext and save to local storage
+        };
+        reader.readAsDataURL(file);
       }
-    } else if (action === "3") {
-      const updatedTasks = bulkDelete(tasks); // Use bulkDelete from TaskHandlers
-      updateTasks(updatedTasks); // Update TaskContext and save to local storage
-    } else if (action === "4") {
-      // Add as Favorite
-      const updatedTasks = tasks.map((task) =>
-        task.id === taskId ? { ...task, favorite: true } : task
-      );
-      updateTasks(updatedTasks); // Update TaskContext and save to local storage
-    } else if (action === "5") {
-      // Remove Favorite
-      const updatedTasks = tasks.map((task) =>
-        task.id === taskId ? { ...task, favorite: false } : task
-      );
-      updateTasks(updatedTasks); // Update TaskContext and save to local storage
-    } else if (action === "6") {
-      // Add Image to Tooltip
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*"; // Accept only image files
-      input.onchange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const updatedTasks = tasks.map((task) =>
-              task.id === taskId
-                ? { ...task, image: reader.result } // Add the image URL to the task
-                : task
-            );
-            updateTasks(updatedTasks); // Update TaskContext and save to local storage
-          };
-          reader.readAsDataURL(file); // Convert the image to a base64 URL
-        }
-      };
-      input.click();
-    } else if (action === "7") {
-      // Remove Image from Tooltip
-      const updatedTasks = tasks.map((task) =>
-        task.id === taskId ? { ...task, image: null } : task // Remove the image by setting it to null
-      );
-      updateTasks(updatedTasks); // Update TaskContext and save to local storage
-    }
+    };
+    input.click();
   };
 
   // Toggle favorite status of a task
@@ -296,6 +300,12 @@ export default function CalendarView() {
           {showTaskList ? "Show Calendar" : "Show Task List"}
         </button>
       </div>
+
+      {/* AddTask Popup */}
+      <AddTaskPopupComponent />
+
+      {/* EditTask Popup */}
+      <EditTaskPopupComponent />
 
       {/* Conditionally Render Calendar or Task List */}
       {showTaskList ? (

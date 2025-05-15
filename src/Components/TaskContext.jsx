@@ -7,6 +7,7 @@ export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
+  const [latestTask, setLatestTask] = useState(null); // Store the latest task
 
   useEffect(() => {
     setTasks(loadTasks());
@@ -15,10 +16,13 @@ export const TaskProvider = ({ children }) => {
   const updateTasks = (newTasks) => {
     setTasks(newTasks);
     saveTasks(newTasks);
+    if (newTasks.length > 0) {
+      setLatestTask(newTasks[newTasks.length - 1]); // Update the latest task
+    }
   };
 
   return (
-    <TaskContext.Provider value={{ tasks, updateTasks }}>
+    <TaskContext.Provider value={{ tasks, updateTasks, latestTask }}>
       {children}
     </TaskContext.Provider>
   );

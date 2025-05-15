@@ -17,6 +17,7 @@ export default function Add() {
   const handleTempSubmit = (task) => {
     setCurrentTask(task); // Save the task to state
     setShowRepeatPrompt(true); // Show the RepeatPrompt
+    alert("Task added successfully!"); // Show the alert after adding the task
   };
 
   const handleConfirmRepeat = (repeatedTasks) => {
