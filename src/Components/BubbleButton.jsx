@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/bubbles.css';
 import bubblePopSound from '../assets/sound/bubble-pop.mp3';
 import bubbleHoverSound from '../assets/sound/bubble.mp3';
+import bubbleAwaySound from '../assets/sound/bubble-away.mp3';
 
 const BubbleButton = ({
   label = "",
@@ -16,6 +17,7 @@ const BubbleButton = ({
   disabled = false,
   clickSound = bubblePopSound,
   hoverSound = bubbleHoverSound,
+  clickAwaySound = bubbleAwaySound,
   ariaLabel = "",
   icon = null,
   isToggled: controlledToggled = null,
@@ -47,6 +49,10 @@ const BubbleButton = ({
     onClick();
 
     if (flyAway) {
+      if (clickAwaySound) {
+        const awayAudio = new Audio(clickAwaySound);
+        awayAudio.play();
+      }
       setIsFlying(true);
       setTimeout(() => setVisible(false), 2000); // match animation duration
     }

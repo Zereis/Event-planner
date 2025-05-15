@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
-
-
 .page-container {
     display: flex;
     flex-direction: column;
@@ -103,11 +101,18 @@ h4 {
   margin-top: 1rem;
 }
 
-.later-button {
-  display: none;
+
+.div-later-button {
   position: absolute;
-  top: 43%;
-  left: 67%;
+  top: 58%;
+  left: calc(50% + 4rem); /* Position to the right of spin-button */
+  transform: translate(-50%, -50%);
+  z-index: 21; /* Above spin-button and wheel */
+  display: none; /* Hidden by default */
+}
+
+.div-later-button[data-has-spun="true"] {
+  display: block; /* Show when hasSpun is true */
 }
 
 .toggle input[type="checkbox"] {
@@ -187,6 +192,10 @@ h4 {
   .spin-button {
     top: 59%;
   }
+  .div-later-button {
+    top: 59%;
+    left: calc(50% + 3.5rem);
+  }
 }
 
 /*narrower screen*/
@@ -218,6 +227,11 @@ h4 {
     top: 58%;
   }
 
+    .div-later-button {
+    top: 58%;
+    left: calc(50% + 3rem);
+  }
+
   .action-buttons {
     gap: 6rem;
     padding-left: 0;
@@ -239,11 +253,19 @@ h4 {
   .spin-button {
     top: 59%;
   }
+  .div-later-button {
+    top: 59%;
+    left: calc(50% + 3rem);
+  }
 }
 
 @media (max-width: 610px){
   .spin-button {
     top: 60%;
+  }
+  .div-later-button {
+    top: 60%;
+    left: calc(50% + 3rem);
   }
 }
 
@@ -287,6 +309,11 @@ h4 {
   .spin-button {
     top: 65%;
     top: 65%;
+    zoom: 0.6;
+  }
+  .div-later-button {
+    top: 65%;
+    left: calc(50% + 2.5rem);
     zoom: 0.6;
   }
 
@@ -368,6 +395,11 @@ h4 {
     top: 66%;
     zoom: 0.5;
   }
+  .div-later-button {
+    top: 66%;
+    left: calc(50% + 2rem);
+    zoom: 0.5;
+  }
 }
 
 @media (max-width: 376px){
@@ -386,6 +418,11 @@ h4 {
   }
     .spin-button {
     top: 64.5%;
+    zoom: 0.5;
+  }
+  div-later-button {
+    top: 64.5%;
+    left: calc(50% + 2rem);
     zoom: 0.5;
   }
 

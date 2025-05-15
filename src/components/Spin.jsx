@@ -19,6 +19,9 @@ function Spin() {
   const [prizeNumber, setPrizeNumber] = useState(0);  
   const [showDropdown, setShowDropdown] = useState(false);  // for task list to edit
 
+  const [hasSpun, setHasSpun] = useState(false); // track if wheel has spun and stopped
+  const [triggerFlyAway, setTriggerFlyAway] = useState(false); // control fly-away animation
+
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
   const [playSpinning, setPlaySpinning] = useState(false); // play spinning sound
@@ -132,12 +135,15 @@ const availableForSpin = useMemo(() => {
     setUsedActivityIds((prev) => prev.filter((usedId) => usedId !== id));
   }
 
-  const pass = () => {
-    if (selectedActivityId !== null) {
-      passActivityId(selectedActivityId);  // remove selected activity from used
-      setSelectedActivityId(null);  // deselect it
-    }
-  };
+const pass = () => {
+  if (selectedActivityId !== null) {  // Check if an activity is selected
+    setTriggerFlyAway(true); // Trigger fly-away animation
+    setTimeout(() => { // Delay to allow animation to play
+      passActivityId(selectedActivityId); // Remove the activity from usedActivityIds      
+      setSelectedActivityId(null); // Reset selected activity
+    }, 200); // Slight delay so animation can begin
+  }
+};
   
   // Filtered task list for dropdown
   const filteredTasks = useMemo(() => {
@@ -378,6 +384,8 @@ return (
                 }}
                 onStopSpinning={() => {
                   setMustSpin(false);
+                  setHasSpun(true); // indicate wheel has spun
+                  setTriggerFlyAway(false); // reset fly-away for next appearance
                   const chosen = allFiltered[prizeNumber];
                   if (chosen) {
                     setUsedActivityIds((prev) => [...prev, chosen.id]);
@@ -403,6 +411,18 @@ return (
           />
         </div>
       )}
+              <div className="div-later-button" data-has-spun={hasSpun}>
+          <BubbleButton
+            className="later-button"
+            onClick={pass}
+            label="later"
+            ariaLabel="Later"
+            toggle={false}
+            zoom="0.6"
+            defaultColor="transparent"
+            flyAway={triggerFlyAway}
+          />
+        </div>
       </div>
       <div className="toggle-buttons">
         <BubbleButton
@@ -437,19 +457,6 @@ return (
           defaultColor="transparent"
           onToggleChange={(state) => setIncludeChores(state)}
           checked={includeChores}
-        />
-      </div>
-      <div className="later-button">
-        <BubbleButton
-          className="later-button"
-          onClick={pass}
-          disabled={!selectedActivityId}
-          label="later"
-          ariaLabel="Later"
-          toggle={false}
-          zoom="0.6"
-          defaultColor="transparent"
-          display="none"
         />
       </div>
     </div>
