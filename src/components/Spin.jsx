@@ -298,26 +298,28 @@ return (
     </h4>
 
     {test && (
-      <div className="div-later-button" data-has-spun={hasSpun}>
-        <BubbleButton
-          className="later-button"
-          onClick={() => {
-            pass(); // Call the `pass` function
-            setTriggerFlyAway(true); // Trigger the fly-away animation
-            setTimeout(() => {
-              setTest(false); // Set `test` to false after the animation completes
-              setTriggerFlyAway(false); // Reset the fly-away state
-            }, 2000); // Match the duration of the fly-away animation
-          }}
-          label="later"
-          ariaLabel="Later"
-          toggle={false}
-          zoom="0.6"
-          defaultColor="transparent"
-          flyAway={triggerFlyAway}
-        />
-      </div>
-    )}
+  <div className="div-later-button" data-has-spun={hasSpun}>
+    <BubbleButton
+      className="later-button"
+      onClick={() => {
+        setTriggerFlyAway(true);
+        pass();
+        
+          setTimeout(() => {
+          setTest(false); // Set `test` to false after the animation completes
+          setTriggerFlyAway(false); // Reset the fly-away state
+        }, 2000); // Match the duration of the fly-away animation
+        
+      }}
+      label="later"
+      ariaLabel="Later"
+      toggle={false}
+      zoom="0.6"
+      defaultColor="transparent"
+      flyAway={true}
+    />
+  </div>
+)}
 
     <div className="edit-dropdown">
       <BubbleButton
