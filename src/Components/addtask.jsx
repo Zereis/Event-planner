@@ -133,22 +133,14 @@ function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
           <option>Bucket</option>
         </select>
       </label>
-      <br />
 
-      <button className="button" type="submit">
-        ➕ Add Task
-      </button>
-      <br />
 
-      <button
-        className="button"
-        type="button"
-        onClick={onClose} // Close the popup when this button is clicked
-      >
-        Cancel
-      </button>
-      <br />
       <FormActionsDropdown onClear={clearForm} onReuse={reuseLastTask} />
+      <div className="right-bottom">
+        <button className="button" type="submit">
+          ➕ Add Task
+        </button>
+      </div>
     </form>
   );
 }
