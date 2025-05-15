@@ -16,9 +16,9 @@ const PopUpWindow = ({
   const [dimensions, setDimensions] = useState({ width: minWidth, height: minHeight });
   const contentRef = useRef(null);
 
-  // Dynamic sizing based on content
-  useEffect(() => {
-    if (isOpen && contentRef.current) {
+  // Function to update dimensions based on content size
+  const updateDimensions = () => {
+    if (contentRef.current) {
       const content = contentRef.current;
       const newWidth = `${content.scrollWidth + 20}px`; // Padding
       const newHeight = `${content.scrollHeight + 10}px`; // Padding for header
@@ -27,7 +27,34 @@ const PopUpWindow = ({
         height: newHeight,
       });
     }
-  }, [isOpen, children]);
+  };
+
+  // Initial sizing and resize observer
+  useEffect(() => {
+    if (isOpen && contentRef.current) {
+      // Initial size calculation
+      updateDimensions();
+
+      // Set up ResizeObserver to monitor content size changes
+      const resizeObserver = new ResizeObserver(() => {
+        updateDimensions();
+      });
+
+      resizeObserver.observe(contentRef.current);
+
+      // Cleanup observer on unmount or when isOpen changes
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, [isOpen]);
+
+  // Update dimensions when children change
+  useEffect(() => {
+    if (isOpen) {
+      updateDimensions();
+    }
+  }, [children, isOpen]);
 
   // Portal rendering
   const modalRoot = document.getElementById('modal-root');
