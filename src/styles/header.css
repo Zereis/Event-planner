@@ -1,10 +1,10 @@
 .header {
   position: fixed;
   top: 0;
-  height: 4rem;
-  width: 100%;
+  height: 6rem;
+  width: 90vw;
   max-width: 1024px;
-  min-width: 400px;
+  min-width: 300px;
   background: #aab43a;
   background: linear-gradient(90deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 50%);
     box-shadow: 2px 2px 2px #333333;
@@ -16,16 +16,17 @@
   z-index: 1000;
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;
+  box-sizing: border-box;
 }
 
 .SpinLogo{
-  height: 80px;
+  height: 4rem;
   position: absolute;
-  top: 0rem;
-  left: 2rem;
+  top: 1rem;
+  left: 1rem;
 }
 .TitleName {
-  height: 7rem;
+  height: 5rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -38,16 +39,7 @@
   width: 100%;
 }
 
-.header-logo-name {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.header-logo-name img {
-  height: 7rem;
-}
-
-.header-login {
+.header-user {
   position: absolute;
   right: 0rem;
   bottom: 0.5rem;
@@ -67,9 +59,9 @@
   background-color: transparent;
   color: var(--bg-color);
   padding: 0;
-  margin: 0 0.5rem 0 0rem;
+  margin: 0 1rem 0 0rem;
   border: none;
-  width: 2rem;
+  width: 1rem;
   cursor: pointer;
 }
 
@@ -78,11 +70,6 @@
     top: 0;
     right: 0rem;
     zoom: 0.8;
-}
-@media (max-width: 600px) {
-    .header img {
-        height: 60px;
-    }
 }
 
 
@@ -132,7 +119,7 @@
 
 @media (max-width: 800px) {
   .header {
-    height: 3rem;   
+    height: 6rem;   
   } 
 }
   .nav-desktop ul {
@@ -176,7 +163,7 @@
   cursor: pointer;
   display: block;
   position: absolute;
-  padding: 0px 10px;
+  padding: 0px 4px;
   right: 0.5rem;
   top: 2rem;
   z-index: 1000; /* Ensure the hamburger is above other elements */
@@ -216,7 +203,7 @@
   display: block;
   background: none;
   border: none;
-  color: #333;
+  color: var(--bg-color);
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -227,15 +214,15 @@
 @media (max-width: 868px) {
   .hamburger {
     display: block;
-    right: 2rem;
+    /* right: 2rem; */
     animation: fadeIn 1s ease-in-out forwards;
   }
   .nav-desktop {
     display: none;
   }
-  .toggle-container {
+  /* .toggle-container {
     right: 2rem;
-  }
+  } */
   
 }
 .right-align{
@@ -246,7 +233,7 @@
 .nav-menu ul li a {
   text-decoration: none;
   font-size: 1.5rem;
-  color: var(--text-color);
+  color: var(--bg-color);
   padding: 0rem 1rem;
 }
 
@@ -279,10 +266,25 @@
 }
 
 @media (max-width: 600px) {
-  .portfolio {
-    height: 45px;
-    top: 0rem;
-    left: 0rem;
+  .TitleName {
+    height: 3.5rem;
+  }
+  .SpinLogo {
+    height: 4rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .header {
+    width: 100vw;
+    border-radius: 0;
+    margin: 0;
+  }
+  .TitleName {
+    height: 3rem;
+  }
+  .SpinLogo {
+    height: 4rem;
   }
 }
 
