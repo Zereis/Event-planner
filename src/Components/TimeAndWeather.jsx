@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import '../styles/calendar.css'
 
 export default function TimeAndWeather() {
   const [time, setTime] = useState(new Date());
@@ -25,8 +26,7 @@ export default function TimeAndWeather() {
 
   return (
     <div style={{ marginBottom: "1rem" }}>
-      <div>{time.toLocaleTimeString()}</div>
-      <div>{weather}</div>
+  <div className="upperleft-Calendar">{time.toLocaleTimeString()}<span></span> | <span></span>{weather}</div>
     </div>
   );
 }

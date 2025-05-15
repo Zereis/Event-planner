@@ -18,6 +18,29 @@
   transition: transform 0.5s ease-in-out; /* Match the container's transition */
 }
 
+.upperleft-Calendar {
+  position: absolute;
+  top: 0rem;
+  left: 2rem;
+}
+.upperright-Calendar{
+  position: absolute;
+  top: 0.5rem;
+  right: 2rem;
+  gap: 1rem;
+}
+
+.icon-button-calendar {
+    margin: 0.5rem;
+    padding: 0rem;
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    z-index: 20000;
+}
+
 .calendar-container .h1 {
   text-align: center;
   margin: 20px 0;

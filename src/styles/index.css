@@ -112,36 +112,13 @@ h1 {
   }
 }
 
-/* Old button styles
-
-.button {
-  background: linear-gradient(60deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 80%);
-  box-shadow: 1px 1px 1px var(--text-color);
-  border: 1px solid var(--text-color);
-  color: var(--bg-color);
-  padding: 0px 4px;
-  text-align: center;
-  text-shadow: 1px 1px 1px var(--text-color);
-  display: inline-block;
-  border-radius: 6px;
-  font-size: 1.2rem;
-  margin: 2px 0px;
-  cursor: pointer;
-  transition: border-color 0.25s, background-color 0.25s;
-}
-.button:hover {
-  background-color: lightblue;
-  border-color: var(--text-color);
-  box-shadow: 2px 2px 2px var(--text-color);
-} */
-
 
 .button {
   color: var(--text-color);
   text-transform: uppercase;
   text-decoration: none;
   border: 2px solid rgba(8, 150, 175, 1);
-  padding: 0px 2px;
+  padding: 0px 0.5rem;
   font-size: 1.2rem;
   cursor: pointer;
   font-weight: bold;

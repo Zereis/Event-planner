@@ -257,18 +257,10 @@ export default function CalendarView() {
       <TimeAndWeather />
 
       {/* Upload and Download Icons */}
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          display: "flex",
-          gap: "15px",
-          zIndex: 1000,
-        }}
-      >
+      <div className="upperright-Calendar">
         {/* Upload Icon */}
         <FontAwesomeIcon
+          className="icon-button-calendar" 
           icon={faUpload}
           beat={isUploadHovered}
           size="1x" // Increase the size of the icon
@@ -281,10 +273,9 @@ export default function CalendarView() {
 
         {/* Download Icon */}
         <FontAwesomeIcon
+          className="icon-button-calendar" 
           icon={faDownload}
           beat={isDownloadHovered}
-          size="1x" // Increase the size of the icon
-          style={{ cursor: "pointer" }}
           title="Download Tasks" // Tooltip text for download
           onMouseEnter={() => setIsDownloadHovered(true)}
           onMouseLeave={() => setIsDownloadHovered(false)}
