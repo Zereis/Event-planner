@@ -21,6 +21,7 @@ function Spin() {
 
   const [hasSpun, setHasSpun] = useState(false); // track if wheel has spun and stopped
   const [triggerFlyAway, setTriggerFlyAway] = useState(false); // control fly-away animation
+  const [test, setTest] = useState(false); // manage the `test` variable dynamically
 
   // sound effects
   const [playSpinButton, setPlaySpinButton] = useState(false); // play spin button sound
@@ -136,12 +137,14 @@ const availableForSpin = useMemo(() => {
   }
 
 const pass = () => {
-  if (selectedActivityId !== null) {  // Check if an activity is selected
+  if (selectedActivityId !== null) {
     setTriggerFlyAway(true); // Trigger fly-away animation
-    setTimeout(() => { // Delay to allow animation to play
-      passActivityId(selectedActivityId); // Remove the activity from usedActivityIds      
+    setTimeout(() => {
+      passActivityId(selectedActivityId); // Remove the activity from usedActivityIds
       setSelectedActivityId(null); // Reset selected activity
-    }, 200); // Slight delay so animation can begin
+      setTriggerFlyAway(false); // Reset the fly-away state
+      setHasSpun(false); // Reset the "Later" button visibility
+    }, 2000); // Match the animation duration
   }
 };
   
@@ -254,30 +257,29 @@ const data = Array.isArray(allFiltered)
 
   // actual wheel spinning
   const handleSpinClick = () => {
-    // sound effects
-    setPlaySpinButton(true); // play the spin button sound
-    setPlaySpinning(true); // play the spinning sound
-        // reset the sound flags after a short delay to allow them to play
-    setTimeout(() => setPlaySpinButton(false), 30); // short delay for button sound
-    setTimeout(() => setPlaySpinning(false), 2000); // assuming spinning sound lasts 2s
-
-    if (!mustSpin && availableForSpin.length > 0) {
-      const randomIndex = Math.floor(Math.random() * availableForSpin.length);
-      const selectedId = availableForSpin[randomIndex].id;
-
-      const prizeIdx = allFiltered.findIndex((act) => act.id === selectedId);
-      if (prizeIdx === -1) {
-        console.warn("Invalid prize index", selectedId, allFiltered);
-        return;
-      }
-      setPrizeNumber(prizeIdx);
-      setMustSpin(true);
-    }
-    else if (availableForSpin.length === 0) {
-      setSelectedActivityId(null);  // nothing left to select
-      alert("you have done everything for the day!");
+    if (availableForSpin.length === 0) {
+      alert("No activities available to spin!");
       return;
     }
+
+    setHasSpun(false); // Reset the "Later" button visibility
+
+    if(!setHasSpun)
+    {
+
+    }
+    setTriggerFlyAway(false); // Ensure the "Later" button is reset
+
+    const randomIndex = Math.floor(Math.random() * availableForSpin.length);
+    setPrizeNumber(randomIndex);
+    setMustSpin(true);
+    setPlaySpinButton(true); // Play spin button sound
+
+    setTimeout(() => {
+      setMustSpin(false);
+      setHasSpun(true); // Make the "Later" button visible again
+      setSelectedActivityId(availableForSpin[randomIndex].id); // Set the selected activity
+    }, 2000); // Match the spin duration
   };
 
 return (
@@ -295,19 +297,27 @@ return (
       have fun!
     </h4>
 
-    {/* Move the "Later" button here */}
-    <div className="div-later-button" data-has-spun={hasSpun}>
-      <BubbleButton
-        className="later-button"
-        onClick={pass}
-        label="later"
-        ariaLabel="Later"
-        toggle={false}
-        zoom="0.6"
-        defaultColor="transparent"
-        flyAway={true}
-      />
-    </div>
+    {test && (
+      <div className="div-later-button" data-has-spun={hasSpun}>
+        <BubbleButton
+          className="later-button"
+          onClick={() => {
+            pass(); // Call the `pass` function
+            setTriggerFlyAway(true); // Trigger the fly-away animation
+            setTimeout(() => {
+              setTest(false); // Set `test` to false after the animation completes
+              setTriggerFlyAway(false); // Reset the fly-away state
+            }, 2000); // Match the duration of the fly-away animation
+          }}
+          label="later"
+          ariaLabel="Later"
+          toggle={false}
+          zoom="0.6"
+          defaultColor="transparent"
+          flyAway={triggerFlyAway}
+        />
+      </div>
+    )}
 
     <div className="edit-dropdown">
       <BubbleButton
@@ -390,7 +400,8 @@ return (
                   }}
                   onStopSpinning={() => {
                     setMustSpin(false);
-                    setHasSpun(true);
+                    setHasSpun(true); // Show the "Later" button
+                    setTest(true); // Set `test` to true when the spin is done spinning
                   }}
                 />
               </div>

@@ -93,188 +93,180 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
   };
 
   return (
-    <div>
+    <><div>
       <h2>Edit Task by ID or Title</h2>
       <input
         placeholder="Enter ID or Title"
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
+        onChange={(e) => setSearchValue(e.target.value)} />
       <button className="button" onClick={() => handleSearch()}>Search</button>
       <button className="button" onClick={handleClearSearch}>Clear Search</button>
 
-        {matches.length > 1 && (
-          <div>
-            <p>Multiple tasks found. Please choose one:</p>
-            <ul>
-              {matches.map((task) => (
-                <li key={task.id}>
-                  <strong>{task.title}</strong> – {task.dateTime}{" "}
-                  <button onClick={() => handlePickTask(task)}>Edit This</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {matches.length > 1 && (
+        <div>
+          <p>Multiple tasks found. Please choose one:</p>
+          <ul>
+            {matches.map((task) => (
+              <li key={task.id}>
+                <strong>{task.title}</strong> – {task.dateTime}{" "}
+                <button onClick={() => handlePickTask(task)}>Edit This</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div><div>
+        {editFields && editFields.id && (
+          <form onSubmit={handleSubmit}>
 
-      {editFields && editFields.id && (
-        <form onSubmit={handleSubmit}>
 
- 
             <input type="text" value={editFields.id} readOnly />
-   
 
-          <br />
+
+            <br />
 
 
             <input
               name="title"
               value={editFields.title || ""}
               onChange={handleChange}
-              required
-            />
+              required />
 
-          <br />
+            <br />
 
             <input
               name="dateTime"
               type="datetime-local"
               value={editFields.dateTime || ""}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
 
 
-          <br />
+            <br />
 
             <textarea
               className="textarea"
               name="description"
               value={editFields.description || ""}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
 
-          <br />
+            <br />
 
             <input
               title="No Deadline"
               name="deadline"
               type="datetime-local"
-              value={
-                editFields.deadline === "No deadline" ? "" : editFields.deadline || ""
-              }
-              onChange={handleChange}
-            />
+              value={editFields.deadline === "No deadline" ? "" : editFields.deadline || ""}
+              onChange={handleChange} />
 
 
-          <div className="select-container">
-          <label>
-          <div className="custom-select">
-            <select
-              name="category"
-              value={editFields.category || "Chore"}
-              onChange={handleChange}
-            >
-              <option>Chore</option>
-              <option>Sport</option>
-              <option>Music</option>
-              <option>Social</option>
-              <option>Visual</option>
-              <option>Adventure</option>
-            </select>
-          </div>
-          </label>
+            <div className="select-container">
+              <label>
+                <div className="custom-select">
+                  <select
+                    name="category"
+                    value={editFields.category || "Chore"}
+                    onChange={handleChange}
+                  >
+                    <option>Chore</option>
+                    <option>Sport</option>
+                    <option>Music</option>
+                    <option>Social</option>
+                    <option>Visual</option>
+                    <option>Adventure</option>
+                  </select>
+                </div>
+              </label>
 
-          <label>
-          <div className="custom-select">
-            <select
-              name="type"
-              value={editFields.type || "Daily"}
-              onChange={handleChange}
-            >
-              <option>Daily</option>
-              <option>Fun</option>
-              <option>Bucket</option>
-            </select>
-          </div>
-          </label>
-          </div>
-
-
-          <br />
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            
-            <div className="left-bottom">
-              {/* Bulk Delete */}
-              <button
-                className="icon-button"
-                type="button"
-                onClick={() => bulkDelete(tasks)}
-                title="Bulk Delete"
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-
-              {/* Delete Task */}
-              <button
-                className="icon-button"
-                type="button"
-                aria-label="Delete Task"
-                onClick={() => onDeleteTask(editFields.id)}
-                title="Delete Task"
-              >
-                <FontAwesomeIcon icon={faDeleteLeft} />
-              </button>
-
-              {/* Add to Favorites */}
-              <button
-                className="icon-button"
-                type="button"
-                onClick={() => onToggleFavorite(editFields.id, true)}
-                title="Add to Favorites"
-              >
-                <FontAwesomeIcon icon={faStar} />
-              </button>
-
-              {/* Remove from Favorites */}
-              <button
-                className="icon-button"
-                type="button"
-                onClick={() => onToggleFavorite(editFields.id, false)}
-                title="Remove from Favorites"
-              >
-                <FontAwesomeIcon icon={faXmark} />
-              </button>
-
-              {/* Remove Image */}
-              <button
-                className="icon-button"
-                type="button"
-                onClick={() => onRemoveImage(editFields.id)}
-                title="Remove Image"
-              >
-                <FontAwesomeIcon icon={faEyeSlash} />
-              </button>
-
-              {/* Add Image */}
-              <button
-                className="icon-button"
-                type="button"
-                onClick={() => onAddImage(editFields.id)}
-                title="Add Image"
-              >
-                <FontAwesomeIcon icon={faImage} />
-              </button>
+              <label>
+                <div className="custom-select">
+                  <select
+                    name="type"
+                    value={editFields.type || "Daily"}
+                    onChange={handleChange}
+                  >
+                    <option>Daily</option>
+                    <option>Fun</option>
+                    <option>Bucket</option>
+                  </select>
+                </div>
+              </label>
             </div>
-            <div className="right-bottom">
 
-            <button className="button" type="submit">Save</button>
 
+            <br />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
+              <div className="left-bottom">
+                {/* Bulk Delete */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => bulkDelete(tasks)}
+                  title="Bulk Delete"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+
+                {/* Delete Task */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  aria-label="Delete Task"
+                  onClick={() => onDeleteTask(editFields.id)}
+                  title="Delete Task"
+                >
+                  <FontAwesomeIcon icon={faDeleteLeft} />
+                </button>
+
+                {/* Add to Favorites */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => onToggleFavorite(editFields.id, true)}
+                  title="Add to Favorites"
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                </button>
+
+                {/* Remove from Favorites */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => onToggleFavorite(editFields.id, false)}
+                  title="Remove from Favorites"
+                >
+                  <FontAwesomeIcon icon={faXmark} />
+                </button>
+
+                {/* Remove Image */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => onRemoveImage(editFields.id)}
+                  title="Remove Image"
+                >
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                </button>
+
+                {/* Add Image */}
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => onAddImage(editFields.id)}
+                  title="Add Image"
+                >
+                  <FontAwesomeIcon icon={faImage} />
+                </button>
+              </div>
+              <div className="right-bottom">
+
+                <button className="button" type="submit">Save</button>
+
+              </div>
             </div>
-          </div>
-        </form>
-      )}
-    </div>
+          </form>
+        )}
+      </div></>
   );
 }
 
