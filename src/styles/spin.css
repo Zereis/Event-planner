@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+
 .page-container {
     display: flex;
     flex-direction: column;
@@ -84,7 +85,7 @@ h4 {
 
 .spin-button {
   position: absolute;
-  top: 65%;
+  top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 20; /* ensure it’s above the wheel */
@@ -97,16 +98,6 @@ h4 {
   margin-top: 1rem;
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-  position: relative;
-  padding-left: 9rem;
-}
-
 .toggle input[type="checkbox"] {
   display: none;
 }
@@ -114,7 +105,8 @@ h4 {
 .edit-dropdown {
   position: relative;
   display: inline-block;
-  margin-top: 4rem;
+  margin-bottom: 1rem;
+  margin-left: 17rem;
 }
 
 .dropdown-toggle {
@@ -136,7 +128,7 @@ h4 {
   padding-right: 0.5rem;
   margin-top: 8px;
   width: 5.5rem;
-  max-height: 28rem;
+  max-height: 32rem;
   overflow-y: auto;
   z-index: 10;
   background: linear-gradient(45deg,rgba(170, 180, 58, 0.63) 0%, rgba(8, 150, 175, 0.575) 60%);
@@ -174,6 +166,14 @@ h4 {
 
 /*responsive design*/
 
+/*narrower screen*/
+
+@media (max-width: 860px){
+  .spin-button {
+    top: 59%;
+  }
+}
+
 /* Tablet */
 @media (max-width: 768px) {
   .page-container {
@@ -191,7 +191,7 @@ h4 {
   }
 
   .spin-button {
-    top: 62%;
+    top: 58%;
   }
 
   .action-buttons {
@@ -208,6 +208,18 @@ h4 {
 
   .dropdown-list {
     width: 6rem;
+  }
+}
+
+@media (max-width: 710px){
+  .spin-button {
+    top: 59%;
+  }
+}
+
+@media (max-width: 610px){
+  .spin-button {
+    top: 60%;
   }
 }
 
@@ -232,11 +244,11 @@ h4 {
   }
 
   .wheel-wrapper {
-    transform: scale(0.99);
+    transform: scale(0.85);
   }
 
   .spin-button {
-    top: 62%;
+    top: 65%;
     zoom: 0.6;
   }
 
@@ -265,5 +277,217 @@ h4 {
   .dropdown-list li {
     font-size: 0.65rem;
     min-height: 3.5rem;
+  }
+}
+
+@media (max-width: 470px){
+    .wheel-wrapper {
+    transform: scale(0.90);
+  }
+}
+
+@media (max-width: 443px){
+    .wheel-wrapper {
+    transform: scale(0.92);
+  }
+}
+
+@media (max-width: 443px){
+    .wheel-wrapper {
+    transform: scale(0.93);
+  }
+}
+
+@media (max-width: 426px){
+    .wheel-wrapper {
+    transform: scale(0.96);
+  }
+}
+
+@media (max-width: 417px){
+    .wheel-wrapper {
+    transform: scale(0.96);
+  }
+}
+
+@media (max-width: 411px){
+    .wheel-wrapper {
+    transform: scale(0.99);
+  }
+}
+
+@media (max-width: 400px){
+    .wheel-wrapper {
+    transform: scale(1.01);
+  }
+}
+
+@media (max-width: 392px){
+    .wheel-wrapper {
+    transform: scale(1.05);
+  }
+    .spin-button {
+    top: 66%;
+    zoom: 0.5;
+  }
+}
+
+@media (max-width: 376px){
+    .wheel-wrapper {
+    transform: scale(1.1);
+  }
+    .spin-button {
+    top: 66%;
+    zoom: 0.5;
+  }
+}
+
+@media (max-width: 365px){
+    .wheel-wrapper {
+    transform: scale(1.13);
+  }
+    .spin-button {
+    top: 64.5%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 41rem;
+  }
+}
+
+@media (max-width: 340px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 65.4%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 41rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
+  }
+}
+
+@media (max-width: 331px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 65.6%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 41rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
+  }
+}
+
+@media (max-width: 313px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 66.2%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 37rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
+  }
+}
+
+@media (max-width: 300px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 67.1%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 35rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
+  }
+}
+
+@media (max-width: 280px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 68%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 33rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
+  }
+}
+
+@media (max-width: 271px){
+    .wheel-wrapper {
+    transform: scale(1.15);
+  }
+    .spin-button {
+    top: 69%;
+    zoom: 0.5;
+  }
+
+  .edit-dropdown{
+    zoom: 0.6;
+  }
+
+  .dropdown-list {
+    max-height: 32rem;
+  }
+
+  .toggle-buttons{
+    zoom: 0.6;
   }
 }
