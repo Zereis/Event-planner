@@ -100,7 +100,7 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <button className="button" onClick={() => handleSearch()}>Search</button>
+      <button className="button" onClick={() => handleSearch()}>Search</button><br />
       <button className="button" onClick={handleClearSearch}>Clear Search</button>
 
       {matches.length > 1 && (
@@ -196,7 +196,7 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
           </label>
           <br />
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <button className="button" type="submit">Save</button>
+            
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               {/* Bulk Delete */}
               <button
@@ -300,16 +300,10 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 <FontAwesomeIcon icon={faImage} />
               </button>
             </div>
+            <button className="button" type="submit">Save</button>
           </div>
         </form>
       )}
-      <button
-        className="button"
-        type="button"
-        onClick={() => navigate("/")} // Navigate to the home page
-      >
-        Return to Home
-      </button>
     </div>
   );
 }
