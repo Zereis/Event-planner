@@ -25,8 +25,8 @@ export default function TimeAndWeather() {
 
   return (
     <div style={{ marginBottom: "1rem" }}>
-      <div>🕒 {time.toLocaleTimeString()}</div>
-      <div>🌦️ Weather: {weather}</div>
+      <div>{time.toLocaleTimeString()}</div>
+      <div>{weather}</div>
     </div>
   );
 }
