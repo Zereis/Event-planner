@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+
 .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     max-width: max-content;
     font-family: 'Fredoka', sans-serif;
     padding: 0.5rem;
     text-align: center;
-    width: 90%;
+    width: 98vw;
     box-shadow: 0 0 4px;
     border-radius: 12px;
     animation: slideFadeIn 1.2s ease-in-out forwards;
@@ -93,6 +96,13 @@ h4 {
   gap: 1rem;
   margin-bottom: 6rem;
   margin-top: 1rem;
+}
+
+.later-button {
+  display: none;
+  position: absolute;
+  top: 43%;
+  left: 67%;
 }
 
 .toggle input[type="checkbox"] {

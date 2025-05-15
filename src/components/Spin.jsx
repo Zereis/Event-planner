@@ -2,8 +2,7 @@ import { useState, useMemo, useContext, React, useEffect } from "react";
 import { parseISO, isSameDay, isWithinInterval, endOfWeek, startOfDay } from "date-fns";
 import { Wheel } from 'react-custom-roulette'
 import "../styles/spin.css";
-import SoundManager from "./SoundManagerSpin";  // sound manager component 
-// importing sound manager component
+import SoundManager from "./SoundManagerSpin";  // sound manager component
 import BubbleButton from './BubbleButton'
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
 import { TaskContext } from "./TaskContext"; // Import TaskContext
@@ -27,12 +26,6 @@ function Spin() {
   // task editing setup
   const { tasks, updateTasks } = useContext(TaskContext); // access tasks from TaskContext
   const navigate = useNavigate(); // for navigation
-
-  // debug
-  useEffect(() => {
-    console.log("spin received tasks:", tasks);
-  }, [tasks]);
-
 
   // handle daily activities and weekly chores
   const today = new Date();
@@ -444,6 +437,19 @@ return (
           defaultColor="transparent"
           onToggleChange={(state) => setIncludeChores(state)}
           checked={includeChores}
+        />
+      </div>
+      <div className="later-button">
+        <BubbleButton
+          className="later-button"
+          onClick={pass}
+          disabled={!selectedActivityId}
+          label="later"
+          ariaLabel="Later"
+          toggle={false}
+          zoom="0.6"
+          defaultColor="transparent"
+          display="none"
         />
       </div>
     </div>
