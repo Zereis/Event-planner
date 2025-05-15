@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import '../styles/home.css';
 import NavBubble from '../components/NavBubble';
 import BackgroundBubbles from '../components/BackgroundBubbles';
 import { AddTaskPopup, EditTaskPopup } from '../components/PopupConfigs';
-
-
+import { TaskContext } from '../components/TaskContext'; // Import TaskContext
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { tasks, updateTasks } = useContext(TaskContext); // Access tasks and updateTasks from TaskContext
   const { Component: AddTaskPopupComponent, trigger: triggerAddTask } = AddTaskPopup();
   const { Component: EditTaskPopupComponent, trigger: triggerEditTask } = EditTaskPopup();
 
@@ -15,6 +15,16 @@ const Home = () => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Handle adding a new task
+  const handleAddTask = (task) => {
+    updateTasks([...tasks, task]); // Add the new task to the task list
+  };
+
+  // Handle editing an existing task
+  const handleEditTask = (updatedTasks) => {
+    updateTasks(updatedTasks); // Update the task list with the edited tasks
+  };
 
   const bubbles = [
     {
@@ -33,7 +43,7 @@ const Home = () => {
       title: 'Add Task',
       color: 'rgba(221, 21, 21, 0.2)',
       hoverColor: 'rgba(221, 21, 21, 0.5)',
-      onClick: triggerAddTask, // Replaced navRoute with onClick
+      onClick: () => triggerAddTask({ onTempSubmit: handleAddTask }), // Pass handleAddTask to AddTaskPopup
       position: { x: -150, y: 180 },
       scale: 1.2,
       textScale: 3,
@@ -45,7 +55,11 @@ const Home = () => {
       title: 'Edit Task',
       color: 'rgba(82, 124, 216, 0.2)',
       hoverColor: 'rgba(82, 124, 216, 0.5)',
-      onClick: triggerEditTask, // Replaced navRoute with onClick
+      onClick: () =>
+        triggerEditTask({
+          tasks,
+          onEdit: handleEditTask, // Pass handleEditTask to EditTaskPopup
+        }),
       position: { x: 0, y: 45 },
       scale: 1,
       textScale: 3.5,
