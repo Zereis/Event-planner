@@ -197,19 +197,12 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
           <br />
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div className="left-bottom">
               {/* Bulk Delete */}
               <button
                 className="icon-button"
                 type="button"
                 onClick={() => bulkDelete(tasks)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Bulk Delete"
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -220,13 +213,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onDeleteTask(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Delete Task"
               >
                 <FontAwesomeIcon icon={faDeleteLeft} />
@@ -237,13 +223,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onToggleFavorite(editFields.id, true)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Add to Favorites"
               >
                 <FontAwesomeIcon icon={faStar} />
@@ -254,13 +233,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onToggleFavorite(editFields.id, false)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Remove from Favorites"
               >
                 <FontAwesomeIcon icon={faXmark} />
@@ -271,13 +243,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onRemoveImage(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Remove Image"
               >
                 <FontAwesomeIcon icon={faEyeSlash} />
@@ -288,13 +253,6 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 className="icon-button"
                 type="button"
                 onClick={() => onAddImage(editFields.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  color: "#007bff",
-                }}
                 title="Add Image"
               >
                 <FontAwesomeIcon icon={faImage} />
