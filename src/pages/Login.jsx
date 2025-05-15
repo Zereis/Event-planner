@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
+import { UserAlertPopup } from '../components/PopupConfigs';
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("user") !== null);
   const navigate = useNavigate();
+  const { Component: UserAlertPopupComponent, trigger: triggerUserAlert } = UserAlertPopup();
 
    // Ensure the default user exists when the component loads
   useEffect(() => {
@@ -37,7 +39,8 @@ export default function Login() {
       sessionStorage.setItem("user", JSON.stringify({ username }));
       setIsLoggedIn(true);
     } else {
-      alert("Incorrect username or password!");
+      // alert("Incorrect username or password!");
+       triggerUserAlert();
     }
   };
 
@@ -55,6 +58,7 @@ export default function Login() {
 
   return (
     <div>
+        <UserAlertPopupComponent/>
     {isLoggedIn ? (
       <div>
         <h2>Welcome, {JSON.parse(sessionStorage.getItem("user")).username}!</h2>

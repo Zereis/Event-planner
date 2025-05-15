@@ -3,6 +3,7 @@ import PopUpWindow from './PopUpWindow';
 import Login from '../pages/Login';
 import AddTask from '../components/AddTask';
 import EditTask from '../components/EditTask';
+import UserAlert from '../components/UserAlert';
 
 // Default popup configuration
 const defaultPopupConfig = {
@@ -45,3 +46,5 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
 export const LoginPopup = createPopup(Login, 'Login');
 export const AddTaskPopup = createPopup(AddTask, 'AddTask');
 export const EditTaskPopup = createPopup(EditTask, 'EditTask');
+export const UserAlertPopup = createPopup(
+  () => <UserAlert message="Felaktigt användarnamn eller lösenord!" />, 'UserAlert')
