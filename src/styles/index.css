@@ -150,6 +150,9 @@ h1 {
   transition: all 1s;
   overflow: hidden;
   margin: 2px 2px;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
 }
 
 .button:hover {
