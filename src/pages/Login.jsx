@@ -58,16 +58,16 @@ export default function Login() {
     {isLoggedIn ? (
       <div>
         <h2>Welcome, {JSON.parse(sessionStorage.getItem("user")).username}!</h2>
-        <button onClick={handleLogout}>Log out</button>
+        <button onClick={handleLogout} className="button">Log out</button>
       </div>
     ) : (
       <div>
         <h2>Log in</h2>
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={handleLogin}>Log in</button>
+        <button onClick={handleLogin} className="button">Log in</button>
         <p>New user? Please enter a username and password above, then press register:</p>
-        <button onClick={handleRegister}>Register</button>
+        <button onClick={handleRegister} className="button">Register</button>
       </div>
     )}
   </div>
