@@ -216,11 +216,10 @@
   background: none;
   border: none;
   color: var(--bg-color);
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 .hamburger-close:hover{
-  color: darkred;
   animation: pulse 0.5s infinite;
 }
 @media (max-width: 868px) {
