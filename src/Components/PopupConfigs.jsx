@@ -3,6 +3,8 @@ import PopUpWindow from './PopUpWindow';
 import Login from '../pages/Login';
 import AddTask from '../components/AddTask';
 import EditTask from '../components/EditTask';
+import RepeatPrompt from "../Components/RepeatPrompt";
+import { bulkDelete } from './TaskHandlers'; // Import bulkDelete function
 
 // Default popup configuration
 const defaultPopupConfig = {
@@ -20,20 +22,26 @@ const defaultPopupConfig = {
 const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
   return () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [props, setProps] = useState({}); // Store props for the popup
 
-    const trigger = () => {
+    const trigger = (popupProps = {}) => {
       console.log(`Triggering ${popupName} Popup`);
+      setProps(popupProps); // Set the props for the popup
       setIsOpen(true);
+    };
+
+    const closePopup = () => {
+      setIsOpen(false); // Close the popup
     };
 
     const Component = () => (
       <PopUpWindow
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={closePopup} // Pass closePopup to the PopUpWindow
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent />
+        <ChildComponent {...props} onClose={closePopup} /> {/* Pass onClose to the child */}
       </PopUpWindow>
     );
 
@@ -44,4 +52,8 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
 // Popup configurations
 export const LoginPopup = createPopup(Login, 'Login');
 export const AddTaskPopup = createPopup(AddTask, 'AddTask');
-export const EditTaskPopup = createPopup(EditTask, 'EditTask');
+// EditTaskPopup configuration
+export const EditTaskPopup = createPopup(EditTask, 'EditTask', {
+  minWidth: '500px',
+  minHeight: '600px',
+});

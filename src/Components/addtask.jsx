@@ -1,29 +1,31 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router"; // For navigation and location
+import { useState, useEffect, useContext } from "react";
+import { TaskContext } from "./TaskContext"; // Import TaskContext
 import FormActionsDropdown from "./FormActionsDropdown"; // Import FormActionsDropdown
-import '../styles/index.css';
-import '../styles/addedit-task.css'; // Import your CSS file
+import "../styles/index.css";
+import "../styles/addedit-task.css"; // Import your CSS file
 
-function AddTask({ onTempSubmit }) {
-  const location = useLocation(); // Get the location object
-  const initialDateTime = location.state?.dateTime || ""; // Access the dateTime from state
-
+function AddTask({ onTempSubmit, dateTime: initialDateTime = "", onClose }) {
+  const { latestTask } = useContext(TaskContext); // Access the latest task from context
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dateTime, setDateTime] = useState(initialDateTime); // Use initialDateTime if provided
+  const [dateTime, setDateTime] = useState(initialDateTime);
   const [deadline, setDeadline] = useState("");
   const [category, setCategory] = useState("Chore");
   const [type, setType] = useState("Daily");
   const [noDeadline, setNoDeadline] = useState(false);
-  const [lastTask, setLastTask] = useState(null); // Store the last task for reuse
-  const navigate = useNavigate(); // For navigation
+
+  useEffect(() => {
+    if (initialDateTime) {
+      setDateTime(initialDateTime);
+    }
+  }, [initialDateTime]);
 
   const generateId = () => Date.now().toString();
 
   const clearForm = () => {
     setTitle("");
     setDescription("");
-    setDateTime(initialDateTime); // Reset to initialDateTime
+    setDateTime(initialDateTime);
     setDeadline("");
     setNoDeadline(false);
     setCategory("Chore");
@@ -31,14 +33,14 @@ function AddTask({ onTempSubmit }) {
   };
 
   const reuseLastTask = () => {
-    if (lastTask) {
-      setTitle(lastTask.title);
-      setDescription(lastTask.description);
-      setDateTime(lastTask.dateTime);
-      setDeadline(lastTask.deadline);
-      setCategory(lastTask.category);
-      setType(lastTask.type);
-      setNoDeadline(lastTask.deadline === "No deadline");
+    if (latestTask) {
+      setTitle(latestTask.title);
+      setDescription(latestTask.description);
+      setDateTime(latestTask.dateTime);
+      setDeadline(latestTask.deadline);
+      setCategory(latestTask.category);
+      setType(latestTask.type);
+      setNoDeadline(latestTask.deadline === "No deadline");
     } else {
       alert("No last task to reuse!");
     }
@@ -57,23 +59,19 @@ function AddTask({ onTempSubmit }) {
       type,
     };
 
-    // Pass the task data up to the parent component
-    onTempSubmit(task);
+    alert("Task added successfully!");
+    onTempSubmit(task); // Pass the task data up to the parent component
     setLastTask(task); // Save the task as the last task for reuse
 
-    // Show success message
-    alert("Task added successfully!");
 
-    // Clear the form
-    clearForm();
+    clearForm(); // Clear the form but keep the popup open
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-    >
+    <form onSubmit={handleSubmit}>
       <h2>Add Task</h2>
-      <input className="input"
+      <input
+        className="input"
         type="text"
         placeholder="Title"
         value={title}
@@ -81,7 +79,8 @@ function AddTask({ onTempSubmit }) {
         required
       />
       <br />
-      <textarea className="textarea"
+      <textarea
+        className="textarea"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -136,16 +135,19 @@ function AddTask({ onTempSubmit }) {
       </label>
       <br />
 
-      <button className="button" type="submit">➕ Add Task</button>
-      <br />
-
-      <button className="button"
-        onClick={() => navigate("/")} // Navigate to the home page
-      >
-        Return to Home
+      <button className="button" type="submit">
+        ➕ Add Task
       </button>
       <br />
-      {/* Add FormActionsDropdown */}
+
+      <button
+        className="button"
+        type="button"
+        onClick={onClose} // Close the popup when this button is clicked
+      >
+        Cancel
+      </button>
+      <br />
       <FormActionsDropdown onClear={clearForm} onReuse={reuseLastTask} />
     </form>
   );
