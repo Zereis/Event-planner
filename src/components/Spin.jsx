@@ -220,6 +220,19 @@ const availableForSpin = useMemo(() => {
     }
   };
 
+  /*
+  <BubbleButton
+          className="later-button"
+          onClick={pass}
+          disabled={!selectedActivityId}
+          label="later"
+          ariaLabel="Later"
+          toggle={false}
+          zoom="0.6"
+          defaultColor="transparent"
+        />
+  */
+
 // setup for special display for only one thing to do
 const isSingleItem = allFiltered.length === 1;
 
@@ -295,17 +308,6 @@ return (
         button. then spin again!<br />
         have fun!
       </h4>
-      <div className="action-buttons">
-        <BubbleButton
-          className="later-button"
-          onClick={pass}
-          disabled={!selectedActivityId}
-          label="later"
-          ariaLabel="Later"
-          toggle={false}
-          zoom="0.6"
-          defaultColor="transparent"
-        />
         <div className="edit-dropdown">
           <BubbleButton
             label="edit"
@@ -329,7 +331,6 @@ return (
             </ul>
           )}
         </div>
-      </div>
       <div className="wheel-container">
         <div className="wheel-of-fortune">
           {allFiltered.length === 0 && (
