@@ -179,30 +179,7 @@ export default function Header() {
             Calendar
 
             </NavLink></li>
-          <li><NavLink 
-          to="/Edit"
-          onClick={() => {
-            toggleMenu();
-            window.scrollTo(0, 0);
-          }}
-          className={({ isActive }) => (isActive ? 'burgerbtn active' : 'burgerbtn')}
-            >
 
-            Edit Task
-
-            </NavLink></li>
-          <li><NavLink 
-          to="/Add"
-          onClick={() => {
-            toggleMenu();
-            window.scrollTo(0, 0);
-          }}
-          className={({ isActive }) => (isActive ? 'burgerbtn active' : 'burgerbtn')}
-            >
-
-            Add Task
-
-            </NavLink></li>
 
           <li><NavLink 
           to="/Spin"
