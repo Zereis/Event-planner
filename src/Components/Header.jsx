@@ -107,7 +107,7 @@ export default function Header() {
         title='Home'
         />
       </NavLink>
-    <div className='header-login'>
+    <div className='header-user'>
       <NavLink
         to="/Login"
         title={!loggedInUser ? 'Log in' : ""}
