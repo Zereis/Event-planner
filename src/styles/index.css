@@ -112,6 +112,8 @@ h1 {
   }
 }
 
+/* Old button styles
+
 .button {
   background: linear-gradient(60deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 80%);
   box-shadow: 1px 1px 1px var(--text-color);
@@ -131,7 +133,47 @@ h1 {
   background-color: lightblue;
   border-color: var(--text-color);
   box-shadow: 2px 2px 2px var(--text-color);
+} */
+
+
+.button {
+  color: var(--text-color);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid rgba(8, 150, 175, 1);
+  padding: 0px 2px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  background: transparent;
+  position: relative;
+  transition: all 1s;
+  overflow: hidden;
+  margin: 2px 2px;
 }
+
+.button:hover {
+  color: white;
+  transform: perspective(180px) rotateX(30deg) translateY(2px);
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  top: 0;
+  left: -40px;
+  transform: skewX(45deg);
+  background-color: rgba(8, 150, 175, 1);
+  z-index: -1;
+  transition: all 1s;
+}
+
+.button:hover::before {
+  width: 160%;
+}
+
 
 /* Animations that are generic and can be used in multiple places */
 @keyframes slideFadeIn {
