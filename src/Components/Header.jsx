@@ -7,6 +7,7 @@ import TitleName from '/images/logoname1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faArrowRightToBracket, faUser, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import { LoginPopup } from '../components/PopupConfigs'; // <-- Import the login pop-up trigger -->
 
 
 
@@ -18,6 +19,7 @@ export default function Header() {
   const navigate = useNavigate(); 
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
+  const { Component: LoginPopupComponent, trigger: triggerLogin } = LoginPopup(); // <-- This is the login pop-up trigger -->
 
     // Fetch logged in user from sessionStorage
   useEffect (() => {
@@ -108,18 +110,16 @@ export default function Header() {
         />
       </NavLink>
     <div className='header-user'>
-      <NavLink
-        to="/Login"
+      <div
         title={!loggedInUser ? 'Log in' : ""}
-        onClick={() => {
-          window.scrollTo(0, 0);
-        }}
+        onClick={triggerLogin}  // <-- This is the login pop-up trigger -->
         className={({ isActive }) => (isActive ? 'login-btn-active' : 'login-btn')}
         onMouseEnter={() => setIsLoginHovered(true)}
         onMouseLeave={() => setIsLoginHovered(false)}
       >
         {loggedInUser ? loggedInUser : <FontAwesomeIcon icon={isLoginHovered ? faArrowRightToBracket : faUser} />}
-      </NavLink>
+      </div>
+      <LoginPopupComponent />
       {loggedInUser && (
         <button className="logout-btn"
         title='Log out' 

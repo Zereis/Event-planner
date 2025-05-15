@@ -40,28 +40,28 @@
 }
 
 .header-user {
-  position: absolute;
-  right: 0rem;
-  bottom: 0.5rem;
+  display: flex;              /* Aligns the user info and buttons */
+  position: absolute;         /* Positioning the user info and buttons */
+  right: 1rem;                /* Aligns to the right */
+  bottom: 0.5rem;             /* Aligns to the bottom */
+  color: var(--bg-color);     /* Text color for both user info and buttons */
+  gap: 0.5rem;                /* Space between user info and buttons */
 }
 
 
 .login-btn, .login-btn-active {
   color: var(--bg-color);
   padding: 0;
-  margin: 0 1rem 0 0.5rem;
 }
 .login-btn:hover, .login-btn-active:hover {
   color: var(--bg-color);
 }
 
-.logout-btn {
+.logout-btn {    /* Logout button - Removed Margin, Width and Padding here, since we use Gap in the main container. .header-user */
   background-color: transparent;
   color: var(--bg-color);
   padding: 0;
-  margin: 0 1rem 0 0rem;
   border: none;
-  width: 1rem;
   cursor: pointer;
 }
 
