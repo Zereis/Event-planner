@@ -11,8 +11,9 @@ const BASE_SIZE = 250;
 const NavBubble = ({
   title,
   color,
-  hoverColor, // <- New prop for hover background color
+  hoverColor,
   navRoute,
+  onClick,
   position,
   size,
   scale,
@@ -27,19 +28,23 @@ const NavBubble = ({
   const controls = useAnimation();
   const [isExpanding, setIsExpanding] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const hasAppeared = useRef(false); // Track initial appearance
 
   const popSoundRef = useRef(null);
   const hoverSoundRef = useRef(null);
   const appearSoundRef = useRef(null);
 
-  // 🟡 Use scale orighbour from size
+  // Use scale or derive from size
   const effectiveScale = scale ?? (size ? size / BASE_SIZE : 1);
   const bubbleSizePx = `${BASE_SIZE}px`;
 
+  // Initial appearance animation and sound
   useEffect(() => {
-    if (appearSoundRef.current) {
+    // Play sound only on first appearance
+    if (!hasAppeared.current && appearSoundRef.current) {
       appearSoundRef.current.currentTime = 0;
       appearSoundRef.current.play();
+      hasAppeared.current = true;
     }
 
     controls.start({
@@ -67,7 +72,7 @@ const NavBubble = ({
       }
       controls.start({
         scale: effectiveScale * 1.2,
-        backgroundColor: hoverColor || color, // <- Use hoverColor if provided, else fallback to color
+        backgroundColor: hoverColor || color,
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -78,7 +83,7 @@ const NavBubble = ({
       setIsHovered(false);
       controls.start({
         scale: effectiveScale,
-        backgroundColor: color, // <- Revert to original color
+        backgroundColor: color,
         transition: { type: 'spring', stiffness: 300, damping: 10 },
       });
     }
@@ -94,20 +99,38 @@ const NavBubble = ({
       popSoundRef.current.play();
     }
 
-    await controls.start({
-      scale: 0,
-      rotate: 90,
-      x: -100,
-      y: -500,
-      opacity: 1,
-      backgroundColor: 'var(--bg-color)',
-      transition: {
-        duration: 1.2,
-        ease: 'easeInOut',
-      },
-    });
-
-    navigate(navRoute);
+    if (onClick) {
+      // Popup animation: Pulse effect
+      await controls.start({
+        scale: [effectiveScale, effectiveScale * 1.3, effectiveScale],
+        opacity: 1,
+        x: position.x,
+        y: position.y,
+        backgroundColor: hoverColor || color,
+        transition: {
+          duration: 0.4,
+          times: [0, 0.5, 1],
+          ease: 'easeInOut',
+        },
+      });
+      onClick(); // Trigger popup
+      setIsExpanding(false); // Reset to allow clicking again
+    } else if (navRoute) {
+      // Navigation animation: Shrink and move
+      await controls.start({
+        scale: 0,
+        rotate: 90,
+        x: -100,
+        y: -500,
+        opacity: 1,
+        backgroundColor: 'var(--bg-color)',
+        transition: {
+          duration: 1.2,
+          ease: 'easeInOut',
+        },
+      });
+      navigate(navRoute); // Navigate to route
+    }
   };
 
   return (
@@ -126,8 +149,8 @@ const NavBubble = ({
         onHoverEnd={handleHoverEnd}
         onClick={handleClick}
         style={{
-          width: `${BASE_SIZE}px`,
-          height: `${BASE_SIZE}px`,
+          width: bubbleSizePx,
+          height: bubbleSizePx,
           transformOrigin: 'center',
           zIndex: isExpanding ? 999 : isHovered ? 998 : zIndex,
           backgroundColor: color,

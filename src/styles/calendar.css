@@ -1,7 +1,9 @@
 .calendar-container {
-  width: 90%;
+  width: 98vw;
   height: auto;
   margin-bottom: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   box-shadow: 0 0 4px;
   padding: 1rem;
   border-radius: 12px;

@@ -71,14 +71,7 @@ export default function EditTask({ tasks, taskId, onEdit }) {
 
   return (
     <div
-      style={{
-        border: "2px solid #007BFF", // Add a blue border
-        borderRadius: "10px", // Rounded corners
-        padding: "20px", // Add padding inside the container
-        maxWidth: "600px", // Limit the container width
-        margin: "20px auto", // Center the container horizontally
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Add a subtle shadow
-      }}
+
     >
       <h3>Edit Task by ID or Title</h3>
       <input

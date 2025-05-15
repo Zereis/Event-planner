@@ -10,6 +10,8 @@ import { TaskContext } from "../Components/TaskContext"; // Import TaskContext
 import { bulkDelete, downloadTasksAsJSON, importTasksFromJSON } from "../Components/TaskHandlers"; // Import handlers
 import { useNavigate, useLocation } from "react-router"; // For navigation and query parameters
 import "../styles/index.css"; // Import global styles
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
+import { faUpload, faDownload } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
 
 export default function CalendarView() {
   const { tasks, updateTasks } = useContext(TaskContext); // Access tasks from TaskContext
@@ -69,27 +71,11 @@ export default function CalendarView() {
     console.log("Clicked date and time:", info.date); // Log the clicked date and time
     console.log("Current view type:", info.view.type); // Log the current view type
 
-    const action = prompt(
-      `You clicked on ${info.dateStr}.\nChoose an action:\n1: Add Task (default)\n2: Upload JSON file\n3: Download JSON file`
+    const confirmAddTask = window.confirm(
+      `You clicked on ${info.dateStr}.\nDo you want to add a task?`
     );
 
-    if (action === null) {
-      // User clicked "Cancel", do nothing
-      return;
-    }
-
-    if (action === "2") {
-      // Upload JSON file
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = ".json";
-      input.onchange = (event) => importTasksFromJSON(event, updateTasks); // Use importTasksFromJSON
-      input.click();
-    } else if (action === "3") {
-      // Download JSON file
-      downloadTasksAsJSON(tasks); // Use downloadTasksAsJSON
-    } else {
-      // Default action: Add Task
+    if (confirmAddTask) {
       let dateTime;
 
       if (info.view.type === "dayGridMonth") {
@@ -190,7 +176,11 @@ export default function CalendarView() {
   // New States for Tooltip
   const [hoveredTask, setHoveredTask] = useState(null); // State to store the hovered task
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // State to store tooltip position
-  
+
+  // States for upload and download hover effects
+  const [isUploadHovered, setIsUploadHovered] = useState(false); // State for upload hover
+  const [isDownloadHovered, setIsDownloadHovered] = useState(false); // State for download hover
+
   // Handle hovering over a task
   const handleEventMouseEnter = (info) => {
     const task = {
@@ -246,9 +236,57 @@ export default function CalendarView() {
     setHoveredTask(null); // Clear the hovered task
   };
 
+  const handleUploadClick = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (event) => importTasksFromJSON(event, updateTasks); // Use importTasksFromJSON
+    input.click();
+  };
+
+  const handleDownloadClick = () => {
+    downloadTasksAsJSON(tasks); // Use downloadTasksAsJSON
+  };
+
   return (
     <div className="calendar-container" style={{ position: "relative" }}>
       <TimeAndWeather />
+
+      {/* Upload and Download Icons */}
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          display: "flex",
+          gap: "15px",
+          zIndex: 1000,
+        }}
+      >
+        {/* Upload Icon */}
+        <FontAwesomeIcon
+          icon={faUpload}
+          beat={isUploadHovered}
+          size="1x" // Increase the size of the icon
+          style={{ cursor: "pointer" }}
+          title="Upload Tasks" // Tooltip text for upload
+          onMouseEnter={() => setIsUploadHovered(true)}
+          onMouseLeave={() => setIsUploadHovered(false)}
+          onClick={handleUploadClick}
+        />
+
+        {/* Download Icon */}
+        <FontAwesomeIcon
+          icon={faDownload}
+          beat={isDownloadHovered}
+          size="1x" // Increase the size of the icon
+          style={{ cursor: "pointer" }}
+          title="Download Tasks" // Tooltip text for download
+          onMouseEnter={() => setIsDownloadHovered(true)}
+          onMouseLeave={() => setIsDownloadHovered(false)}
+          onClick={handleDownloadClick}
+        />
+      </div>
 
       {/* Toggle Button */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>

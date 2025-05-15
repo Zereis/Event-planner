@@ -1,3 +1,5 @@
+
+
 /* Define default variables for light mode and shared styles */
 :root {
   --bg-color: #fafafa;
@@ -51,6 +53,7 @@
 }
 
 body {
+  box-sizing: border-box;
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
@@ -109,25 +112,72 @@ h1 {
   }
 }
 
+/* Old button styles
+
 .button {
-  background-color: aliceblue;
+  background: linear-gradient(60deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 80%);
+  box-shadow: 1px 1px 1px var(--text-color);
   border: 1px solid var(--text-color);
-  color: #333333;
-  padding: 6px 6px;
+  color: var(--bg-color);
+  padding: 0px 4px;
   text-align: center;
-  text-decoration: none;
+  text-shadow: 1px 1px 1px var(--text-color);
   display: inline-block;
-  border-radius: 12px;
-  font-size: 16px;
-  margin: 4px 2px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  margin: 2px 0px;
   cursor: pointer;
   transition: border-color 0.25s, background-color 0.25s;
 }
 .button:hover {
   background-color: lightblue;
-  border-color: var(--button-border-hover);
+  border-color: var(--text-color);
   box-shadow: 2px 2px 2px var(--text-color);
+} */
+
+
+.button {
+  color: var(--text-color);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid rgba(8, 150, 175, 1);
+  padding: 0px 2px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  background: var(--bg-color);
+  position: relative;
+  transition: all 1s;
+  overflow: hidden;
+  margin: 2px 2px;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
 }
+
+.button:hover {
+  color: white;
+  transform: perspective(180px) rotateX(30deg) translateY(2px);
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  top: 0;
+  left: -40px;
+  transform: skewX(45deg);
+  background: #aab43a;
+  background: linear-gradient(45deg,rgba(170, 180, 58, 1) 0%, rgba(8, 150, 175, 1) 60%);
+  z-index: -1;
+  transition: all 1s;
+}
+
+.button:hover::before {
+  width: 160%;
+}
+
 
 /* Animations that are generic and can be used in multiple places */
 @keyframes slideFadeIn {

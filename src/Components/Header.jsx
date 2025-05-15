@@ -7,6 +7,7 @@ import TitleName from '/images/logoname1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faArrowRightToBracket, faUser, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import { LoginPopup } from '../components/PopupConfigs'; // <-- Import the login pop-up trigger -->
 
 
 
@@ -18,6 +19,7 @@ export default function Header() {
   const navigate = useNavigate(); 
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
+  const { Component: LoginPopupComponent, trigger: triggerLogin } = LoginPopup(); // <-- This is the login pop-up trigger -->
 
     // Fetch logged in user from sessionStorage
   useEffect (() => {
@@ -107,19 +109,17 @@ export default function Header() {
         title='Home'
         />
       </NavLink>
-    <div className='header-login'>
-      <NavLink
-        to="/Login"
+    <div className='header-user'>
+      <div
         title={!loggedInUser ? 'Log in' : ""}
-        onClick={() => {
-          window.scrollTo(0, 0);
-        }}
+        onClick={triggerLogin}  // <-- This is the login pop-up trigger -->
         className={({ isActive }) => (isActive ? 'login-btn-active' : 'login-btn')}
         onMouseEnter={() => setIsLoginHovered(true)}
         onMouseLeave={() => setIsLoginHovered(false)}
       >
         {loggedInUser ? loggedInUser : <FontAwesomeIcon icon={isLoginHovered ? faArrowRightToBracket : faUser} />}
-      </NavLink>
+      </div>
+      <LoginPopupComponent />
       {loggedInUser && (
         <button className="logout-btn"
         title='Log out' 
@@ -179,30 +179,7 @@ export default function Header() {
             Calendar
 
             </NavLink></li>
-          <li><NavLink 
-          to="/Edit"
-          onClick={() => {
-            toggleMenu();
-            window.scrollTo(0, 0);
-          }}
-          className={({ isActive }) => (isActive ? 'burgerbtn active' : 'burgerbtn')}
-            >
 
-            Edit Task
-
-            </NavLink></li>
-          <li><NavLink 
-          to="/Add"
-          onClick={() => {
-            toggleMenu();
-            window.scrollTo(0, 0);
-          }}
-          className={({ isActive }) => (isActive ? 'burgerbtn active' : 'burgerbtn')}
-            >
-
-            Add Task
-
-            </NavLink></li>
 
           <li><NavLink 
           to="/Spin"
@@ -216,86 +193,6 @@ export default function Header() {
             Spin
 
             </NavLink></li>
-        </ul>
-      </nav>
-
-      <nav className="nav-desktop">
-        <ul>
-          <li>
-            <NavLink
-              to="/"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/Calendar"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              Calendar
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/Edit"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              Edit Task
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/Add"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              Add Task
-            </NavLink>
-          </li>
-
-                    <li>
-            <NavLink
-              to="/Spin"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              spin!
-            </NavLink>
-          </li>
-
-                    <li>
-            <NavLink
-              to="/Login"
-              onClick={() => {
-                window.scrollTo(0, 0);
-              }}
-              className={({ isActive }) => (isActive ? 'headerbtn active' : 'headerbtn')}
-            >
-              {loggedInUser ? loggedInUser : "Log In"}
-            </NavLink>
-          </li>
-          {loggedInUser && (
-          <li>
-            <button className="logout-btn" onClick={handleLogout}>
-              Log Out
-            </button>
-          </li>
-          )}
         </ul>
       </nav>
     </header>

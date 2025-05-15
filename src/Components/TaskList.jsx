@@ -56,7 +56,8 @@ export default function TaskList({ tasks, onTaskDoubleClick }) {
             <option value="Sport">Sport</option>
             <option value="Music">Music</option>
             <option value="Social">Social</option>
-            <option value="Visual Art">Visual Art</option>
+            <option value="Visual">Visual</option>
+            <option value="Adventure">Adventure</option>
           </select>
           <select
             value={typeFilter}
