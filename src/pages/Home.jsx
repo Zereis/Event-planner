@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react';
 import '../styles/home.css';
 import NavBubble from '../components/NavBubble';
 import BackgroundBubbles from '../components/BackgroundBubbles';
+import { AddTaskPopup, EditTaskPopup } from '../components/PopupConfigs';
+
+
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { Component: AddTaskPopupComponent, trigger: triggerAddTask } = AddTaskPopup();
+  const { Component: EditTaskPopupComponent, trigger: triggerEditTask } = EditTaskPopup();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
@@ -28,7 +33,7 @@ const Home = () => {
       title: 'Add Task',
       color: 'rgba(221, 21, 21, 0.2)',
       hoverColor: 'rgba(221, 21, 21, 0.5)',
-      navRoute: '/add',
+      onClick: triggerAddTask, // Replaced navRoute with onClick
       position: { x: -150, y: 180 },
       scale: 1.2,
       textScale: 3,
@@ -40,7 +45,7 @@ const Home = () => {
       title: 'Edit Task',
       color: 'rgba(82, 124, 216, 0.2)',
       hoverColor: 'rgba(82, 124, 216, 0.5)',
-      navRoute: '/edit',
+      onClick: triggerEditTask, // Replaced navRoute with onClick
       position: { x: 0, y: 45 },
       scale: 1,
       textScale: 3.5,
@@ -75,45 +80,47 @@ const Home = () => {
   ];
 
   return (
-<div
+    <div
       className={`home-container ${isLoaded ? 'loaded' : ''}`}
       style={{ position: 'relative', width: '100%', height: '100vh' }}
     >
       <div
-  style={{
-    position: 'absolute',
-    width: '70%',
-    height: '100%',
-    left: '50%', // Center horizontally
-    transform: 'translateX(-50%)', // Offset to truly center
-    zIndex: -1,
-    pointerEvents: 'none',
-  }}
->
+        style={{
+          position: 'absolute',
+          width: '70%',
+          height: '100%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: -1,
+          pointerEvents: 'none',
+        }}
+      >
         <BackgroundBubbles />
+        <AddTaskPopupComponent />
+        <EditTaskPopupComponent />
       </div>
       <div className="bubble-wrapper">
-      <div className="bubble-container">
-        {bubbles.map((bubble, index) => (
-          <NavBubble
-            key={index}
-            index={index}
-            title={bubble.title}
-            color={bubble.color}
-            hoverColor={bubble.hoverColor}
-            navRoute={bubble.navRoute}
-            position={bubble.position}
-            size={bubble.size}
-            scale={bubble.scale}
-            textScale={bubble.textScale} 
-            zIndex={index + 1}
-            clickable={bubble.clickable}
-            origin={bubble.origin}
-            appearDuration={bubble.appearDuration}
-          />
-        ))}
+        <div className="bubble-container">
+          {bubbles.map((bubble, index) => (
+            <NavBubble
+              key={index}
+              index={index}
+              title={bubble.title}
+              color={bubble.color}
+              hoverColor={bubble.hoverColor}
+              navRoute={bubble.navRoute}
+              onClick={bubble.onClick} // Pass onClick prop
+              position={bubble.position}
+              scale={bubble.scale}
+              textScale={bubble.textScale}
+              zIndex={index + 1}
+              clickable={bubble.clickable}
+              origin={bubble.origin}
+              appearDuration={bubble.appearDuration}
+            />
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

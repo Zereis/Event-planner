@@ -1,0 +1,47 @@
+import { useState } from 'react';
+import PopUpWindow from './PopUpWindow';
+import Login from '../pages/Login';
+import AddTask from '../components/AddTask';
+import EditTask from '../components/EditTask';
+
+// Default popup configuration
+const defaultPopupConfig = {
+  minWidth: '300px',
+  minHeight: '300px',
+  customStyles: {
+    background: 'linear-gradient(to bottom right, rgba(170, 180, 58, 1), rgba(8, 150, 175, 1))',
+    color: '#ffffff',
+    borderRadius: '16px',
+  },
+  blurIntensity: '2px',
+};
+
+// Factory function to create popup configurations
+const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
+  return () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const trigger = () => {
+      console.log(`Triggering ${popupName} Popup`);
+      setIsOpen(true);
+    };
+
+    const Component = () => (
+      <PopUpWindow
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        {...defaultPopupConfig}
+        {...configOverrides}
+      >
+        <ChildComponent />
+      </PopUpWindow>
+    );
+
+    return { Component, trigger };
+  };
+};
+
+// Popup configurations
+export const LoginPopup = createPopup(Login, 'Login');
+export const AddTaskPopup = createPopup(AddTask, 'AddTask');
+export const EditTaskPopup = createPopup(EditTask, 'EditTask');
