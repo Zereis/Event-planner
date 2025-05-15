@@ -278,12 +278,6 @@ h4 {
   }
 }
 
-@media (max-width: 610px){
-  .spin-button {
-    top: 60%;
-  }
-}
-
 /* Mobile */
 @media (max-width: 480px) {
   .page-container {

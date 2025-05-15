@@ -38,10 +38,12 @@
 .icon-button {
     margin: 0.5rem;
     padding: 0rem;
+    font-size: 1.2rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
     color: var(--bg-color);
+    z-index: 20000;
 }
 .icon-button:hover {
     color: var(--text-color);

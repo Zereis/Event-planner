@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faDeleteLeft, faStar, faXmark, faImage, faEyeSlash } from "@fortawesome/free-solid-svg-icons"; // Import the reset icon
-import "../styles/index.css";
+import { faTrash, faDeleteLeft, faStar, faXmark, faImage, faEyeSlash, faBroom, } from "@fortawesome/free-solid-svg-icons"; // Import the reset icon
+
 import "../styles/addedit-task.css"; // Import your CSS file
 
 export default function EditTask({ tasks = [], taskId = null, task = null, onEdit, updateTasks, bulkDelete, onDeleteTask, onToggleFavorite, onRemoveImage, onAddImage }) {
@@ -94,13 +94,12 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
 
   return (
     <><div>
-      <h2>Edit Task by ID or Title</h2>
+      <h2>Edit Task</h2>
       <input
         placeholder="Enter ID or Title"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)} />
       <button className="button" onClick={() => handleSearch()}>Search</button>
-      <button className="button" onClick={handleClearSearch}>Clear Search</button>
 
       {matches.length > 1 && (
         <div>
@@ -121,10 +120,18 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
 
 
             <input type="text" value={editFields.id} readOnly />
-
-
+            <button 
+              className="icon-button" 
+              type="button"
+              onClick={handleClearSearch}
+              title="Clean Search"
+              aria-label="Clean Search"
+            >
+              <FontAwesomeIcon icon={faBroom} />
+            </button>
             <br />
-
+            <br />
+            
 
             <input
               name="title"
