@@ -139,9 +139,9 @@ const availableForSpin = useMemo(() => {
 const pass = () => {
   if (selectedActivityId !== null) {
     setTriggerFlyAway(true); // Trigger fly-away animation
+    passActivityId(selectedActivityId); // Remove the activity from usedActivityIds
+    setSelectedActivityId(null); // Reset selected activity
     setTimeout(() => {
-      passActivityId(selectedActivityId); // Remove the activity from usedActivityIds
-      setSelectedActivityId(null); // Reset selected activity
       setTriggerFlyAway(false); // Reset the fly-away state
       setHasSpun(false); // Reset the "Later" button visibility
     }, 2000); // Match the animation duration
