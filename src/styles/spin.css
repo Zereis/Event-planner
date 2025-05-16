@@ -121,10 +121,9 @@ h4 {
 .edit-dropdown {
   position: relative;
   display: inline-block;
-  margin-top: -3rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: -15rem;
-
 }
 
 .dropdown-toggle {

@@ -257,30 +257,48 @@ const data = Array.isArray(allFiltered)
 
   // actual wheel spinning
   const handleSpinClick = () => {
-    if (availableForSpin.length === 0) {
-      alert("No activities available to spin!");
-      return;
-    }
+  // Reset "Later" button and its animation state
+  setHasSpun(false);
+  setTriggerFlyAway(false);
 
-    setHasSpun(false); // Reset the "Later" button visibility
+  // Play sound effects
+  setPlaySpinButton(true);
+  setPlaySpinning(true);
+  setTimeout(() => setPlaySpinButton(false), 30);     // Short delay for button click sound
+  setTimeout(() => setPlaySpinning(false), 2000);     // Duration of spinning sound
 
-    if(!setHasSpun)
-    {
+  // Handle empty list
+  if (availableForSpin.length === 0) {
+    setSelectedActivityId(null);
+    alert("you have done everything for the day!");
+    return;
+  }
 
-    }
-    setTriggerFlyAway(false); // Ensure the "Later" button is reset
+  // Prevent double-spin while already spinning
+  if (mustSpin) return;
 
-    const randomIndex = Math.floor(Math.random() * availableForSpin.length);
-    setPrizeNumber(randomIndex);
-    setMustSpin(true);
-    setPlaySpinButton(true); // Play spin button sound
+  // Pick a random available activity
+  const randomIndex = Math.floor(Math.random() * availableForSpin.length);
+  const selectedId = availableForSpin[randomIndex].id;
 
-    setTimeout(() => {
-      setMustSpin(false);
-      setHasSpun(true); // Make the "Later" button visible again
-      setSelectedActivityId(availableForSpin[randomIndex].id); // Set the selected activity
-    }, 2000); // Match the spin duration
-  };
+  const prizeIdx = allFiltered.findIndex((act) => act.id === selectedId);
+  if (prizeIdx === -1) {
+    console.warn("Invalid prize index", selectedId, allFiltered);
+    return;
+  }
+
+  // Start the spin
+  setPrizeNumber(prizeIdx);
+  setMustSpin(true);
+
+  // After the spin ends (2 seconds), set final states
+  setTimeout(() => {
+    setMustSpin(false);
+    setHasSpun(true); // Show the "Later" button again
+    setSelectedActivityId(selectedId); // Set the selected activity
+  }, 2000);
+};
+
 
 return (
   <div className="page-container">
@@ -304,7 +322,6 @@ return (
       onClick={() => {
         setTriggerFlyAway(true);
         pass();
-        
           setTimeout(() => {
           setTest(false); // Set `test` to false after the animation completes
           setTriggerFlyAway(false); // Reset the fly-away state
@@ -404,6 +421,11 @@ return (
                     setMustSpin(false);
                     setHasSpun(true); // Show the "Later" button
                     setTest(true); // Set `test` to true when the spin is done spinning
+                    const chosen = allFiltered[prizeNumber];
+                  if (chosen) {
+                    setUsedActivityIds((prev) => [...prev, chosen.id]);
+                    setSelectedActivityId(chosen.id);
+                  }
                   }}
                 />
               </div>
