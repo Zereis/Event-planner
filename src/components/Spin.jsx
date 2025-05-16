@@ -274,6 +274,7 @@ const data = Array.isArray(allFiltered)
     setPrizeNumber(randomIndex);
     setMustSpin(true);
     setPlaySpinButton(true); // Play spin button sound
+    setPlaySpinning(true);
 
     setTimeout(() => {
       setMustSpin(false);
