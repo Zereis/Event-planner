@@ -23,6 +23,7 @@
     transform-origin: center center;
 
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    user-select: none;
   }
 
   .nav-bubble h3{
