@@ -1,14 +1,16 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
-import { UserAlertPopup } from '../components/PopupConfigs';
+import { AlertPopupConfig } from '../components/PopupConfigs';
+import { ConfirmPopupConfig } from '../components/PopupConfigs';
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("user") !== null);
   const navigate = useNavigate();
-  const { Component: UserAlertPopupComponent, trigger: triggerUserAlert } = UserAlertPopup();
+  const { Component: AlertPopupComponent, trigger: triggerAlertPopup } = AlertPopupConfig();
+  const { Component: ConfirmPopupComponent, trigger: triggerConfirmPopup} = ConfirmPopupConfig();
 
    // Ensure the default user exists when the component loads
   useEffect(() => {
@@ -19,17 +21,17 @@ export default function Login() {
 
   const handleRegister = () => {
       if (username.trim() === "" || password.trim() === "") {
-        alert("Username and password are required!");
+        triggerAlertPopup({message:"Username and password are required!"})
         return;
       }
       
       if (sessionStorage.getItem(username)) {
-        alert("User already exists!");
+        triggerAlertPopup({message:"User already exists!"})
       }  else {
          sessionStorage.setItem(username, JSON.stringify({ username, password })); 
          sessionStorage.setItem("user", JSON.stringify({ username }));
          setIsLoggedIn(true);
-         alert("Registration successful! You are now logged in.");
+        triggerAlertPopup({message:"Registration successful! You are now logged in."});
       } 
   };
 
@@ -39,26 +41,28 @@ export default function Login() {
       sessionStorage.setItem("user", JSON.stringify({ username }));
       setIsLoggedIn(true);
     } else {
-      // alert("Incorrect username or password!");
-       triggerUserAlert();
+      triggerAlertPopup({message:"Incorrect username or password!"})
     }
   };
 
-  const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (confirmLogout) {
-    sessionStorage.removeItem("user");
-    setUsername("");
-    setPassword("");
-    setIsLoggedIn(false);
-    navigate("/");
-    }
+    const handleLogout = () => {
+    triggerConfirmPopup({
+      message: "Are you sure you want to log out?",
+      onConfirm: () => {
+        sessionStorage.removeItem("user");
+        setUsername("");
+        setPassword("");
+        setIsLoggedIn(false);
+        navigate("/");
+      }
+    });
   };
 
 
   return (
     <div>
-        <UserAlertPopupComponent/>
+        <AlertPopupComponent />
+        <ConfirmPopupComponent />
     {isLoggedIn ? (
       <div>
         <h2>Welcome, {JSON.parse(sessionStorage.getItem("user")).username}!</h2>

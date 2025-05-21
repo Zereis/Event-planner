@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function UserAlert({message, setIsOpen}) {
-  const onClose = () => setIsOpen(false);
+export default function UserAlert({message, onClose}) {
+  // const onClose = () => setIsOpen(false);
 
   return (
     <div>
