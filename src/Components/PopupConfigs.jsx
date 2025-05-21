@@ -60,5 +60,7 @@ export const EditTaskPopup = createPopup(EditTask, 'EditTask', {
 });
 export const UserAlertPopup = createPopup(
  UserAlert, 'UserAlert', {},  {message:"Felaktigt användarnamn eller lösenord!" });
+ export const AllDonePopup = createPopup(
+  UserAlert, 'UserAlert', {},  {message:"you have done everything for today!" });
 
  
