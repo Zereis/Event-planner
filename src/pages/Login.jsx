@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { AlertPopupConfig } from '../components/PopupConfigs';
 import { ConfirmPopupConfig } from '../components/PopupConfigs';
 
-export default function Login() {
+export default function Login({setIsOpen}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("user") !== null);
@@ -28,10 +28,13 @@ export default function Login() {
       if (sessionStorage.getItem(username)) {
         triggerAlertPopup({message:"User already exists!"})
       }  else {
-         sessionStorage.setItem(username, JSON.stringify({ username, password })); 
-         sessionStorage.setItem("user", JSON.stringify({ username }));
-         setIsLoggedIn(true);
-        triggerAlertPopup({message:"Registration successful! You are now logged in."});
+        triggerAlertPopup({message:"Registration successful! You are now logged in.", onClose: () => {
+              sessionStorage.setItem(username, JSON.stringify({ username, password })); 
+              sessionStorage.setItem("user", JSON.stringify({ username }));
+              setIsLoggedIn(true);
+              if (typeof setIsOpen === "function") setIsOpen(false);
+              navigate("/")
+        }});
       } 
   };
 

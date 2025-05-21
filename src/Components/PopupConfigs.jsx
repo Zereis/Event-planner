@@ -36,14 +36,19 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps
       setIsOpen(false); // Close the popup
     };
 
+    const handleClose = () => {
+    if (props.onClose) props.onClose();
+    closePopup();
+    };
+
     const Component = () => (
       <PopUpWindow
         isOpen={isOpen}
-        onClose={closePopup} // Pass closePopup to the PopUpWindow
+        onClose={handleClose} // Pass closePopup to the PopUpWindow
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} onClose={closePopup} />
+        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} onClose={handleClose} />
       </PopUpWindow>
     );
 
