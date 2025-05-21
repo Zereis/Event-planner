@@ -7,6 +7,7 @@ import BubbleButton from './BubbleButton'
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
 import { TaskContext } from "./TaskContext"; // Import TaskContext
 import { bulkDelete } from "./TaskHandlers"; // Import handlers
+import { AllDonePopup } from "./PopupConfigs";  // Import AllDonePopup
 
 
 function Spin() {
@@ -18,6 +19,7 @@ function Spin() {
   const [mustSpin, setMustSpin] = useState(false);  // react custom roulette
   const [prizeNumber, setPrizeNumber] = useState(0);  
   const [showDropdown, setShowDropdown] = useState(false);  // for task list to edit
+  const { Component: AllDonePopupComponent, trigger: triggerUserAlert } = AllDonePopup();
 
   const [hasSpun, setHasSpun] = useState(false); // track if wheel has spun and stopped
   const [triggerFlyAway, setTriggerFlyAway] = useState(false); // control fly-away animation
@@ -270,7 +272,8 @@ const data = Array.isArray(allFiltered)
   // Handle empty list
   if (availableForSpin.length === 0) {
     setSelectedActivityId(null);
-    alert("you have done everything for the day!");
+    // alert("you have done everything for the day!");
+    triggerUserAlert();
     return;
   }
 
@@ -303,6 +306,7 @@ const data = Array.isArray(allFiltered)
 return (
   <div className="page-container">
     <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
+    <AllDonePopupComponent />
     <h2>spin planner</h2>
     <h4>
       let fate help you structure your day!<br />

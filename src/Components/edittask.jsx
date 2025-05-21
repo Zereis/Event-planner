@@ -208,8 +208,14 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
                 <button
                   className="icon-button"
                   type="button"
-                  onClick={() => bulkDelete(tasks)}
-                  title="Bulk Delete"
+                  onClick={() => {
+                    const newTasks = bulkDelete(tasks);
+                    if (newTasks !== tasks) {
+                      onEdit(newTasks); // Update context
+                      alert("Bulk delete complete!");
+                  }
+                  }}
+                title="Bulk Delete"
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>

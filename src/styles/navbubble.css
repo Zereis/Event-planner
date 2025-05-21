@@ -21,6 +21,9 @@
     box-shadow: 0 0 0px var(--text-color); /* Shadow or not? */
     will-change: transform, z-index, opacity;
     transform-origin: center center;
+
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    user-select: none;
   }
 
   .nav-bubble h3{

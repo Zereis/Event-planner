@@ -5,6 +5,7 @@ import AddTask from '../components/AddTask';
 import EditTask from '../components/EditTask';
 import RepeatPrompt from "../Components/RepeatPrompt";
 import { bulkDelete } from './TaskHandlers'; // Import bulkDelete function
+import UserAlert from '../components/UserAlert';
 
 // Default popup configuration
 const defaultPopupConfig = {
@@ -19,7 +20,7 @@ const defaultPopupConfig = {
 };
 
 // Factory function to create popup configurations
-const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
+const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps) => {
   return () => {
     const [isOpen, setIsOpen] = useState(false);
     const [props, setProps] = useState({}); // Store props for the popup
@@ -41,7 +42,7 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent {...props} onClose={closePopup} /> {/* Pass onClose to the child */}
+        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} />
       </PopUpWindow>
     );
 
@@ -57,3 +58,9 @@ export const EditTaskPopup = createPopup(EditTask, 'EditTask', {
   minWidth: '500px',
   minHeight: '600px',
 });
+export const UserAlertPopup = createPopup(
+ UserAlert, 'UserAlert', {},  {message:"Felaktigt användarnamn eller lösenord!" });
+ export const AllDonePopup = createPopup(
+  UserAlert, 'UserAlert', {},  {message:"you have done everything for today!" });
+
+ 
