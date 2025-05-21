@@ -18,7 +18,7 @@ const defaultPopupConfig = {
 };
 
 // Factory function to create popup configurations
-const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
+const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps) => {
   return () => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +34,7 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}) => {
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent />
+        <ChildComponent {...childProps} setIsOpen={setIsOpen} />
       </PopUpWindow>
     );
 
@@ -47,4 +47,4 @@ export const LoginPopup = createPopup(Login, 'Login');
 export const AddTaskPopup = createPopup(AddTask, 'AddTask');
 export const EditTaskPopup = createPopup(EditTask, 'EditTask');
 export const UserAlertPopup = createPopup(
-  () => <UserAlert message="Felaktigt användarnamn eller lösenord!" />, 'UserAlert')
+ UserAlert, 'UserAlert', {},  {message:"Felaktigt användarnamn eller lösenord!" });
