@@ -1,6 +1,7 @@
 # 🗓️ Event Planner
 
 **Event Planner** is a feature-rich React application designed to help users efficiently manage tasks, events, and schedules. It features a sleek interface, an interactive calendar, and powerful task management tools—perfect for organizing your daily, weekly, or long-term activities.
+For demo purposes, we encourage you to download our generic acticvity file from src/data/activities.json, and then upload activities from it to the calendar, which you do by clicking the upload button in the top-right corner of the CALENDAR page.
 
 ---
 
