@@ -42,7 +42,7 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent {...childProps} setIsOpen={setIsOpen} />
+        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} />
       </PopUpWindow>
     );
 
@@ -60,3 +60,5 @@ export const EditTaskPopup = createPopup(EditTask, 'EditTask', {
 });
 export const UserAlertPopup = createPopup(
  UserAlert, 'UserAlert', {},  {message:"Felaktigt användarnamn eller lösenord!" });
+
+ 
