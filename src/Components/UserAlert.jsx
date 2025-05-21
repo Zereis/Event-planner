@@ -6,7 +6,12 @@ export default function UserAlert({message, setIsOpen}) {
   return (
     <div>
       <p>{message}</p>
-      <button onClick={onClose}>Ok</button>
+      <button 
+      onClick={onClose}
+      className='button'
+      >
+        Ok
+      </button>
     </div>
   )
 }

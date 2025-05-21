@@ -6,6 +6,7 @@ import EditTask from '../components/EditTask';
 import RepeatPrompt from "../Components/RepeatPrompt";
 import { bulkDelete } from './TaskHandlers'; // Import bulkDelete function
 import UserAlert from '../components/UserAlert';
+import ConfirmPopup from './ConfirmPopup';
 
 // Default popup configuration
 const defaultPopupConfig = {
@@ -42,7 +43,7 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent {...childProps} setIsOpen={setIsOpen} />
+        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} onClose={closePopup} />
       </PopUpWindow>
     );
 
@@ -60,3 +61,7 @@ export const EditTaskPopup = createPopup(EditTask, 'EditTask', {
 });
 export const UserAlertPopup = createPopup(
  UserAlert, 'UserAlert', {},  {message:"Felaktigt användarnamn eller lösenord!" });
+export const ConfirmPopupConfig = createPopup(
+  ConfirmPopup,
+  'ConfirmPopup'
+);

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faArrowRightToBracket, faUser, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { LoginPopup } from '../components/PopupConfigs'; // <-- Import the login pop-up trigger -->
+import { ConfirmPopupConfig } from '../components/PopupConfigs';
 
 
 
@@ -20,6 +21,7 @@ export default function Header() {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
   const { Component: LoginPopupComponent, trigger: triggerLogin } = LoginPopup(); // <-- This is the login pop-up trigger -->
+  const { Component: ConfirmPopupComponent, trigger: triggerConfirmPopup } = ConfirmPopupConfig();
 
     // Fetch logged in user from sessionStorage
   useEffect (() => {
@@ -36,14 +38,25 @@ export default function Header() {
       return () => clearInterval(interval); 
   }, []);
 
-    const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (confirmLogout) {
-    sessionStorage.removeItem("user");
-    setLoggedInUser(null);
-    navigate("/");
-    }
+  const handleLogout = () => {
+    triggerConfirmPopup({
+      message: "Are you sure you want to log out?",
+      onConfirm: () => {
+        sessionStorage.removeItem("user");
+        setLoggedInUser(null);
+        navigate("/");
+      }
+    });
   };
+
+  //   const handleLogout = () => {
+  //   const confirmLogout = window.confirm("Are you sure you want to log out?");
+  //   if (confirmLogout) {
+  //   sessionStorage.removeItem("user");
+  //   setLoggedInUser(null);
+  //   navigate("/");
+  //   }
+  // };
 
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -120,6 +133,7 @@ export default function Header() {
         {loggedInUser ? loggedInUser : <FontAwesomeIcon icon={isLoginHovered ? faArrowRightToBracket : faUser} />}
       </div>
       <LoginPopupComponent />
+      <ConfirmPopupComponent />
       {loggedInUser && (
         <button className="logout-btn"
         title='Log out' 
