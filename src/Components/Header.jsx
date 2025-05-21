@@ -49,15 +49,6 @@ export default function Header() {
     });
   };
 
-  //   const handleLogout = () => {
-  //   const confirmLogout = window.confirm("Are you sure you want to log out?");
-  //   if (confirmLogout) {
-  //   sessionStorage.removeItem("user");
-  //   setLoggedInUser(null);
-  //   navigate("/");
-  //   }
-  // };
-
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
