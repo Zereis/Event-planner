@@ -156,8 +156,8 @@
     "id": "103fc594-8f57-400c-8e88-4fb5a2a93a0a",
     "title": "Trash",
     "description": "Take out the trash",
-    "date": "2025-05-06T18:00",
-    "deadline": "2025-05-09T18:00",
+    "date": "2025-05-22T18:00",
+    "deadline": "2025-05-25T18:00",
     "category": "Adventure",
     "type": "Daily"
   },
@@ -165,8 +165,8 @@
     "id": "d0e02f7a-0dc1-468b-a443-135007328dfe",
     "title": "Buy groceries",
     "description": "Go grocery shopping for the week",
-    "date": "2025-05-06T19:00",
-    "deadline": "2025-05-08",
+    "date": "2025-05-21T19:00",
+    "deadline": "2025-05-24",
     "category": "Chores",
     "type": "Daily"
   },
@@ -201,8 +201,8 @@
     "id": "84a143b4-8784-429b-8e08-ad3511f6c6f8",
     "title": "Wash dishes",
     "description": "Clean dishes",
-    "date": "2025-05-09T13:00",
-    "deadline": "2025-05-10",
+    "date": "2025-05-30T13:00",
+    "deadline": "2025-06-10",
     "category": "Chores",
     "type": "Daily"
   },
@@ -210,8 +210,8 @@
     "id": "74095a0b-eb57-4c16-b0f8-3576bab589ec",
     "title": "Vacuum the house",
     "description": "Vacuum carpets and floors in all rooms",
-    "date": "2025-05-10T10:00",
-    "deadline": "2025-05-15T15:00",
+    "date": "2025-05-26T10:00",
+    "deadline": "2025-05-30T15:00",
     "category": "Chores",
     "type": "Daily"
   },
@@ -219,8 +219,8 @@
     "id": "b5ac7e43-d04e-478b-be21-c33ed639afa1",
     "title": "Water plants",
     "description": "Water indoor and balcony plants",
-    "date": "2025-05-09T09:00",
-    "deadline": "2025-05-10T11:00",
+    "date": "2025-05-27T09:00",
+    "deadline": "2025-05-31T11:00",
     "category": "Chores",
     "type": "Daily"
   },
@@ -228,8 +228,8 @@
     "id": "6e8f2e35-9c92-4591-b980-fdc221cfe75d",
     "title": "Clean bathroom",
     "description": "Clean the bathroom thoroughly",
-    "date": "2025-05-09T14:00",
-    "deadline": "2025-05-14T14:00",
+    "date": "2025-06-09T14:00",
+    "deadline": "2025-06-14T14:00",
     "category": "Chores",
     "type": "Daily"
   },
@@ -237,8 +237,8 @@
     "id": "cf2ecfe0-84f5-4c70-9274-b95375492b46",
     "title": "Organize closet",
     "description": "Sort and organize clothes in the closet",
-    "date": "2025-05-09T11:00",
-    "deadline": "2025-05-14T11:00",
+    "date": "2025-06-09T11:00",
+    "deadline": "2025-06-14T11:00",
     "category": "Chores",
     "type": "Daily"
   },
@@ -255,9 +255,27 @@
     "id": "4daa3d58-d5b0-45c5-be88-313741f9705e",
     "title": "listen to music",
     "description": "listen to some records",
-    "date": "2025-05-12T11:00",
-    "deadline": "2025-05-14T11:00",
+    "date": "2025-05-21T11:00",
+    "deadline": "2025-05-24T11:00",
     "category": "music",
+    "type": "Daily"
+  },
+  {
+    "id": "4daa3d58-d5b0-45c5-be88-313741f9705e",
+    "title": "take care of yourself",
+    "description": "listen to some records",
+    "date": "2025-05-21T11:00",
+    "deadline": "2025-05-24T11:00",
+    "category": "sport",
+    "type": "Daily"
+  },
+  {
+    "id": "4daa3d58-d5b0-45c5-be88-313741f9705e",
+    "title": "take a walk",
+    "description": "listen to some records",
+    "date": "2025-05-22T11:00",
+    "deadline": "2025-05-24T11:00",
+    "category": "sport",
     "type": "Daily"
   }
 ]
