@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router"; // For navigation back to the calendar
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faDeleteLeft, faStar, faXmark, faImage, faEyeSlash, faBroom, } from "@fortawesome/free-solid-svg-icons"; // Import the reset icon
-
+import { NoTaskFoundPopup } from "./PopupConfigs";
 import "../styles/addedit-task.css"; // Import your CSS file
 
 export default function EditTask({ tasks = [], taskId = null, task = null, onEdit, updateTasks, bulkDelete, onDeleteTask, onToggleFavorite, onRemoveImage, onAddImage }) {
@@ -10,6 +10,7 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
   const [matches, setMatches] = useState([]); // Matching tasks
   const [editFields, setEditFields] = useState(task || {}); // Fields to edit
   const navigate = useNavigate(); // For navigation
+  const { Component: NoTaskFoundPopupComponent, trigger: triggerNoTaskFound } = NoTaskFoundPopup();
 
   useEffect(() => {
     if (taskId && task) {
@@ -36,7 +37,7 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
     );
 
     if (results.length === 0) {
-      alert("No task found.");
+      triggerNoTaskFound();
       setMatches([]);
       setEditFields({});
     } else if (results.length === 1) {
@@ -279,7 +280,9 @@ export default function EditTask({ tasks = [], taskId = null, task = null, onEdi
             </div>
           </form>
         )}
-      </div></>
+      </div>
+      <NoTaskFoundPopupComponent />
+    </>
   );
 }
 

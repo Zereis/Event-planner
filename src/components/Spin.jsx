@@ -7,7 +7,7 @@ import BubbleButton from './BubbleButton'
 import { useNavigate } from "react-router"; // For navigation to Add.jsx
 import { TaskContext } from "./TaskContext"; // Import TaskContext
 import { bulkDelete } from "./TaskHandlers"; // Import handlers
-import { AllDonePopup } from "./PopupConfigs";  // Import AllDonePopup
+import { AllDonePopup, EditTaskPopup } from "./PopupConfigs";  // Import AllDonePopup
 
 
 function Spin() {
@@ -20,6 +20,7 @@ function Spin() {
   const [prizeNumber, setPrizeNumber] = useState(0);  
   const [showDropdown, setShowDropdown] = useState(false);  // for task list to edit
   const { Component: AllDonePopupComponent, trigger: triggerUserAlert } = AllDonePopup();
+  const { Component: EditTaskPopupComponent, trigger: triggerEditTask } = EditTaskPopup();
 
   const [hasSpun, setHasSpun] = useState(false); // track if wheel has spun and stopped
   const [triggerFlyAway, setTriggerFlyAway] = useState(false); // control fly-away animation
@@ -200,29 +201,27 @@ const pass = () => {
   ]);
 
   // Handle clicking on an existing event
-  const handleEventClick = ({ id, title }) => {
-
-    const action = prompt(
-      `you clicked on "${title}".\nchoose an action:\n1: edit task (default)\n2: delete task\n3: bulk delete`
-    );
-
-    if (action === null) return;
-
-    if (action === "1" || action === "") {
-      navigate(`/edit?taskId=${id}`);
-    } else if (action === "2") {
-      const confirmed = window.confirm(
-        `are you sure you want to delete the task "${title}"?`
-      );
-      if (confirmed) {
-        const updatedTasks = tasks.filter((task) => task.id !== id);
-        updateTasks(updatedTasks);
-      }
-    } else if (action === "3") {
-      const updatedTasks = bulkDelete(tasks);
-      updateTasks(updatedTasks);
+  const handleEventClick = (task) => {
+    console.log("Clicked task for edit:", task);
+    if (task) {
+      triggerEditTask({
+        tasks,
+        taskId: task.id,
+        task,
+        onEdit: handleEditTask,
+        bulkDelete,
+        onDeleteTask: handleDeleteTask,
+        onToggleFavorite: handleToggleFavorite,
+        onRemoveImage: handleRemoveImage,
+        onAddImage: handleAddImage,
+      });
     }
   };
+
+  const handleEditTask = (updatedTasks) => {
+    updateTasks(updatedTasks);
+  };
+
 
 // setup for special display for only one thing to do
 const isSingleItem = allFiltered.length === 1;
@@ -302,11 +301,51 @@ const data = Array.isArray(allFiltered)
   }, 2000);
 };
 
+  // Handler functions must be here, inside Spin:
+  const handleDeleteTask = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    updateTasks(updatedTasks);
+  };
+
+  const handleToggleFavorite = (taskId, isFavorite) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, favorite: isFavorite } : task
+    );
+    updateTasks(updatedTasks);
+  };
+
+  const handleRemoveImage = (taskId) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, image: null } : task
+    );
+    updateTasks(updatedTasks);
+  };
+
+  const handleAddImage = (taskId) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const updatedTasks = tasks.map((task) =>
+            task.id === taskId ? { ...task, image: reader.result } : task
+          );
+          updateTasks(updatedTasks);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  };
 
 return (
   <div className="page-container">
     <SoundManager playSpinButton={playSpinButton} playSpinning={playSpinning} />
     <AllDonePopupComponent />
+    <EditTaskPopupComponent />
     <h2>spin planner</h2>
     <h4>
       let fate help you structure your day!<br />

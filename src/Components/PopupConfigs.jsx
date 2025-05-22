@@ -6,6 +6,7 @@ import EditTask from '../components/EditTask';
 import RepeatPrompt from "../Components/RepeatPrompt";
 import { bulkDelete } from './TaskHandlers'; // Import bulkDelete function
 import UserAlert from '../components/UserAlert';
+import ConfirmPopup from './ConfirmPopup';
 
 // Default popup configuration
 const defaultPopupConfig = {
@@ -35,14 +36,19 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps
       setIsOpen(false); // Close the popup
     };
 
+    const handleClose = () => {
+    if (props.onClose) props.onClose();
+    closePopup();
+    };
+
     const Component = () => (
       <PopUpWindow
         isOpen={isOpen}
-        onClose={closePopup} // Pass closePopup to the PopUpWindow
+        onClose={handleClose} // Pass closePopup to the PopUpWindow
         {...defaultPopupConfig}
         {...configOverrides}
       >
-        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} />
+        <ChildComponent {...childProps} {...props} setIsOpen={setIsOpen} onClose={handleClose} />
       </PopUpWindow>
     );
 
@@ -64,3 +70,15 @@ export const UserAlertPopup = createPopup(
   UserAlert, 'UserAlert', {},  {message:"you have done everything for today!" });
 
  
+ export const AlertPopupConfig = createPopup(UserAlert, 'AlertPopup')
+export const ConfirmPopupConfig = createPopup(
+  ConfirmPopup,
+  'ConfirmPopup'
+);
+
+export const NoTaskFoundPopup = createPopup(
+  UserAlert,
+  'NoTaskFound',
+  {},
+  { message: "No task found." }
+);
