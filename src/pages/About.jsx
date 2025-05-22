@@ -19,7 +19,7 @@ const bubbles = [
       appearDuration: 0.8,
     },
     {
-      title: 'David Huang',
+      title: 'David Hoang',
       color: 'rgba(221, 21, 21, 0.2)',
       hoverColor: 'rgba(221, 21, 21, 0.5)',
       navRoute: 'https://github.com/Zereis/',
