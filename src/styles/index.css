@@ -69,7 +69,7 @@ body {
   align-items: center; /* Center vertically */
   max-width: 1024px;
   margin: 0 auto; /* Center the app wrapper */
-  margin-top: 6.5rem; /* Space for the header */
+  margin-top: 7.5rem; /* Space for the header */
 }
 
 a {
