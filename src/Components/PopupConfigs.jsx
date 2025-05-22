@@ -75,3 +75,10 @@ export const ConfirmPopupConfig = createPopup(
   ConfirmPopup,
   'ConfirmPopup'
 );
+
+export const NoTaskFoundPopup = createPopup(
+  UserAlert,
+  'NoTaskFound',
+  {},
+  { message: "No task found." }
+);
