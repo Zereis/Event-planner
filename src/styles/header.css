@@ -1,7 +1,7 @@
 .header {
   position: fixed;
   top: 0;
-  height: 6rem;
+  height: 7rem;
   width: 98vw;
   max-width: 1024px;
   min-width: 300px;
@@ -22,8 +22,8 @@
 .SpinLogo{
   height: 4rem;
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 1.5rem;
+  left: 1.5rem;
 }
 .TitleName {
   height: 5rem;
@@ -131,7 +131,7 @@
 
 @media (max-width: 800px) {
   .header {
-    height: 6rem;   
+    height: 7rem;   
   } 
 }
   .nav-desktop ul {
@@ -177,7 +177,7 @@
   position: absolute;
   padding: 0px 4px;
   right: 0.5rem;
-  top: 2rem;
+  top: 2.5rem;
   z-index: 1000; /* Ensure the hamburger is above other elements */
 }
   /* Nav menu for mobile */
