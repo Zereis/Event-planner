@@ -9,7 +9,6 @@ import Calendar from './components/CalendarView'
 import Today from './pages/Today'
 import NoPages from './pages/NoPages'
 import Header from './components/Header'
-import Login from './pages/Login'
 import About from './pages/About'
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/today" element={<Today />} />
         <Route path="/spin" element={<Spin />} />
-        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NoPages />} />
       </Routes>
     </div>
