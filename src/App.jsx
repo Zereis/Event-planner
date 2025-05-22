@@ -12,6 +12,7 @@ import Today from './pages/Today'
 import NoPages from './pages/NoPages'
 import Header from './components/Header'
 import Login from './pages/Login'
+import About from './pages/About'
 
 function App() {
   return (   
@@ -21,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/add" element={<Add />} />
+        <Route path="/about" element={<About />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/today" element={<Today />} />
         <Route path="/spin" element={<Spin />} />

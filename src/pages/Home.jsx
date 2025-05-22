@@ -91,6 +91,18 @@ const Home = () => {
       origin: { x: -0, y: -210 },
       appearDuration: 0.9,
     },
+        {
+      title: 'About Us',
+      color: 'transparent',
+      hoverColor: 'rgba(236, 134, 116, 0.5)',
+      navRoute: '/about',
+      position: { x: -250, y: 350 },
+      scale: 0.3,
+      textScale: 3,
+      clickable: true,
+      origin: { x: 0, y: 200 },
+      appearDuration: 0.9,
+    },
   ];
 
   return (

@@ -129,7 +129,13 @@ const NavBubble = ({
           ease: 'easeInOut',
         },
       });
-      navigate(navRoute); // Navigate to route
+
+      // Check if navRoute is an external URL
+      if (navRoute.startsWith('http')) {
+        window.open(navRoute, '_blank', 'noopener,noreferrer');
+      } else {
+        navigate(navRoute); // Navigate to internal route
+      }
     }
   };
 

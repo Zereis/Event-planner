@@ -198,6 +198,19 @@ export default function Header() {
             Spin
 
             </NavLink></li>
+
+                      <li><NavLink 
+          to="/About"
+          onClick={() => {
+            toggleMenu();
+            window.scrollTo(0, 0);
+          }}
+          className={({ isActive }) => (isActive ? 'burgerbtn active' : 'burgerbtn')}
+            >
+
+            About Us
+
+            </NavLink></li>
         </ul>
       </nav>
     </header>
