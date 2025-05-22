@@ -47,6 +47,7 @@
   color: var(--bg-color);     /* Text color for both user info and buttons */
   gap: 0.5rem;                /* Space between user info and buttons */
   text-shadow: var(--text-color) 1px 1px 1px; /* Text shadow for better visibility */
+  cursor: pointer;
 }
 
 .icon {
@@ -62,7 +63,6 @@
 .login-btn, .login-btn-active {
   color: var(--bg-color);
   padding: 0;
- 
 }
 .login-btn:hover, .login-btn-active:hover {
   color: var(--bg-color);
