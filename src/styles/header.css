@@ -83,6 +83,9 @@
     right: 0rem;
     zoom: 0.8;
 }
+.toggle-container:hover {
+    transform: scale(1.05);
+}
 
 
 /* Desktop nav */
@@ -143,20 +146,7 @@
     display: flex;
     justify-content: right;
   }
-  .headerbtn {
-    text-decoration: none;
-    font-size: 1.0em;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s;
-  }
-  .headerbtn:hover {
-    color: lightblue; 
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
-  }
-  .headerbtn.active {
-    text-decoration: underline;
-    color: darkgray;
-  }
+
   .header h1{
     text-align: start;
     margin-left: 1rem;
@@ -180,6 +170,10 @@
   top: 2.5rem;
   z-index: 1000; /* Ensure the hamburger is above other elements */
 }
+.hamburger:hover {
+  transform: scale(1.05);
+}
+
   /* Nav menu for mobile */
 .nav-menu {
   display: none;
