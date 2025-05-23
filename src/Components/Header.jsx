@@ -20,8 +20,8 @@ export default function Header() {
   const navigate = useNavigate(); 
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
-  const { Component: LoginPopupComponent, trigger: triggerLogin } = LoginPopup(); // <-- This is the login pop-up trigger -->
-  const { Component: ConfirmPopupComponent, trigger: triggerConfirmPopup } = ConfirmPopupConfig();
+  const { Component: LoginPopupComponent, trigger: triggerLogin, isOpen: isLoginOpen } = LoginPopup(); // <-- This is the login pop-up trigger -->
+  const { Component: ConfirmPopupComponent, trigger: triggerConfirmPopup, isOpen: isConfirmOpen } = ConfirmPopupConfig();
 
     // Fetch logged in user from sessionStorage
   useEffect (() => {
@@ -65,6 +65,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (isLoginOpen || isConfirmOpen) return; 
     let ticking = false;
 
     const handleScroll = () => {
@@ -93,12 +94,12 @@ export default function Header() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isLoginOpen, isConfirmOpen]);
 
   return (
     <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
-
-
+      <LoginPopupComponent/>
+      <ConfirmPopupComponent/>
       <NavLink to="/">
         <img 
         src={Logo}
@@ -123,8 +124,6 @@ export default function Header() {
       >
         {loggedInUser ? loggedInUser : <FontAwesomeIcon icon={isLoginHovered ? faArrowRightToBracket : faUser} />}
       </div>
-      <LoginPopupComponent />
-      <ConfirmPopupComponent />
       {loggedInUser && (
         <button className="logout-btn"
         title='Log out' 

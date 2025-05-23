@@ -52,7 +52,7 @@ const createPopup = (ChildComponent, popupName, configOverrides = {}, childProps
       </PopUpWindow>
     );
 
-    return { Component, trigger };
+    return { Component, trigger, isOpen };
   };
 };
 
